@@ -1,7 +1,6 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setAlert } from "../../action/alert";
 import PropTypes from "prop-types";
 import { removeMember } from "../../action/groups";
 import avatar from "../../img/avatar.png";

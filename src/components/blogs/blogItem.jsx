@@ -1,9 +1,8 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { deletePost } from "../../action/blogs";
-import avatar from "../../img/avatar.png";
 import Moment from "react-moment";
 
 const BlogItem = ({ blog, auth, userName, deletePost }) => {

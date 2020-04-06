@@ -1,13 +1,9 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Spinner from "../../common/Spinner";
-import avatar from "../../img/avatar.png";
 import { getProfiles } from "../../action/users";
 import { createGroup } from "../../action/groups";
 import AsyncSelect from "react-select/async";
-import MultiSelect from "../../common/multiSelect";
 
 const SCROLL = 1;
 const CreateGroup = ({

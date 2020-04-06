@@ -31,9 +31,7 @@ export default function(state = initialState, action) {
   switch (type) {
     case CLEAR_CURRENT:
       return {
-        loading: true,
-        group: null,
-        groups: []
+        loading: true
       };
     case GROUP_CREATED_SUCCESS:
     case GROUP_DELETE_SECCESS:

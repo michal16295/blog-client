@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";
@@ -22,39 +22,32 @@ const BlogProfile = ({
   useEffect(() => {
     getPost(match.params.id);
   }, []);
-
+  const authButtons = (
+    <Fragment>
+      <button
+        onClick={e => {
+          if (window.confirm("Are you sure you wish to delete this item?"))
+            handleDelete(blog._id);
+        }}
+        className="btn btn-default"
+      >
+        <i class="fas fa-trash-alt"></i>
+      </button>
+      <Link to="/createBlog/true" className="btn btn-default">
+        Edit
+      </Link>
+    </Fragment>
+  );
   return (
     <Fragment>
       {blog == null || loading ? (
         <Spinner />
       ) : (
         <Fragment>
-          <p className="row">
-            <h4 className="col-4"></h4>
-            {auth.user && !auth.loading && auth.user.userName === blog.owner && (
-              <Fragment>
-                <button
-                  onClick={e => {
-                    if (
-                      window.confirm(
-                        "Are you sure you wish to delete this item?"
-                      )
-                    )
-                      handleDelete(blog._id);
-                  }}
-                  className="btn btn-danger"
-                >
-                  <i className="fas fa-times" />
-                </button>
-                <Link to="/createBlog/true" className="btn btn-primary">
-                  Edit
-                </Link>
-              </Fragment>
-            )}
-            <Link to="/blogs" className="btn btn-dark col-2">
-              Back To Posts
-            </Link>
-          </p>
+          <Link to="/blogs" className="btn btn-dark col-2">
+            Back To Posts
+          </Link>
+
           <div class="w3-container w3-card w3-white w3-round w3-margin">
             <br />
             <img
@@ -82,11 +75,16 @@ const BlogProfile = ({
               Permission:
               {users.length > 0 &&
                 users.map(user => <MDBBadge color="default">{user}</MDBBadge>)}
-              {groups.length > 0 &&
+              {groups.length > 0 ? (
                 groups.map(group => (
                   <MDBBadge color="default">{group}</MDBBadge>
-                ))}
+                ))
+              ) : (
+                <MDBBadge color="default">Public</MDBBadge>
+              )}
             </span>
+            <br />
+
             <hr className="w3-clear" />
             <p>{blog.description}</p>
             <button
@@ -101,6 +99,12 @@ const BlogProfile = ({
             >
               <i className="fa fa-comment"></i>  Comment
             </button>
+            <span className="w3-right w3-opacity">
+              {auth.user &&
+                !auth.loading &&
+                auth.user.userName === blog.owner &&
+                authButtons}
+            </span>
           </div>
         </Fragment>
       )}

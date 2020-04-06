@@ -8,7 +8,6 @@ import Pagination from "../../common/pagination";
 import BlogItem from "./blogItem";
 
 const UserBlogs = ({
-  auth,
   getUsersBlogs,
   blog: { blogs, loading, count, itemsPerPage },
   match,
@@ -22,7 +21,7 @@ const UserBlogs = ({
   const { userName, currentUser } = match.params;
 
   const common = (page, input) => {
-    if (currentUser == "true") myBlogs(page, input);
+    if (currentUser === "true") myBlogs(page, input);
     else getUsersBlogs(page, input, userName);
   };
   useEffect(() => {

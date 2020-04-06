@@ -2,9 +2,8 @@ import React, { useEffect, Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loadUser } from "../../action/auth";
-import { Link, Redirect } from "react-router-dom";
+
 import { changePass } from "../../action/auth";
-import { getProfile } from "../../action/users";
 
 const ChangePass = ({ changePass, loadUser, auth: { user, loading } }) => {
   const [formData, setFormData] = useState({

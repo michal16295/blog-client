@@ -1,9 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";
-import avatar from "../../img/avatar.png";
 import { getGroup, addMember } from "../../action/groups";
 import GroupItem from "../groups/groupItem";
 import GroupMembers from "./groupsMembers";

@@ -59,6 +59,7 @@ export default function(state = initialState, action) {
       };
     case CLEAR_CURRENT:
       return {
+        ...state,
         loading: true
       };
 

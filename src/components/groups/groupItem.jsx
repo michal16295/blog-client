@@ -1,7 +1,6 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import React, { Fragment, useState } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import avatar from "../../img/avatar.png";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import { groupDelete, editGroup } from "../../action/groups";

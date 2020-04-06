@@ -7,8 +7,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
   CHANGE_PASS_ERROR,
-  CHANGE_PASS_SUCCESS,
-  CLEAR_CURRENT
+  CHANGE_PASS_SUCCESS
 } from "../action/constants";
 const initialState = {
   token: localStorage.getItem("token"),

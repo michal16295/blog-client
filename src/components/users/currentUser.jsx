@@ -2,7 +2,7 @@ import React, { useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loadUser } from "../../action/auth";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import UserGroups from "../profile/userGroups";
 
 const CurrentUser = ({ loadUser, auth: { user, loading } }) => {

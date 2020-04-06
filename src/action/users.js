@@ -4,8 +4,7 @@ import {
   GET_USER,
   GET_USER_ERROR,
   EDIT_ERROR,
-  EDIT_SUCCESS,
-  CLEAR_CURRENT
+  EDIT_SUCCESS
 } from "./constants";
 import http from "../services/httpService";
 import { setAlert } from "./alert";

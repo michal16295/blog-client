@@ -1,9 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";
-import avatar from "../../img/avatar.png";
 import SearchBox from "../../common/searchBox";
 import Pagination from "../../common/pagination";
 import { allBlogs } from "../../action/blogs";

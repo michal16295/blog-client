@@ -2,7 +2,6 @@ import React, { useEffect, Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loadUser } from "../../action/auth";
-import { Link, Redirect } from "react-router-dom";
 import { editUser, getRandomAvatar } from "../../action/users";
 
 const EditUser = ({

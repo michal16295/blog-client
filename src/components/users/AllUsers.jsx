@@ -1,7 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { setAlert } from "../../action/alert";
 import PropTypes from "prop-types";
 import { getProfiles } from "../../action/users";
 import ProfileItem from "./profileItem";
