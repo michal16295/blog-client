@@ -18,7 +18,7 @@ const initialState = {
   groups: [],
   tags: [],
   loading: true,
-  reactions: [],
+
   error: ""
 };
 export default function(state = initialState, action) {
@@ -38,8 +38,7 @@ export default function(state = initialState, action) {
         blog: data.blog,
         loading: false,
         users: data.users,
-        groups: data.groups,
-        reactions: data.reactions
+        groups: data.groups
       };
     case CREATE_BLOG_ERROR:
     case GET_USERS_BLOGS_ERROR:

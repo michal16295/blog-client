@@ -5,11 +5,15 @@ import {
   GET_CURRENT_USER_REACTION_SUCCESS,
   CLEAR_CURRENT_REACTION,
   DELETE_REACTION_ERROR,
-  DELETE_REACTION_SUCCESS
+  DELETE_REACTION_SUCCESS,
+  GET_REACTIONS_ERROR,
+  GET_REACTIONS_SUCCESS
 } from "../action/constants";
 const initialState = {
   reaction: "",
-  loading: true
+  reactions: [],
+  loading: true,
+  count: 0
 };
 
 export default function(state = initialState, action) {
@@ -17,6 +21,12 @@ export default function(state = initialState, action) {
 
   switch (type) {
     case SET_REACTION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        reaction: data.type,
+        count: data.count
+      };
     case GET_CURRENT_USER_REACTION_SUCCESS:
       return {
         ...state,
@@ -27,6 +37,7 @@ export default function(state = initialState, action) {
     case SET_REACTION_ERROR:
     case GET_CURRENT_USER_REACTION_ERROR:
     case DELETE_REACTION_ERROR:
+    case GET_REACTIONS_ERROR:
       return {
         ...state,
         loading: false
@@ -37,11 +48,20 @@ export default function(state = initialState, action) {
         reaction: "",
         loading: true
       };
+    case GET_REACTIONS_SUCCESS:
+      return {
+        ...state,
+        reactions: data[0].data,
+        count: data[0].metadata[0].total,
+        itemsPerPage: data[0].metadata[0].ITEMS_PER_PAGE,
+        loading: false
+      };
     case DELETE_REACTION_SUCCESS:
       return {
         ...state,
         loading: false,
-        reaction: ""
+        reaction: "",
+        count: data.count
       };
     default:
       return state;

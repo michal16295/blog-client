@@ -5,7 +5,9 @@ import {
   GET_CURRENT_USER_REACTION_ERROR,
   CLEAR_CURRENT_REACTION,
   DELETE_REACTION_ERROR,
-  DELETE_REACTION_SUCCESS
+  DELETE_REACTION_SUCCESS,
+  GET_REACTIONS_ERROR,
+  GET_REACTIONS_SUCCESS
 } from "./constants";
 import http from "../services/httpService";
 import { setAlert } from "./alert";
@@ -54,6 +56,22 @@ export const deleteReaction = (blogId, userName) => async dispatch => {
   } catch (err) {
     dispatch({
       type: DELETE_REACTION_ERROR
+    });
+  }
+};
+
+export const getReactions = (blogId, type, page) => async dispatch => {
+  try {
+    const res = await http.get(
+      apiEndpoint + "/getAll/" + page + "/" + blogId + "?type=" + type
+    );
+    dispatch({
+      type: GET_REACTIONS_SUCCESS,
+      data: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_REACTIONS_ERROR
     });
   }
 };

@@ -8,9 +8,12 @@ import Moment from "react-moment";
 import avatar from "../../img/avatar.png";
 import { deletePost } from "../../action/blogs";
 import { MDBBadge, MDBContainer } from "mdbreact";
-import Reactions from "../../common/reactions/reactions";
+import { getReactions } from "../../action/reactions";
+import Reactions from "../reactions/reactions";
+import AllReactions from "../reactions/allReactions";
 
 const BlogProfile = ({
+  getReactions,
   auth,
   getPost,
   match,
@@ -20,8 +23,14 @@ const BlogProfile = ({
   const handleDelete = e => {
     deletePost(e);
   };
+  const [formData, setFormData] = useState({
+    page: 1,
+    type: ""
+  });
+  const { page, type } = formData;
   useEffect(() => {
     getPost(match.params.id);
+    getReactions(match.params.id, type, page);
   }, []);
   const authButtons = (
     <Fragment>
@@ -88,6 +97,7 @@ const BlogProfile = ({
 
             <hr className="w3-clear" />
             <p>{blog.description}</p>
+            <AllReactions blogId={blog._id} />
             <hr class="solid" />
             <div className="row">
               <Reactions />
@@ -116,10 +126,13 @@ BlogProfile.propTypes = {
   auth: PropTypes.object.isRequired,
   getPost: PropTypes.func.isRequired,
   blog: PropTypes.object.isRequired,
-  deletePost: PropTypes.func
+  deletePost: PropTypes.func,
+  getReactions: PropTypes.func
 };
 const mapStateToProps = state => ({
   auth: state.auth,
   blog: state.blog
 });
-export default connect(mapStateToProps, { getPost, deletePost })(BlogProfile);
+export default connect(mapStateToProps, { getPost, deletePost, getReactions })(
+  BlogProfile
+);

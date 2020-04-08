@@ -12,14 +12,17 @@ const Reactions = ({
   setReaction,
   getCurrentUserReaction,
   deleteReaction,
+
   auth: { user },
   blog: { blog, loading },
-  reaction: { reaction }
+  reaction: { reaction, count }
 }) => {
   const [formData, setFormData] = useState({
-    name: ""
+    name: "",
+    type: "",
+    page: 1
   });
-  const { name } = formData;
+  const { name, type, page } = formData;
   useEffect(() => {
     if (reaction === "") {
       getCurrentUserReaction(blog._id);
@@ -53,7 +56,7 @@ const Reactions = ({
   return (
     <Fragment>
       <div className="box col-1">
-        {reaction !== "" && !reaction.loading ? (
+        {reaction !== "" && reaction !== undefined && !reaction.loading ? (
           name !== "" ? (
             <button
               onClick={() => handleUnlike()}
