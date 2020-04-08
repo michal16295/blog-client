@@ -8,6 +8,7 @@ import Moment from "react-moment";
 import avatar from "../../img/avatar.png";
 import { deletePost } from "../../action/blogs";
 import { MDBBadge, MDBContainer } from "mdbreact";
+import Reactions from "../../common/reactions/reactions";
 
 const BlogProfile = ({
   auth,
@@ -87,24 +88,24 @@ const BlogProfile = ({
 
             <hr className="w3-clear" />
             <p>{blog.description}</p>
-            <button
-              type="button"
-              className="w3-button w3-theme-d1 w3-margin-bottom"
-            >
-              <i className="fa fa-thumbs-up"></i>  Like
-            </button>
-            <button
-              type="button"
-              className="w3-button w3-theme-d2 w3-margin-bottom"
-            >
-              <i className="fa fa-comment"></i>  Comment
-            </button>
-            <span className="w3-right w3-opacity">
-              {auth.user &&
-                !auth.loading &&
-                auth.user.userName === blog.owner &&
-                authButtons}
-            </span>
+            <hr class="solid" />
+            <div className="row">
+              <Reactions />
+
+              <button
+                type="button"
+                className="w3-button w3-theme-d2 w3-margin-bottom pull-right col-2"
+              >
+                <i className="fa fa-comment"></i>  Comment
+              </button>
+              <span className="col-7"></span>
+              <span className="w3-right w3-opacity">
+                {auth.user &&
+                  !auth.loading &&
+                  auth.user.userName === blog.owner &&
+                  authButtons}
+              </span>
+            </div>
           </div>
         </Fragment>
       )}

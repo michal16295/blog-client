@@ -4,7 +4,8 @@ import {
   GET_USER,
   GET_USER_ERROR,
   EDIT_ERROR,
-  EDIT_SUCCESS
+  EDIT_SUCCESS,
+  CLEAR_CURRENT_USER
 } from "./constants";
 import http from "../services/httpService";
 import { setAlert } from "./alert";
@@ -15,6 +16,9 @@ const tokenKey = "token";
 
 //GET ALL USERS
 export const getProfiles = (page, search) => async dispatch => {
+  dispatch({
+    type: CLEAR_CURRENT_USER
+  });
   try {
     let res = await http.get(
       apiEndpoint + "/all/" + page + "?search=" + search
@@ -31,6 +35,9 @@ export const getProfiles = (page, search) => async dispatch => {
 };
 //GET USER
 export const getProfile = userName => async dispatch => {
+  dispatch({
+    type: CLEAR_CURRENT_USER
+  });
   try {
     let res = await http.get(apiEndpoint + "/" + userName);
     dispatch({

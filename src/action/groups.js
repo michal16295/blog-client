@@ -15,7 +15,7 @@ import {
   EDIT_GROUP_ERROR,
   REMOVE_MEMBER_ERROR,
   REMOVE_MEMBER_SUCCESS,
-  CLEAR_CURRENT
+  CLEAR_CURRENT_GROUP
 } from "./constants";
 import http from "../services/httpService";
 import { setAlert } from "./alert";
@@ -188,6 +188,6 @@ export const removeMember = (groupId, member) => async dispatch => {
 };
 export const clearCurrent = () => {
   return {
-    type: CLEAR_CURRENT
+    type: CLEAR_CURRENT_GROUP
   };
 };

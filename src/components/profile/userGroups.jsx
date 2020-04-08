@@ -1,5 +1,4 @@
 import React, { Fragment, useState, useEffect } from "react";
-
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";
@@ -46,7 +45,7 @@ const UserGroups = ({
           <p className="lead text-primary">Groups</p>
           <SearchBox value={query} onChange={input => handleSearch(input)} />
           <div className="posts">
-            {groups.length > 0 ? (
+            {groups && groups.length > 0 ? (
               groups.map(group => (
                 <GroupItem
                   key={group._id}

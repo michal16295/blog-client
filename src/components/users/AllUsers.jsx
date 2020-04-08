@@ -45,7 +45,7 @@ const Profilies = ({
           </p>
           <SearchBox value={query} onChange={input => handleSearch(input)} />
           <div className="profiles">
-            {profiles.length > 0 ? (
+            {profiles && profiles.length > 0 ? (
               profiles.map(profile => (
                 <ProfileItem key={profile._id} profile={profile} />
               ))

@@ -1,5 +1,4 @@
 import React, { Fragment, useState, useEffect } from "react";
-
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";

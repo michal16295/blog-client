@@ -8,7 +8,7 @@ import {
   LOGOUT_SUCCESS,
   CHANGE_PASS_SUCCESS,
   CHANGE_PASS_ERROR,
-  CLEAR_CURRENT
+  CLEAR_CURRENT_USER
 } from "./constants";
 import http from "../services/httpService";
 import { setAlert } from "./alert";
@@ -117,9 +117,4 @@ export const changePass = (id, newPassword) => async dispatch => {
       type: CHANGE_PASS_ERROR
     });
   }
-};
-export const clearCurrent = () => {
-  return {
-    type: CLEAR_CURRENT
-  };
 };

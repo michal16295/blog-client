@@ -4,7 +4,8 @@ import {
   GET_USER,
   GET_USER_ERROR,
   EDIT_ERROR,
-  EDIT_SUCCESS
+  EDIT_SUCCESS,
+  CLEAR_CURRENT_USER
 } from "../action/constants";
 const initialState = {
   profile: null,
@@ -38,6 +39,11 @@ export default function(state = initialState, action) {
         count: data.metadata[0].total,
         itemsPerPage: data.metadata[0].ITEMS_PER_PAGE,
         loading: false
+      };
+    case CLEAR_CURRENT_USER:
+      return {
+        ...state,
+        loading: true
       };
 
     default:

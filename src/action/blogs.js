@@ -3,7 +3,7 @@ import {
   CREATE_BLOG_SUCCESS,
   GET_USERS_BLOGS_SUCCESS,
   GET_USERS_BLOGS_ERROR,
-  CLEAR_CURRENT,
+  CLEAR_CURRENT_BLOG,
   DELETE_POST_ERROR,
   DELETE_POST_SUCCESS,
   GET_POST_ERROR,
@@ -37,7 +37,10 @@ export const createBlog = blogData => async dispatch => {
 };
 //GET USERS BLOGS
 export const getUsersBlogs = (page, search, userName) => async dispatch => {
-  if (search === "") dispatch(clearCurrent());
+  if (search === "")
+    dispatch({
+      type: CLEAR_CURRENT_BLOG
+    });
   try {
     const res = await http.get(
       apiEndpoint + "/" + page + "/" + userName + "?search=" + search
@@ -71,7 +74,10 @@ export const myBlogs = (page, search) => async dispatch => {
 };
 //ALL BLOGS
 export const allBlogs = (page, search) => async dispatch => {
-  if (search === "") dispatch(clearCurrent());
+  if (search === "")
+    dispatch({
+      type: CLEAR_CURRENT_BLOG
+    });
   try {
     let params = { search };
     const res = await http.get(apiEndpoint + "/all/" + page, { params });
@@ -106,7 +112,9 @@ export const deletePost = blogId => async dispatch => {
 };
 //GET POST BY ID
 export const getPost = postId => async dispatch => {
-  dispatch(clearCurrent());
+  dispatch({
+    type: CLEAR_CURRENT_BLOG
+  });
   try {
     const res = await http.get(apiEndpoint + "/getPost/" + postId);
     dispatch({
@@ -143,6 +151,6 @@ export const editBlog = blogData => async dispatch => {
 
 export const clearCurrent = () => {
   return {
-    type: CLEAR_CURRENT
+    type: CLEAR_CURRENT_BLOG
   };
 };

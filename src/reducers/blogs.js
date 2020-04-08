@@ -3,7 +3,7 @@ import {
   CREATE_BLOG_ERROR,
   GET_USERS_BLOGS_SUCCESS,
   GET_USERS_BLOGS_ERROR,
-  CLEAR_CURRENT,
+  CLEAR_CURRENT_BLOG,
   DELETE_POST_ERROR,
   DELETE_POST_SUCCESS,
   GET_POST_ERROR,
@@ -18,6 +18,7 @@ const initialState = {
   groups: [],
   tags: [],
   loading: true,
+  reactions: [],
   error: ""
 };
 export default function(state = initialState, action) {
@@ -37,7 +38,8 @@ export default function(state = initialState, action) {
         blog: data.blog,
         loading: false,
         users: data.users,
-        groups: data.groups
+        groups: data.groups,
+        reactions: data.reactions
       };
     case CREATE_BLOG_ERROR:
     case GET_USERS_BLOGS_ERROR:
@@ -57,7 +59,7 @@ export default function(state = initialState, action) {
         itemsPerPage: data.metadata[0].ITEMS_PER_PAGE,
         loading: false
       };
-    case CLEAR_CURRENT:
+    case CLEAR_CURRENT_BLOG:
       return {
         ...state,
         loading: true

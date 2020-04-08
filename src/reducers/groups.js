@@ -15,7 +15,7 @@ import {
   EDIT_GROUP_SUCCESS,
   REMOVE_MEMBER_ERROR,
   REMOVE_MEMBER_SUCCESS,
-  CLEAR_CURRENT
+  CLEAR_CURRENT_GROUP
 } from "../action/constants";
 const initialState = {
   group: null,
@@ -29,8 +29,9 @@ export default function(state = initialState, action) {
   const { type, data } = action;
 
   switch (type) {
-    case CLEAR_CURRENT:
+    case CLEAR_CURRENT_GROUP:
       return {
+        ...state,
         loading: true
       };
     case GROUP_CREATED_SUCCESS:
