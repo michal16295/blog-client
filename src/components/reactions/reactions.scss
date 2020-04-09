@@ -40,6 +40,11 @@ body {
   font-size: 13px;
   width: 100%;
 }
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+  border: 2px solid transparent;
+}
 
 [class*="reaction-"] {
   @extend %hidden;
@@ -99,13 +104,19 @@ body {
     }
   }
 }
+.label-reactions:focus {
+  outline: none;
+  box-shadow: 2px;
+  border: 15px;
+  background-size: 50px;
+}
 
 .label-reactions {
-  border: 2px dotted transparent;
+  border: 15px;
   display: block;
   height: 50px;
-  margin: 0 auto;
-  width: 50px;
+  margin: 2px auto;
+  width: 70px;
   color: transparent;
   cursor: pointer;
 }
@@ -291,4 +302,9 @@ body {
 .reaction-angry {
   background-position: -240px 0;
   left: 250px;
+}
+.s {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 10px 0;
 }

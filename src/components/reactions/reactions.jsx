@@ -24,13 +24,11 @@ const Reactions = ({
   });
   const { name, type, page } = formData;
   useEffect(() => {
-    if (reaction === "") {
-      getCurrentUserReaction(blog._id);
-      setFormData({
-        ...formData,
-        name: reaction
-      });
-    }
+    getCurrentUserReaction(blog._id);
+    setFormData({
+      ...formData,
+      name: reaction
+    });
   }, []);
 
   const handleReaction = name => {
@@ -73,7 +71,10 @@ const Reactions = ({
             </button>
           )
         ) : (
-          <button className="w3-button w3-theme-d2 w3-margin-bottom pull-right">
+          <button
+            style={{ outline: "none" }}
+            className="w3-button w3-theme-d2 w3-margin-bottom pull-right"
+          >
             <i className="fa fa-thumbs-up"></i>Like
           </button>
         )}

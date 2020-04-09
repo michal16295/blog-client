@@ -25,9 +25,10 @@ const BlogProfile = ({
   };
   const [formData, setFormData] = useState({
     page: 1,
-    type: ""
+    type: "",
+    comment: false
   });
-  const { page, type } = formData;
+  const { page, type, comment } = formData;
   useEffect(() => {
     getPost(match.params.id);
     getReactions(match.params.id, type, page);
@@ -46,6 +47,21 @@ const BlogProfile = ({
       <Link to="/createBlog/true" className="btn btn-default">
         Edit
       </Link>
+    </Fragment>
+  );
+  const commentInput = (
+    <Fragment>
+      <hr className="s" />
+      <form>
+        <input
+          style={{ outline: "none" }}
+          class="w3-input w3-border w3-round-xxlarge"
+          name="last"
+          type="text"
+          placeholder="Write A Comment"
+        />
+      </form>
+      <br />
     </Fragment>
   );
   return (
@@ -103,8 +119,10 @@ const BlogProfile = ({
               <Reactions />
 
               <button
+                style={{ outline: "none" }}
+                onClick={() => setFormData({ ...formData, comment: !comment })}
                 type="button"
-                className="w3-button w3-theme-d2 w3-margin-bottom pull-right col-2"
+                className=" w3-button w3-theme-d2 w3-margin-bottom pull-right col-2"
               >
                 <i className="fa fa-comment"></i>  Comment
               </button>
@@ -116,6 +134,7 @@ const BlogProfile = ({
                   authButtons}
               </span>
             </div>
+            {comment && commentInput}
           </div>
         </Fragment>
       )}

@@ -12,7 +12,7 @@ const AllReactions = ({
   getReactions,
   auth,
   blogId,
-  reaction: { reactions, count, loading }
+  reaction: { reactions, count, loading, AllCount }
 }) => {
   const [formData, setFormData] = useState({
     page: 1,
@@ -36,27 +36,65 @@ const AllReactions = ({
       show: true
     });
   };
+  const handleType = type => {
+    setFormData({
+      ...formData,
+      type
+    });
+    getReactions(blogId, type, page);
+  };
   return (
     <>
       <button className="btn btn-dafault" onClick={handleShow}>
-        Likes {count}
+        Likes {AllCount}
       </button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title className="row">
-            <button className="btn btn-default col">All {count}</button>
-            <button className="label-reactions love col"></button>
-            <button className="label-reactions sad col"></button>
-            <button className="label-reactions wow col"></button>
-            <button className="label-reactions haha col"></button>
-            <button className="label-reactions angry col"></button>
+            <button
+              onClick={() => handleType("")}
+              className="btn btn-default col"
+            >
+              All {AllCount}
+            </button>
+            <button
+              onClick={() => handleType("like")}
+              className="label-reactions like col"
+            ></button>
+            <button
+              onClick={() => handleType("love")}
+              className="label-reactions love col"
+            ></button>
+            <button
+              onClick={() => handleType("sad")}
+              className="label-reactions sad col"
+            ></button>
+            <button
+              onClick={() => handleType("wow")}
+              className="label-reactions wow col"
+            ></button>
+            <button
+              onClick={() => handleType("haha")}
+              className="label-reactions haha col"
+            ></button>
+            <button
+              onClick={() => handleType("angry")}
+              className="label-reactions angry col"
+            ></button>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {reactions &&
-            reactions.length > 0 &&
-            reactions.map(i => <div>{i.userName}</div>)}
+          <h3>{count}</h3>
+          {reactions && reactions.length > 0 ? (
+            reactions.map(i => (
+              <Fragment>
+                <div>{i.userName}</div>
+              </Fragment>
+            ))
+          ) : (
+            <div>No Reactions</div>
+          )}
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>

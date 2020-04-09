@@ -13,7 +13,8 @@ const initialState = {
   reaction: "",
   reactions: [],
   loading: true,
-  count: 0
+  count: 0,
+  AllCount: 0
 };
 
 export default function(state = initialState, action) {
@@ -25,7 +26,7 @@ export default function(state = initialState, action) {
         ...state,
         loading: false,
         reaction: data.type,
-        count: data.count
+        AllCount: data.count
       };
     case GET_CURRENT_USER_REACTION_SUCCESS:
       return {
@@ -40,6 +41,8 @@ export default function(state = initialState, action) {
     case GET_REACTIONS_ERROR:
       return {
         ...state,
+        reactions: [],
+        count: "",
         loading: false
       };
     case CLEAR_CURRENT_REACTION:
@@ -51,9 +54,10 @@ export default function(state = initialState, action) {
     case GET_REACTIONS_SUCCESS:
       return {
         ...state,
-        reactions: data[0].data,
-        count: data[0].metadata[0].total,
-        itemsPerPage: data[0].metadata[0].ITEMS_PER_PAGE,
+        reactions: data.data[0].data,
+        AllCount: data.allCount,
+        count: data.data[0].metadata[0].total,
+        itemsPerPage: data.data[0].metadata[0].ITEMS_PER_PAGE,
         loading: false
       };
     case DELETE_REACTION_SUCCESS:
@@ -61,7 +65,7 @@ export default function(state = initialState, action) {
         ...state,
         loading: false,
         reaction: "",
-        count: data.count
+        AllCount: data.count
       };
     default:
       return state;
