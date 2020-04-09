@@ -1,12 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Spinner from "../../common/Spinner";
 import { getReactions } from "../../action/reactions";
 import Modal from "react-bootstrap/Modal";
 import "./reactions.scss";
-import likeFill from "../../img/likeFill.png";
 
 const AllReactions = ({
   getReactions,
@@ -87,11 +84,7 @@ const AllReactions = ({
         <Modal.Body>
           <h3>{count}</h3>
           {reactions && reactions.length > 0 ? (
-            reactions.map(i => (
-              <Fragment>
-                <div>{i.userName}</div>
-              </Fragment>
-            ))
+            reactions.map(i => <div key={i._id}>{i.userName}</div>)
           ) : (
             <div>No Reactions</div>
           )}

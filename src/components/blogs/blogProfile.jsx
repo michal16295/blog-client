@@ -11,9 +11,12 @@ import { MDBBadge, MDBContainer } from "mdbreact";
 import { getReactions } from "../../action/reactions";
 import Reactions from "../reactions/reactions";
 import AllReactions from "../reactions/allReactions";
+import { createComment } from "../../action/comment";
+import AllComments from "../comments/allComments";
 
 const BlogProfile = ({
   getReactions,
+  createComment,
   auth,
   getPost,
   match,
@@ -26,13 +29,16 @@ const BlogProfile = ({
   const [formData, setFormData] = useState({
     page: 1,
     type: "",
-    comment: false
+    comment: false,
+    commentData: ""
   });
-  const { page, type, comment } = formData;
+  const { page, type, comment, commentData } = formData;
+
   useEffect(() => {
     getPost(match.params.id);
     getReactions(match.params.id, type, page);
   }, []);
+
   const authButtons = (
     <Fragment>
       <button
@@ -42,28 +48,46 @@ const BlogProfile = ({
         }}
         className="btn btn-default"
       >
-        <i class="fas fa-trash-alt"></i>
+        <i className="fas fa-trash-alt"></i>
       </button>
       <Link to="/createBlog/true" className="btn btn-default">
         Edit
       </Link>
     </Fragment>
   );
+
   const commentInput = (
     <Fragment>
       <hr className="s" />
-      <form>
+      <form onSubmit={e => handleSubmitComment(e)}>
         <input
           style={{ outline: "none" }}
-          class="w3-input w3-border w3-round-xxlarge"
-          name="last"
+          className="w3-input w3-border w3-round-xxlarge"
+          name="commentData"
+          value={commentData}
           type="text"
           placeholder="Write A Comment"
+          onChange={e => onChange(e)}
         />
+        <button type="submit"></button>
       </form>
-      <br />
     </Fragment>
   );
+  const handleSubmitComment = e => {
+    e.preventDefault();
+    const data = {
+      comment: commentData,
+      blogId: blog._id
+    };
+    createComment(data);
+  };
+  const onChange = e => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   return (
     <Fragment>
       {blog == null || loading ? (
@@ -74,7 +98,7 @@ const BlogProfile = ({
             Back To Posts
           </Link>
 
-          <div class="w3-container w3-card w3-white w3-round w3-margin">
+          <div className="w3-container w3-card w3-white w3-round w3-margin">
             <br />
             <img
               src={avatar}
@@ -100,10 +124,16 @@ const BlogProfile = ({
             <span>
               Permission:
               {users.length > 0 &&
-                users.map(user => <MDBBadge color="default">{user}</MDBBadge>)}
+                users.map(user => (
+                  <MDBBadge key={user._id} color="default">
+                    {user}
+                  </MDBBadge>
+                ))}
               {groups.length > 0 ? (
                 groups.map(group => (
-                  <MDBBadge color="default">{group}</MDBBadge>
+                  <MDBBadge key={group._id} color="default">
+                    {group}
+                  </MDBBadge>
                 ))
               ) : (
                 <MDBBadge color="default">Public</MDBBadge>
@@ -114,7 +144,7 @@ const BlogProfile = ({
             <hr className="w3-clear" />
             <p>{blog.description}</p>
             <AllReactions blogId={blog._id} />
-            <hr class="solid" />
+            <hr className="solid" />
             <div className="row">
               <Reactions />
 
@@ -135,6 +165,8 @@ const BlogProfile = ({
               </span>
             </div>
             {comment && commentInput}
+
+            <AllComments />
           </div>
         </Fragment>
       )}
@@ -146,12 +178,16 @@ BlogProfile.propTypes = {
   getPost: PropTypes.func.isRequired,
   blog: PropTypes.object.isRequired,
   deletePost: PropTypes.func,
-  getReactions: PropTypes.func
+  getReactions: PropTypes.func,
+  createComment: PropTypes.func
 };
 const mapStateToProps = state => ({
   auth: state.auth,
   blog: state.blog
 });
-export default connect(mapStateToProps, { getPost, deletePost, getReactions })(
-  BlogProfile
-);
+export default connect(mapStateToProps, {
+  getPost,
+  deletePost,
+  getReactions,
+  createComment
+})(BlogProfile);
