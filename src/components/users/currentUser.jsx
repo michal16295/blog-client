@@ -2,10 +2,11 @@ import React, { useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loadUser } from "../../action/auth";
+import { deleteAccount } from "../../action/users";
 import { Link } from "react-router-dom";
 import UserGroups from "../profile/userGroups";
 
-const CurrentUser = ({ loadUser, auth: { user, loading } }) => {
+const CurrentUser = ({ deleteAccount, loadUser, auth: { user, loading } }) => {
   useEffect(() => {
     loadUser();
   }, [loading]);
@@ -36,13 +37,10 @@ const CurrentUser = ({ loadUser, auth: { user, loading } }) => {
                 <i className="fas fa-key text-primary"></i> Change Password
               </Link>
             )}
-            <Link
-              to={`/cancleAccount/${user.userName}`}
-              className="btn btn-light"
-            >
+            <button onClick={() => deleteAccount()} className="btn btn-light">
               <i className="fas fa-user-alt-slash text-primary"></i> Cancle
               Account
-            </Link>
+            </button>
             <Link
               to={`/blogs/${user.userName}/${currentUser}`}
               className="btn btn-light"
@@ -60,9 +58,12 @@ const CurrentUser = ({ loadUser, auth: { user, loading } }) => {
 
 CurrentUser.propTypes = {
   loadUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  deleteAccount: PropTypes.func
 };
 const mapStateToProps = state => ({
   auth: state.auth
 });
-export default connect(mapStateToProps, { loadUser })(CurrentUser);
+export default connect(mapStateToProps, { loadUser, deleteAccount })(
+  CurrentUser
+);

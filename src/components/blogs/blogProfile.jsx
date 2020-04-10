@@ -13,6 +13,7 @@ import Reactions from "../reactions/reactions";
 import AllReactions from "../reactions/allReactions";
 import { createComment } from "../../action/comment";
 import AllComments from "../comments/allComments";
+import { Button, Icon, Label } from "semantic-ui-react";
 
 const BlogProfile = ({
   getReactions,
@@ -21,7 +22,8 @@ const BlogProfile = ({
   getPost,
   match,
   deletePost,
-  blog: { blog, users, loading, groups }
+  blog: { blog, users, loading, groups },
+  comment: { AllCount }
 }) => {
   const handleDelete = e => {
     deletePost(e);
@@ -143,20 +145,26 @@ const BlogProfile = ({
 
             <hr className="w3-clear" />
             <p>{blog.description}</p>
-            <AllReactions blogId={blog._id} />
+
             <hr className="solid" />
             <div className="row">
               <Reactions />
 
-              <button
-                style={{ outline: "none" }}
-                onClick={() => setFormData({ ...formData, comment: !comment })}
-                type="button"
-                className=" w3-button w3-theme-d2 w3-margin-bottom pull-right col-2"
-              >
-                <i className="fa fa-comment"></i>  Comment
-              </button>
-              <span className="col-7"></span>
+              <Button as="div" labelPosition="left">
+                <Label as="a" basic pointing="right">
+                  {AllCount}
+                </Label>
+                <Button
+                  onClick={() =>
+                    setFormData({ ...formData, comment: !comment })
+                  }
+                  icon
+                >
+                  <Icon name="comment" />
+                  Comment
+                </Button>
+              </Button>
+              <span className="col-6"></span>
               <span className="w3-right w3-opacity">
                 {auth.user &&
                   !auth.loading &&
@@ -179,11 +187,13 @@ BlogProfile.propTypes = {
   blog: PropTypes.object.isRequired,
   deletePost: PropTypes.func,
   getReactions: PropTypes.func,
-  createComment: PropTypes.func
+  createComment: PropTypes.func,
+  comment: PropTypes.object
 };
 const mapStateToProps = state => ({
   auth: state.auth,
-  blog: state.blog
+  blog: state.blog,
+  comment: state.comment
 });
 export default connect(mapStateToProps, {
   getPost,

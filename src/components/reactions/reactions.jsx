@@ -7,22 +7,24 @@ import {
   deleteReaction
 } from "../../action/reactions";
 import "./reactions.scss";
+import { Button, Icon, Label, Image } from "semantic-ui-react";
+import AllReactions from "../reactions/allReactions";
 
 const Reactions = ({
   setReaction,
   getCurrentUserReaction,
   deleteReaction,
-
   auth: { user },
   blog: { blog, loading },
-  reaction: { reaction, count }
+  reaction: { reaction, count, AllCount }
 }) => {
   const [formData, setFormData] = useState({
     name: "",
     type: "",
-    page: 1
+    page: 1,
+    showModal: false
   });
-  const { name, type, page } = formData;
+  const { name, type, page, showModal } = formData;
   useEffect(() => {
     getCurrentUserReaction(blog._id);
     setFormData({
@@ -53,30 +55,55 @@ const Reactions = ({
 
   return (
     <Fragment>
-      <div className="box col-1">
+      {showModal && <AllReactions action={true} blogId={blog._id} />}
+      <div className="box col-2">
         {reaction !== "" && reaction !== undefined && !reaction.loading ? (
           name !== "" ? (
-            <button
-              onClick={() => handleUnlike()}
-              className={"label-reactions " + name}
-            >
-              {name}
-            </button>
+            <Button as="div" labelPosition="right">
+              <Button onClick={() => handleUnlike()} color="red">
+                <Image className={"label-reactions " + name} avatar />
+              </Button>
+              <Label
+                onClick={() => setFormData({ ...formData, showModal: true })}
+                as="a"
+                basic
+                color="red"
+                pointing="left"
+              >
+                {AllCount}
+              </Label>
+            </Button>
           ) : (
-            <button
-              onClick={() => handleUnlike()}
-              className={"label-reactions " + reaction}
-            >
-              {reaction}
-            </button>
+            <Button as="div" labelPosition="right">
+              <Button onClick={() => handleUnlike()} color="red">
+                <Image className={"label-reactions " + reaction} avatar />
+              </Button>
+              <Label
+                onClick={() => setFormData({ ...formData, showModal: true })}
+                as="a"
+                basic
+                color="red"
+                pointing="left"
+              >
+                {AllCount}
+              </Label>
+            </Button>
           )
         ) : (
-          <button
-            style={{ outline: "none" }}
-            className="w3-button w3-theme-d2 w3-margin-bottom pull-right"
-          >
-            <i className="fa fa-thumbs-up"></i>Like
-          </button>
+          <Button as="div" labelPosition="right">
+            <Button icon>
+              <Icon name="heart" />
+              Like
+            </Button>
+            <Label
+              onClick={() => setFormData({ ...formData, showModal: true })}
+              as="a"
+              basic
+              pointing="left"
+            >
+              {AllCount}
+            </Label>
+          </Button>
         )}
 
         <div className="toolbox"></div>

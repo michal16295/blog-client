@@ -3,18 +3,20 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getReactions } from "../../action/reactions";
 import Modal from "react-bootstrap/Modal";
+import { Comment } from "semantic-ui-react";
 import "./reactions.scss";
 
 const AllReactions = ({
   getReactions,
   auth,
   blogId,
-  reaction: { reactions, count, loading, AllCount }
+  reaction: { reactions, count, loading, AllCount },
+  action
 }) => {
   const [formData, setFormData] = useState({
     page: 1,
     type: "",
-    show: false
+    show: action
   });
   const { page, type, show } = formData;
   useEffect(() => {
@@ -27,12 +29,7 @@ const AllReactions = ({
       show: false
     });
   };
-  const handleShow = () => {
-    setFormData({
-      ...formData,
-      show: true
-    });
-  };
+
   const handleType = type => {
     setFormData({
       ...formData,
@@ -42,10 +39,6 @@ const AllReactions = ({
   };
   return (
     <>
-      <button className="btn btn-dafault" onClick={handleShow}>
-        Likes {AllCount}
-      </button>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title className="row">
@@ -83,11 +76,21 @@ const AllReactions = ({
         </Modal.Header>
         <Modal.Body>
           <h3>{count}</h3>
-          {reactions && reactions.length > 0 ? (
-            reactions.map(i => <div key={i._id}>{i.userName}</div>)
-          ) : (
-            <div>No Reactions</div>
-          )}
+          <Comment.Group>
+            {reactions && reactions.length > 0 ? (
+              reactions.map(i => (
+                <Comment key={i._id}>
+                  <hr className="s" />
+                  <Comment.Avatar as="a" src={i.ownerAvatar} />
+                  <Comment.Content>
+                    <Comment.Author>{i.userName}</Comment.Author>
+                  </Comment.Content>
+                </Comment>
+              ))
+            ) : (
+              <div>No Reactions</div>
+            )}
+          </Comment.Group>
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
@@ -98,7 +101,8 @@ AllReactions.propTypes = {
   auth: PropTypes.object.isRequired,
   getReactions: PropTypes.func,
   blogId: PropTypes.string,
-  reaction: PropTypes.object.isRequired
+  reaction: PropTypes.object.isRequired,
+  action: PropTypes.bool
 };
 const mapStateToProps = state => ({
   auth: state.auth,

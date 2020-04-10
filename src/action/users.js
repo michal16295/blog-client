@@ -5,7 +5,9 @@ import {
   GET_USER_ERROR,
   EDIT_ERROR,
   EDIT_SUCCESS,
-  CLEAR_CURRENT_USER
+  CLEAR_CURRENT_USER,
+  DELETE_ACCOUNT_ERROR,
+  DELETE_ACCOUNT_SUCCESS
 } from "./constants";
 import http from "../services/httpService";
 import { setAlert } from "./alert";
@@ -68,6 +70,21 @@ export const editUser = (id, data) => async dispatch => {
       data: err.response.data
     });
     dispatch(setAlert(err.response.data, "danger"));
+  }
+};
+//DELETE ACCOUNT
+export const deleteAccount = () => async dispatch => {
+  try {
+    const res = await http.delete(apiEndpoint + "/deleteAccount");
+    dispatch({
+      type: DELETE_ACCOUNT_SUCCESS,
+      data: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: DELETE_ACCOUNT_ERROR,
+      error: err.response
+    });
   }
 };
 //RANDOM AVATAR

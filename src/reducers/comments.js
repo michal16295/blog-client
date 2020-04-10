@@ -3,7 +3,11 @@ import {
   CREATE_COMMENT_SUCCESS,
   GET_ALL_COMMENTS_SUCCESS,
   GET_ALL_COMMENTS_ERROR,
-  CLEAR_CURRENT_COMMENTS
+  CLEAR_CURRENT_COMMENTS,
+  EDIT_COMMENT_SUCCESS,
+  EDIT_COMMENT_ERROR,
+  DELETE_COMMENT_ERROR,
+  DELETE_COMMENT_SUCCESS
 } from "../action/constants";
 const initialState = {
   comment: {},
@@ -33,9 +37,18 @@ export default function(state = initialState, action) {
       };
     case CREATE_COMMENT_ERROR:
     case GET_ALL_COMMENTS_ERROR:
+    case EDIT_COMMENT_ERROR:
+    case DELETE_COMMENT_ERROR:
       return {
         ...state,
+        error: data,
         loading: false
+      };
+    case EDIT_COMMENT_SUCCESS:
+      return {
+        loading: false,
+        message: data,
+        AllCount: data.count
       };
     case GET_ALL_COMMENTS_SUCCESS:
       return {
@@ -45,6 +58,20 @@ export default function(state = initialState, action) {
         itemsPerPage: data[0].metadata[0].ITEMS_PER_PAGE,
         currentCount: data[0].data.length,
         loading: false
+      };
+    case DELETE_COMMENT_SUCCESS:
+      const index = state.comments.findIndex(
+        obj => obj._id === data.comment._id
+      );
+      state.comments = [
+        ...state.comments.slice(0, index),
+        ...state.comments.slice(index + 1)
+      ];
+      // state.comments.splice(state.comments.indexOf(data.comment), 1);
+      return {
+        ...state,
+        loading: false,
+        AllCount: data.count
       };
     case CLEAR_CURRENT_COMMENTS:
       return {

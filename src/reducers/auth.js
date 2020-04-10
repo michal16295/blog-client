@@ -7,7 +7,9 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
   CHANGE_PASS_ERROR,
-  CHANGE_PASS_SUCCESS
+  CHANGE_PASS_SUCCESS,
+  DELETE_ACCOUNT_ERROR,
+  DELETE_ACCOUNT_SUCCESS
 } from "../action/constants";
 const initialState = {
   token: localStorage.getItem("token"),
@@ -32,6 +34,7 @@ export default function(state = initialState, action) {
     case LOGIN_SUCCESS:
     case CHANGE_PASS_ERROR:
     case REGISTER_SUCCESS:
+    case DELETE_ACCOUNT_ERROR:
       return {
         ...state,
         ...data,
@@ -43,6 +46,7 @@ export default function(state = initialState, action) {
     case LOGIN_FAIL:
     case AUTH_ERROR:
     case REGISTER_FAIL:
+    case DELETE_ACCOUNT_SUCCESS:
       localStorage.removeItem("token");
       return {
         ...state,
