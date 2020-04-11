@@ -12,7 +12,7 @@ import {
 } from "./constants";
 import http from "../services/httpService";
 import { setAlert } from "./alert";
-import { Redirect } from "react-router-dom";
+import { getNotifications } from "./notifications";
 
 const apiUrl = "http://localhost:5000";
 const apiEndpoint = apiUrl + "/users";
@@ -32,6 +32,7 @@ export const loadUser = () => async dispatch => {
       type: USER_LOADED,
       data: res.data
     });
+    dispatch(getNotifications());
   } catch (err) {
     dispatch({
       type: AUTH_ERROR

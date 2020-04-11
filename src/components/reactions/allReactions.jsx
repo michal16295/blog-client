@@ -7,6 +7,7 @@ import { Comment } from "semantic-ui-react";
 import "./reactions.scss";
 
 const AllReactions = ({
+  handleModal,
   getReactions,
   auth,
   blogId,
@@ -23,13 +24,6 @@ const AllReactions = ({
     getReactions(blogId, type, page);
   }, [count]);
 
-  const handleClose = () => {
-    setFormData({
-      ...formData,
-      show: false
-    });
-  };
-
   const handleType = type => {
     setFormData({
       ...formData,
@@ -39,7 +33,7 @@ const AllReactions = ({
   };
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleModal}>
         <Modal.Header closeButton>
           <Modal.Title className="row">
             <button
@@ -102,7 +96,8 @@ AllReactions.propTypes = {
   getReactions: PropTypes.func,
   blogId: PropTypes.string,
   reaction: PropTypes.object.isRequired,
-  action: PropTypes.bool
+  action: PropTypes.bool,
+  handleModal: PropTypes.func
 };
 const mapStateToProps = state => ({
   auth: state.auth,

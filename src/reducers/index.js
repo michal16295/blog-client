@@ -6,6 +6,7 @@ import group from "./groups";
 import blog from "./blogs";
 import reaction from "./reaction";
 import comment from "./comments";
+import notification from "./notifications";
 export default combineReducers({
   alert,
   auth,
@@ -13,5 +14,6 @@ export default combineReducers({
   group,
   blog,
   reaction,
-  comment
+  comment,
+  notification
 });

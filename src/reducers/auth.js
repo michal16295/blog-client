@@ -49,7 +49,6 @@ export default function(state = initialState, action) {
     case DELETE_ACCOUNT_SUCCESS:
       localStorage.removeItem("token");
       return {
-        ...state,
         token: null,
         isAuthenticated: false,
         loading: false

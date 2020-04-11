@@ -52,39 +52,38 @@ const Reactions = ({
     });
     deleteReaction(blog._id, user.userName);
   };
+  const handleModal = () => {
+    setFormData({ ...formData, showModal: !showModal });
+  };
 
   return (
     <Fragment>
-      {showModal && <AllReactions action={true} blogId={blog._id} />}
+      {showModal && (
+        <AllReactions
+          handleModal={handleModal}
+          action={true}
+          blogId={blog._id}
+        />
+      )}
       <div className="box col-2">
         {reaction !== "" && reaction !== undefined && !reaction.loading ? (
           name !== "" ? (
             <Button as="div" labelPosition="right">
-              <Button onClick={() => handleUnlike()} color="red">
+              <Button icon onClick={() => handleUnlike()}>
                 <Image className={"label-reactions " + name} avatar />
+                {name}
               </Button>
-              <Label
-                onClick={() => setFormData({ ...formData, showModal: true })}
-                as="a"
-                basic
-                color="red"
-                pointing="left"
-              >
+              <Label onClick={() => handleModal()} as="a" basic pointing="left">
                 {AllCount}
               </Label>
             </Button>
           ) : (
             <Button as="div" labelPosition="right">
-              <Button onClick={() => handleUnlike()} color="red">
+              <Button icon onClick={() => handleUnlike()}>
                 <Image className={"label-reactions " + reaction} avatar />
+                {reaction}
               </Button>
-              <Label
-                onClick={() => setFormData({ ...formData, showModal: true })}
-                as="a"
-                basic
-                color="red"
-                pointing="left"
-              >
+              <Label onClick={() => handleModal()} as="a" basic pointing="left">
                 {AllCount}
               </Label>
             </Button>
@@ -95,12 +94,7 @@ const Reactions = ({
               <Icon name="heart" />
               Like
             </Button>
-            <Label
-              onClick={() => setFormData({ ...formData, showModal: true })}
-              as="a"
-              basic
-              pointing="left"
-            >
+            <Label onClick={() => handleModal()} as="a" basic pointing="left">
               {AllCount}
             </Label>
           </Button>

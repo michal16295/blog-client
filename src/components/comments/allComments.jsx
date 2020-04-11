@@ -64,6 +64,7 @@ const AllComments = ({
   return (
     <Comment.Group>
       {comments &&
+        user &&
         comments.length > 0 &&
         comments.map(i => (
           <Comment key={i._id}>

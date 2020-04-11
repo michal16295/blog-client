@@ -306,34 +306,34 @@ button {
 
 /* Navbar */
 .navbar {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  padding: 0.7rem 2rem !important;
-  position: fixed !important;
-  z-index: 1 !important;
-  width: 100% !important;
-  top: 0 !important;
-  border-bottom: solid 1px var(--primary-color) !important;
-  opacity: 0.9 !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 2rem;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 0;
+  border-bottom: solid 1px var(--primary-color);
+  opacity: 0.9;
 }
 
 .navbar ul {
-  display: flex !important;
+  display: flex;
 }
 
 .navbar a {
-  color: #fff !important;
-  padding: 0.45rem !important;
-  margin: 0 0.25rem !important;
+  color: #fff;
+  padding: 0.45rem;
+  margin: 0 0.25rem;
 }
 
 .navbar a:hover {
-  color: var(--primary-color) !important;
+  color: var(--primary-color);
 }
 
 .navbar .welcome span {
-  margin-right: 0.6rem !important;
+  margin-right: 0.6rem;
 }
 
 /* Landing Page */
@@ -568,7 +568,6 @@ button {
   }
 
   .dash-buttons a {
-    display: block;
     width: 100%;
     margin-bottom: 0.2rem;
   }

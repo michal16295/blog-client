@@ -23,6 +23,7 @@ import Blogs from "./components/blogs/blogs";
 import UserBlogs from "./components/blogs/usersBlogs";
 import BlogProfile from "./components/blogs/blogProfile";
 import NotFound from "./common/notFonud/notFound";
+import Notifications from "./components/notifications/notifications";
 import "./App.css";
 
 if (localStorage.token) {
@@ -68,6 +69,11 @@ const App = () => {
                 component={UserBlogs}
               ></Route>
               <Route exact path="/blog/:id" component={BlogProfile}></Route>
+              <Route
+                exact
+                path="/notifications"
+                component={Notifications}
+              ></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </section>
