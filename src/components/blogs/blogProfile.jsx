@@ -8,7 +8,7 @@ import Moment from "react-moment";
 import avatar from "../../img/avatar.png";
 import { deletePost } from "../../action/blogs";
 import { MDBBadge, MDBContainer } from "mdbreact";
-import { getReactions } from "../../action/reactions";
+import { getReactions, numOfReactions } from "../../action/reactions";
 import Reactions from "../reactions/reactions";
 import AllReactions from "../reactions/allReactions";
 import { createComment } from "../../action/comment";
@@ -16,6 +16,8 @@ import AllComments from "../comments/allComments";
 import { Button, Icon, Label } from "semantic-ui-react";
 
 const BlogProfile = ({
+  profile: { avatars },
+  numOfReactions,
   getReactions,
   createComment,
   auth,
@@ -23,28 +25,28 @@ const BlogProfile = ({
   match,
   deletePost,
   blog: { blog, users, loading, groups },
-  comment: { AllCount }
+  comment: { AllCount },
 }) => {
-  const handleDelete = e => {
+  const handleDelete = (e) => {
     deletePost(e);
   };
   const [formData, setFormData] = useState({
     page: 1,
     type: "",
     comment: false,
-    commentData: ""
+    commentData: "",
   });
   const { page, type, comment, commentData } = formData;
 
   useEffect(() => {
     getPost(match.params.id);
-    getReactions(match.params.id, type, page);
+    numOfReactions(match.params.id);
   }, []);
 
   const authButtons = (
     <Fragment>
       <button
-        onClick={e => {
+        onClick={(e) => {
           if (window.confirm("Are you sure you wish to delete this item?"))
             handleDelete(blog._id);
         }}
@@ -61,7 +63,7 @@ const BlogProfile = ({
   const commentInput = (
     <Fragment>
       <hr className="s" />
-      <form onSubmit={e => handleSubmitComment(e)}>
+      <form onSubmit={(e) => handleSubmitComment(e)}>
         <input
           style={{ outline: "none" }}
           className="w3-input w3-border w3-round-xxlarge"
@@ -69,24 +71,29 @@ const BlogProfile = ({
           value={commentData}
           type="text"
           placeholder="Write A Comment"
-          onChange={e => onChange(e)}
+          onChange={(e) => onChange(e)}
         />
         <button type="submit"></button>
       </form>
     </Fragment>
   );
-  const handleSubmitComment = e => {
+  const handleSubmitComment = (e) => {
     e.preventDefault();
     const data = {
       comment: commentData,
-      blogId: blog._id
+      blogId: blog._id,
     };
     createComment(data);
-  };
-  const onChange = e => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      commentData: "",
+      comment: false,
+    });
+  };
+  const onChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -103,7 +110,7 @@ const BlogProfile = ({
           <div className="w3-container w3-card w3-white w3-round w3-margin">
             <br />
             <img
-              src={avatar}
+              src={avatars[blog.owner]}
               alt="Avatar"
               className="w3-left w3-circle w3-margin-right"
               style={{ width: "60px" }}
@@ -118,7 +125,7 @@ const BlogProfile = ({
               Tags:
               {blog.tags !== undefined &&
                 blog.tags.length > 0 &&
-                blog.tags.map(tag => (
+                blog.tags.map((tag) => (
                   <MDBBadge color="default">#{tag}</MDBBadge>
                 ))}
             </span>
@@ -126,13 +133,13 @@ const BlogProfile = ({
             <span>
               Permission:
               {users.length > 0 &&
-                users.map(user => (
+                users.map((user) => (
                   <MDBBadge key={user._id} color="default">
                     {user}
                   </MDBBadge>
                 ))}
               {groups.length > 0 ? (
-                groups.map(group => (
+                groups.map((group) => (
                   <MDBBadge key={group._id} color="default">
                     {group}
                   </MDBBadge>
@@ -188,16 +195,20 @@ BlogProfile.propTypes = {
   deletePost: PropTypes.func,
   getReactions: PropTypes.func,
   createComment: PropTypes.func,
-  comment: PropTypes.object
+  comment: PropTypes.object,
+  numOfReactions: PropTypes.func,
+  profile: PropTypes.object,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
   blog: state.blog,
-  comment: state.comment
+  comment: state.comment,
+  profile: state.profile,
 });
 export default connect(mapStateToProps, {
   getPost,
   deletePost,
   getReactions,
-  createComment
+  createComment,
+  numOfReactions,
 })(BlogProfile);

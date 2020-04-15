@@ -9,7 +9,7 @@ const UserProfile = ({
   getProfile,
   profile: { profile, loading },
   auth,
-  match
+  match,
 }) => {
   useEffect(() => {
     getProfile(match.params.userName);
@@ -45,6 +45,7 @@ const UserProfile = ({
                 <Link to="/profiles" className="btn btn-dark">
                   Back To Profiles
                 </Link>
+                <button className="btn btn-danger">Block</button>
                 {auth.user !== null &&
                   auth.loading === false &&
                   auth.user._id === profile._id && (
@@ -65,10 +66,10 @@ const UserProfile = ({
 UserProfile.propTypes = {
   getProfiles: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.profile,
-  auth: state.auth
+  auth: state.auth,
 });
 export default connect(mapStateToProps, { getProfile })(UserProfile);

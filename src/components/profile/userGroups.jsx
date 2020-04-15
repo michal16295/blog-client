@@ -11,27 +11,27 @@ const UserGroups = ({
   getUsersGroups,
   group: { groups, loading, count, itemsPerPage },
   userName,
-  currentUser
+  currentUser,
 }) => {
   const [formData, setFormData] = useState({
     currentPage: 1,
-    query: ""
+    query: "",
   });
   const { currentPage, query } = formData;
   useEffect(() => {
     getUsersGroups(currentPage, query, userName);
   }, []);
 
-  const handlePageChange = page => {
+  const handlePageChange = (page) => {
     setFormData({
-      currentPage: page
+      currentPage: page,
     });
     getUsersGroups(page, query, userName);
   };
-  const handleSearch = input => {
+  const handleSearch = (input) => {
     setFormData({
       query: input,
-      currentPage: 1
+      currentPage: 1,
     });
     getUsersGroups(currentPage, input, userName);
   };
@@ -43,10 +43,10 @@ const UserGroups = ({
       ) : (
         <Fragment>
           <p className="lead text-primary">Groups</p>
-          <SearchBox value={query} onChange={input => handleSearch(input)} />
+          <SearchBox value={query} onChange={(input) => handleSearch(input)} />
           <div className="posts">
             {groups && groups.length > 0 ? (
-              groups.map(group => (
+              groups.map((group) => (
                 <GroupItem
                   key={group._id}
                   group={group}
@@ -61,7 +61,7 @@ const UserGroups = ({
           <Pagination
             itemsCount={count}
             currentPage={currentPage}
-            onPageChange={page => handlePageChange(page)}
+            onPageChange={(page) => handlePageChange(page)}
             pageSize={itemsPerPage}
           />
         </Fragment>
@@ -74,10 +74,10 @@ UserGroups.propTypes = {
   getUsersGroups: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
   userName: PropTypes.string,
-  currentUser: PropTypes.bool
+  currentUser: PropTypes.bool,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   group: state.group,
-  auth: state.auth
+  auth: state.auth,
 });
 export default connect(mapStateToProps, { getUsersGroups })(UserGroups);

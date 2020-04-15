@@ -7,6 +7,7 @@ import blog from "./blogs";
 import reaction from "./reaction";
 import comment from "./comments";
 import notification from "./notifications";
+import chat from "./chat";
 export default combineReducers({
   alert,
   auth,
@@ -15,5 +16,6 @@ export default combineReducers({
   blog,
   reaction,
   comment,
-  notification
+  notification,
+  chat,
 });

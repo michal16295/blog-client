@@ -1,18 +1,32 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { deletePost } from "../../action/blogs";
 import Moment from "react-moment";
+import { getUserAvatar } from "../../action/users";
 
-const BlogItem = ({ blog, auth, userName, deletePost }) => {
+const BlogItem = ({
+  blog,
+  auth,
+  userName,
+  deletePost,
+  getUserAvatar,
+  profile: { loading, avatars },
+}) => {
+  useEffect(() => {
+    getUserAvatar(blog.owner);
+  }, []);
+
   const handleDelete = () => {
     deletePost(blog._id);
   };
   return (
     <div className="post bg-white p-1 m-1">
       <div>
-        <img src={blog.ownerAvatar} alt="avatar" className="round-img" />
+        {!loading && (
+          <img src={avatars[blog.owner]} alt="avatar" className="round-img" />
+        )}
         <p></p>
         <span>{blog.owner}</span>
         <p>
@@ -35,7 +49,7 @@ const BlogItem = ({ blog, auth, userName, deletePost }) => {
           {auth.user && !auth.loading && blog.owner === auth.user.userName && (
             <Fragment>
               <button
-                onClick={e => {
+                onClick={(e) => {
                   if (
                     window.confirm("Are you sure you wish to delete this item?")
                   )
@@ -59,9 +73,14 @@ BlogItem.propTypes = {
   auth: PropTypes.object,
   userName: PropTypes.string,
   blog: PropTypes.object.isRequired,
-  deletePost: PropTypes.func
+  deletePost: PropTypes.func,
+  getUserAvatar: PropTypes.func,
+  profile: PropTypes.object,
 };
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  profile: state.profile,
 });
-export default connect(mapStateToProps, { deletePost })(BlogItem);
+export default connect(mapStateToProps, { deletePost, getUserAvatar })(
+  BlogItem
+);

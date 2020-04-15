@@ -1,19 +1,23 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../action/auth";
 import { getNotifications, updateViewed } from "../../action/notifications";
+import { unreadMsg } from "../../action/chat";
 
 const NavBar = ({
+  chat,
+  unreadMsg,
   updateViewed,
   auth: { isAuthenticated, user },
   logout,
   getNotifications,
-  notification: { loading, notViewed, AllCount, notifications }
+  notification: { loading, notViewed, AllCount, notifications },
 }) => {
   useEffect(() => {
     getNotifications();
+    unreadMsg();
   }, []);
 
   const guestLinks = (
@@ -32,9 +36,8 @@ const NavBar = ({
     </ul>
   );
   const dropdown = (
-    <li className="nav-item dropdown">
+    <li className="nav-item active dropdown">
       <a
-        onClick={() => updateViewed()}
         className="nav-link "
         href="#"
         id="navbarDropdown"
@@ -54,11 +57,12 @@ const NavBar = ({
         {notifications &&
           !loading &&
           notifications.length > 0 &&
-          notifications.map(i => (
+          notifications.map((i) => (
             <Fragment>
               <div class="dropdown-divider"></div>
               <Link
-                style={{ color: "gray" }}
+                onClick={() => updateViewed(i._id)}
+                style={{ backgroundColor: i.isViewed ? "#C0C0C0" : "gray" }}
                 to={`/${i.type}/${i.link}`}
                 className="dropdown-item"
               >
@@ -80,6 +84,15 @@ const NavBar = ({
   const authLink = (
     <ul className="navbar-nav ml-auto dropleft">
       {dropdown}
+      <li className="nav-item active">
+        <Link to="/chat">
+          {!chat.notViewed ||
+            (chat.notViewed !== 0 && (
+              <span class="badge badge-danger ml-2">{chat.notViewed}</span>
+            ))}
+          <i class="fab fa-facebook-messenger"></i>
+        </Link>
+      </li>
       <li className="nav-item active">
         <Link to="/currentUser">My Profile</Link>
       </li>
@@ -103,8 +116,14 @@ const NavBar = ({
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link className="navbar-brand" to="/">
-        <i className="fas fa-code"></i> DevConnector
+        <i className="fas fa-code"></i> DevConnector{" "}
       </Link>
+      {user && (
+        <span>
+          <i className="fas fa-user"></i>
+          {user.userName}{" "}
+        </span>
+      )}
 
       <button
         className="navbar-toggler"
@@ -129,14 +148,18 @@ NavBar.propTypes = {
   logout: PropTypes.func.isRequired,
   getNotifications: PropTypes.func.isRequired,
   notification: PropTypes.object,
-  updateViewed: PropTypes.func
+  updateViewed: PropTypes.func,
+  unreadMsg: PropTypes.func,
+  chat: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  notification: state.notification
+  notification: state.notification,
+  chat: state.chat,
 });
 export default connect(mapStateToProps, {
   logout,
   getNotifications,
-  updateViewed
+  updateViewed,
+  unreadMsg,
 })(NavBar);

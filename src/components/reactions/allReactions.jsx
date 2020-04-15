@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { getReactions } from "../../action/reactions";
 import Modal from "react-bootstrap/Modal";
 import { Comment } from "semantic-ui-react";
+import ReactionItem from "./reactionItem";
 import "./reactions.scss";
 
 const AllReactions = ({
@@ -11,29 +12,44 @@ const AllReactions = ({
   getReactions,
   auth,
   blogId,
-  reaction: { reactions, count, loading, AllCount },
-  action
+  reaction: { reactions, currentCount, loading, AllCount, itemsPerPage },
+  action,
 }) => {
   const [formData, setFormData] = useState({
     page: 1,
     type: "",
-    show: action
+    show: action,
   });
   const { page, type, show } = formData;
   useEffect(() => {
     getReactions(blogId, type, page);
-  }, [count]);
+  }, []);
 
-  const handleType = type => {
+  const handleType = (newType) => {
+    let prevType = false;
+    if (newType !== type) prevType = true;
+    console.log(prevType);
     setFormData({
       ...formData,
-      type
+      type: newType,
     });
-    getReactions(blogId, type, page);
+    getReactions(blogId, newType, page, prevType);
+  };
+  const getMore = () => {
+    setFormData({
+      ...formData,
+      page: page + 1,
+    });
+    getReactions(blogId, type, page + 1);
   };
   return (
     <>
-      <Modal show={show} onHide={handleModal}>
+      <Modal
+        scrollable={true}
+        show={show}
+        onHide={handleModal}
+        style={{ overflowY: "initial !important" }}
+      >
         <Modal.Header closeButton>
           <Modal.Title className="row">
             <button
@@ -68,25 +84,23 @@ const AllReactions = ({
             ></button>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <h3>{count}</h3>
+        <Modal.Body style={{ maxHeight: "400px" }}>
+          {type === "" ? <h3>{AllCount}</h3> : <h3>{currentCount}</h3>}
           <Comment.Group>
             {reactions && reactions.length > 0 ? (
-              reactions.map(i => (
-                <Comment key={i._id}>
-                  <hr className="s" />
-                  <Comment.Avatar as="a" src={i.ownerAvatar} />
-                  <Comment.Content>
-                    <Comment.Author>{i.userName}</Comment.Author>
-                  </Comment.Content>
-                </Comment>
-              ))
+              reactions.map((i) => <ReactionItem data={i} />)
             ) : (
               <div>No Reactions</div>
             )}
           </Comment.Group>
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
+        <Modal.Footer>
+          {currentCount >= itemsPerPage && (
+            <button onClick={() => getMore()} className="btn btn-dafault">
+              Load More
+            </button>
+          )}
+        </Modal.Footer>
       </Modal>
     </>
   );
@@ -97,10 +111,10 @@ AllReactions.propTypes = {
   blogId: PropTypes.string,
   reaction: PropTypes.object.isRequired,
   action: PropTypes.bool,
-  handleModal: PropTypes.func
+  handleModal: PropTypes.func,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  reaction: state.reaction
+  reaction: state.reaction,
 });
 export default connect(mapStateToProps, { getReactions })(AllReactions);

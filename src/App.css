@@ -17,11 +17,11 @@ li {
 }
 
 body {
-  font-family: "Raleway", sans-serif !important;
-  font-size: 1rem !important;
-  line-height: 1.6 !important;
-  background-color: #fff !important;
-  color: #333 !important;
+  font-family: "Raleway", sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #333;
 }
 
 a {
@@ -34,12 +34,12 @@ ul {
 
 /* Utilities */
 .container {
-  max-width: 1100px !important;
-  margin: auto !important;
-  overflow: hidden !important;
-  padding: 0 2rem !important;
-  margin-top: 6rem !important;
-  margin-bottom: 3rem !important;
+  max-width: 1100px;
+  margin: auto;
+  overflow: hidden;
+  padding: 0 2rem;
+  margin-top: 6rem;
+  margin-bottom: 3rem;
 }
 
 /* Text Styles*/

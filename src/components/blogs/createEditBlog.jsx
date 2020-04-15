@@ -21,7 +21,7 @@ const CreateBlog = ({
   getGroups,
   createBlog,
   match,
-  editBlog
+  editBlog,
 }) => {
   const [formData, setFormData] = useState({
     title: "",
@@ -29,7 +29,7 @@ const CreateBlog = ({
     members: [],
     groupsArr: [],
     tags: [],
-    permission: false
+    permission: false,
   });
   const {
     title,
@@ -38,7 +38,7 @@ const CreateBlog = ({
     tags,
     permission,
     members,
-    groupsArr
+    groupsArr,
   } = formData;
   useEffect(() => {
     getProfiles(SCROLL, INIT_QUERY);
@@ -50,30 +50,30 @@ const CreateBlog = ({
         description: blog.blog.description,
         members: blog.users,
         groupsArr: blog.groups,
-        tags: blog.blog.tags
+        tags: blog.blog.tags,
       });
     }
   }, []);
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
-  const handlePermission = e => {
+  const handlePermission = (e) => {
     setFormData({
       ...formData,
-      permission: !permission
+      permission: !permission,
     });
   };
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     let blogData = {
       title,
       description,
       owner: auth.user.userName,
       permission: "public",
-      tags
+      tags,
     };
     if (permission) {
       blogData.permission = "private";
@@ -86,21 +86,21 @@ const CreateBlog = ({
       editBlog(blogData);
     }
   };
-  const getUsers = query => {
+  const getUsers = (query) => {
     getProfiles(page, query);
-    const userNames = profiles.map(u => u.userName);
-    const res = userNames.map(p => ({
+    const userNames = profiles.map((u) => u.userName);
+    const res = userNames.map((p) => ({
       value: p,
-      label: p
+      label: p,
     }));
     return res;
   };
-  const getGroupsPerm = query => {
+  const getGroupsPerm = (query) => {
     getGroups(page, query);
-    const titles = groups.map(u => u.title);
-    const res = titles.map(p => ({
+    const titles = groups.map((u) => u.title);
+    const res = titles.map((p) => ({
       value: p,
-      label: p
+      label: p,
     }));
     return res;
   };
@@ -117,17 +117,17 @@ const CreateBlog = ({
 
   const handleInputChange = (e, field) => {
     if (e === null) return;
-    const u = e.map(u => u.value);
+    const u = e.map((u) => u.value);
     setFormData({
       ...formData,
-      [field]: u
+      [field]: u,
     });
   };
 
-  const setTags = newTags => {
+  const setTags = (newTags) => {
     setFormData({
       ...formData,
-      tags: newTags
+      tags: newTags,
     });
   };
   const inputFields = (
@@ -138,12 +138,12 @@ const CreateBlog = ({
           isMulti
           cacheOptions
           loadOptions={loadUsers}
-          defaultValue={blog.users.map(p => ({
+          defaultValue={blog.users.map((p) => ({
             value: p,
-            label: p
+            label: p,
           }))}
           name="members"
-          onChange={e => handleInputChange(e, "members")}
+          onChange={(e) => handleInputChange(e, "members")}
         />
       </div>
       <p></p>
@@ -152,13 +152,13 @@ const CreateBlog = ({
           placeholder="Groups Permissions"
           isMulti
           cacheOptions
-          defaultValue={blog.groups.map(p => ({
+          defaultValue={blog.groups.map((p) => ({
             value: p,
-            label: p
+            label: p,
           }))}
           loadOptions={loadGroups}
           name="groupArr"
-          onChange={e => handleInputChange(e, "groupsArr")}
+          onChange={(e) => handleInputChange(e, "groupsArr")}
         />
       </div>
       <p></p>
@@ -170,14 +170,14 @@ const CreateBlog = ({
       <p className="lead">
         <i className="fas fa-users"></i> Create A Post
       </p>
-      <form className="form" onSubmit={e => onSubmit(e)}>
+      <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
             type="text"
             placeholder="Title"
             name="title"
             value={title}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
             required
           />
         </div>
@@ -186,13 +186,13 @@ const CreateBlog = ({
             placeholder="Description"
             name="description"
             value={description}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         {match.params.edit === "false" && (
           <ReactTagInput
             tags={tags}
-            onChange={newTags => setTags(newTags)}
+            onChange={(newTags) => setTags(newTags)}
             placeholder="tags"
           />
         )}
@@ -200,7 +200,7 @@ const CreateBlog = ({
         <Checkbox
           name="permission"
           label="Private"
-          onChange={e => handlePermission(e)}
+          onChange={(e) => handlePermission(e)}
         />
         {permission && inputFields}
         <div>
@@ -228,17 +228,17 @@ CreateBlog.propTypes = {
   group: PropTypes.object.isRequired,
   createBlog: PropTypes.func,
   blog: PropTypes.object,
-  editBlog: PropTypes.func
+  editBlog: PropTypes.func,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
   blog: state.blog,
-  group: state.group
+  group: state.group,
 });
 export default connect(mapStateToProps, {
   getProfiles,
   getGroups,
   createBlog,
-  editBlog
+  editBlog,
 })(CreateBlog);

@@ -9,7 +9,7 @@ import {
   GET_POST_ERROR,
   GET_POST_SUCCESS,
   EDIT_BLOG_ERROR,
-  EDIT_BLOG_SUCCESS
+  EDIT_BLOG_SUCCESS,
 } from "../action/constants";
 const initialState = {
   blog: null,
@@ -19,9 +19,9 @@ const initialState = {
   tags: [],
   loading: true,
 
-  error: ""
+  error: "",
 };
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, data } = action;
   switch (type) {
     case CREATE_BLOG_SUCCESS:
@@ -30,7 +30,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         blog: data,
-        loading: false
+        loading: false,
       };
     case GET_POST_SUCCESS:
       return {
@@ -38,7 +38,7 @@ export default function(state = initialState, action) {
         blog: data.blog,
         loading: false,
         users: data.users,
-        groups: data.groups
+        groups: data.groups,
       };
     case CREATE_BLOG_ERROR:
     case GET_USERS_BLOGS_ERROR:
@@ -48,7 +48,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         error: data,
-        loading: false
+        loading: false,
       };
     case GET_USERS_BLOGS_SUCCESS:
       return {
@@ -56,12 +56,14 @@ export default function(state = initialState, action) {
         blogs: data.data,
         count: data.metadata[0].total,
         itemsPerPage: data.metadata[0].ITEMS_PER_PAGE,
-        loading: false
+        loading: false,
       };
     case CLEAR_CURRENT_BLOG:
       return {
         ...state,
-        loading: true
+        users: [],
+        groups: [],
+        loading: true,
       };
 
     default:

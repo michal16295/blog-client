@@ -1,0 +1,218 @@
+import React, { Fragment, useEffect, useState } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { getProfiles } from "../../action/users";
+import { sendMsg, getMsgs, recentConve } from "../../action/chat";
+import RecentItem from "./recentItem";
+import "./chat.scss";
+import SentMessage from "./sentMessage";
+import IncomingMessage from "./incomingMessage";
+
+const Chat = ({
+  recentConve,
+  getMsgs,
+  sendMsg,
+  getProfiles,
+  auth: { user },
+  profile: { profiles },
+  chat: { messages, recentConvo },
+}) => {
+  const [formData, setFormData] = useState({
+    currentPage: 1,
+    query: "",
+    message: "",
+    reciever: "",
+    loadMore: 1,
+  });
+  const { currentPage, query, reciever, message, loadMore } = formData;
+  useEffect(() => {
+    recentConve();
+  }, []);
+
+  const setChosenUser = (userName) => {
+    setFormData({
+      ...formData,
+      reciever: userName,
+      message: "",
+    });
+    getMsgs(userName, loadMore);
+  };
+  const onChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSend = (e) => {
+    e.preventDefault();
+    const data = {
+      reciever,
+      message,
+    };
+    sendMsg(data);
+    setFormData({
+      ...formData,
+      message: "",
+    });
+  };
+  const handleSearch = (e) => {
+    setFormData({
+      ...formData,
+      query: e.target.value,
+      currentPage: 1,
+    });
+    getProfiles(currentPage, e.target.value);
+  };
+  const newConversations = (
+    <Fragment>
+      {profiles &&
+        profiles.length > 0 &&
+        profiles.map((i) => (
+          <div
+            key={i._id}
+            onClick={() => setChosenUser(i.userName)}
+            style={{ cursor: "pointer" }}
+            className="chat_list"
+          >
+            <div className="chat_people">
+              <div className="chat_img">
+                {" "}
+                <img src={i.avatar} alt="sunil" />{" "}
+              </div>
+
+              <h5 style={{ fontWeight: "bold" }}>{i.userName}</h5>
+            </div>
+          </div>
+        ))}
+    </Fragment>
+  );
+  const recenteConversations = (
+    <Fragment>
+      {recentConvo &&
+        recentConvo.length > 0 &&
+        recentConvo.map((i) => (
+          <div key={i._id} className="chat_list">
+            <div className="chat_people">
+              <div className="chat_ib">
+                {user && i.user1 !== user.userName && (
+                  <RecentItem
+                    user={i.user1}
+                    date={i.date}
+                    setChosenUser={(userName) => setChosenUser(userName)}
+                  />
+                )}
+                {user && i.user1 === user.userName && (
+                  <RecentItem
+                    user={i.user2}
+                    date={i.date}
+                    setChosenUser={(userName) => setChosenUser(userName)}
+                  />
+                )}
+                <p>{i.message}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+    </Fragment>
+  );
+  return (
+    <div className="container">
+      <div className="messaging">
+        <div className="inbox_msg">
+          <div className="inbox_people">
+            <div className="headind_srch">
+              <div className="recent_heading">
+                <h4>Recent</h4>
+              </div>
+              <div className="srch_bar">
+                <div className="stylish-input-group">
+                  <input
+                    type="text"
+                    className="search-bar"
+                    placeholder="Search Users"
+                    value={query}
+                    name="query"
+                    onChange={(e) => handleSearch(e)}
+                  />
+                  <span className="input-group-addon">
+                    <button type="button">
+                      {" "}
+                      <i className="fa fa-search" aria-hidden="true"></i>{" "}
+                    </button>
+                  </span>{" "}
+                </div>
+              </div>
+            </div>
+            <div className="inbox_chat">
+              {query !== "" ? newConversations : recenteConversations}
+            </div>
+          </div>
+          <div className="mesgs">
+            <div className="msg_history">
+              {reciever === "" && <p>Choose A User</p>}
+              {reciever !== "" &&
+                messages &&
+                messages.length > 0 &&
+                messages.map((i) => (
+                  <Fragment key={i._id}>
+                    {i.from === user.userName ? (
+                      <SentMessage
+                        userName={i.from}
+                        date={i.date}
+                        message={i.message}
+                      />
+                    ) : (
+                      <IncomingMessage
+                        userName={i.from}
+                        date={i.date}
+                        message={i.message}
+                      />
+                    )}
+                  </Fragment>
+                ))}
+            </div>
+            <div className="type_msg">
+              <div className="input_msg_write">
+                <input
+                  type="text"
+                  className="write_msg"
+                  placeholder="Type a message"
+                  name="message"
+                  value={message}
+                  onChange={(e) => onChange(e)}
+                />
+                <button
+                  onClick={(e) => handleSend(e)}
+                  className="msg_send_btn"
+                  type="button"
+                >
+                  <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+Chat.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  getProfiles: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
+  sendMsg: PropTypes.func.isRequired,
+  getMsgs: PropTypes.func.isRequired,
+  chat: PropTypes.object.isRequired,
+  recentConve: PropTypes.func.isRequired,
+};
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  profile: state.profile,
+  chat: state.chat,
+});
+export default connect(mapStateToProps, {
+  getProfiles,
+  sendMsg,
+  getMsgs,
+  recentConve,
+})(Chat);

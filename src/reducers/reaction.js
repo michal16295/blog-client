@@ -7,17 +7,20 @@ import {
   DELETE_REACTION_ERROR,
   DELETE_REACTION_SUCCESS,
   GET_REACTIONS_ERROR,
-  GET_REACTIONS_SUCCESS
+  GET_REACTIONS_SUCCESS,
+  NUM_OF_REACTIONS_SUCCESS,
+  NUM_OF_REACTIONS_ERROR,
+  CLEAR_REACTIONS,
 } from "../action/constants";
 const initialState = {
   reaction: "",
   reactions: [],
   loading: true,
-  count: 0,
-  AllCount: 0
+  currentCount: 0,
+  AllCount: 0,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, data } = action;
 
   switch (type) {
@@ -26,13 +29,13 @@ export default function(state = initialState, action) {
         ...state,
         loading: false,
         reaction: data.type,
-        AllCount: data.count
+        AllCount: data.count,
       };
     case GET_CURRENT_USER_REACTION_SUCCESS:
       return {
         ...state,
         loading: false,
-        reaction: data
+        reaction: data,
       };
 
     case SET_REACTION_ERROR:
@@ -43,29 +46,43 @@ export default function(state = initialState, action) {
         ...state,
         reactions: [],
         count: "",
-        loading: false
+        loading: false,
       };
     case CLEAR_CURRENT_REACTION:
       return {
         ...state,
         reaction: "",
-        loading: true
+        loading: true,
       };
     case GET_REACTIONS_SUCCESS:
+      console.log(data.data[0].data.length);
       return {
         ...state,
-        reactions: data.data[0].data,
+        reactions: state.reactions.concat(data.data[0].data),
         AllCount: data.allCount,
-        count: data.data[0].metadata[0].total,
+        currentCount: data.data[0].data.length,
         itemsPerPage: data.data[0].metadata[0].ITEMS_PER_PAGE,
-        loading: false
+        loading: false,
       };
     case DELETE_REACTION_SUCCESS:
       return {
         ...state,
         loading: false,
         reaction: "",
-        AllCount: data.count
+        AllCount: data.count,
+      };
+    case NUM_OF_REACTIONS_SUCCESS:
+      return {
+        ...state,
+        AllCount: data.count,
+        itemsPerPage: data.ITEMS_PER_PAGE,
+      };
+    case CLEAR_REACTIONS:
+      return {
+        ...state,
+        reactions: [],
+        currentCount: "",
+        loading: true,
       };
     default:
       return state;

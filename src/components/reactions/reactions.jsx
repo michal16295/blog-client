@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {
   setReaction,
   getCurrentUserReaction,
-  deleteReaction
+  deleteReaction,
 } from "../../action/reactions";
 import "./reactions.scss";
 import { Button, Icon, Label, Image } from "semantic-ui-react";
@@ -16,39 +16,39 @@ const Reactions = ({
   deleteReaction,
   auth: { user },
   blog: { blog, loading },
-  reaction: { reaction, count, AllCount }
+  reaction: { reaction, count, AllCount },
 }) => {
   const [formData, setFormData] = useState({
     name: "",
     type: "",
     page: 1,
-    showModal: false
+    showModal: false,
   });
   const { name, type, page, showModal } = formData;
   useEffect(() => {
     getCurrentUserReaction(blog._id);
     setFormData({
       ...formData,
-      name: reaction
+      name: reaction,
     });
   }, []);
 
-  const handleReaction = name => {
+  const handleReaction = (name) => {
     setFormData({
       ...formData,
-      name
+      name,
     });
     const data = {
       blogId: blog._id,
       name,
-      userName: user.userName
+      userName: user.userName,
     };
     setReaction(data);
   };
   const handleUnlike = () => {
     setFormData({
       ...formData,
-      name: ""
+      name: "",
     });
     deleteReaction(blog._id, user.userName);
   };
@@ -142,15 +142,15 @@ Reactions.propTypes = {
   blog: PropTypes.object.isRequired,
   setReaction: PropTypes.func,
   getCurrentUserReaction: PropTypes.func,
-  deleteReaction: PropTypes.func
+  deleteReaction: PropTypes.func,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   reaction: state.reaction,
   auth: state.auth,
-  blog: state.blog
+  blog: state.blog,
 });
 export default connect(mapStateToProps, {
   setReaction,
   getCurrentUserReaction,
-  deleteReaction
+  deleteReaction,
 })(Reactions);

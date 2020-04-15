@@ -5,10 +5,11 @@ import { Feed, Icon, Comment, Form, Header } from "semantic-ui-react";
 import { getNotifications } from "../../action/notifications";
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
+import NotificationItem from "./notificationItem";
 
 const Notifications = ({
   getNotifications,
-  notification: { notifications, AllCount }
+  notification: { notifications, AllCount },
 }) => {
   useEffect(() => {
     getNotifications();
@@ -22,27 +23,7 @@ const Notifications = ({
       <Feed>
         {notifications &&
           notifications.length > 0 &&
-          notifications.map(i => (
-            <Feed.Event>
-              <Feed.Label>
-                <img src={i.senderAvatar} />
-              </Feed.Label>
-              <Feed.Content>
-                <Link to={`/${i.type}/${i.link}`}>
-                  <Feed.Summary>
-                    <Link style={{ color: "blue" }} to={`/profile/${i.from}`}>
-                      {i.from}
-                    </Link>{" "}
-                    {i.content + " - " + i.title}
-                    <Feed.Date>
-                      <Moment fromNow>{i.date}</Moment>
-                    </Feed.Date>
-                  </Feed.Summary>
-                  <Feed.Meta></Feed.Meta>
-                </Link>
-              </Feed.Content>
-            </Feed.Event>
-          ))}
+          notifications.map((i) => <NotificationItem data={i} />)}
       </Feed>
     </Comment.Group>
   );
@@ -50,12 +31,12 @@ const Notifications = ({
 Notifications.propTypes = {
   auth: PropTypes.object.isRequired,
   getNotifications: PropTypes.func.isRequired,
-  notification: PropTypes.object
+  notification: PropTypes.object,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  notification: state.notification
+  notification: state.notification,
 });
 export default connect(mapStateToProps, {
-  getNotifications
+  getNotifications,
 })(Notifications);

@@ -7,7 +7,10 @@ import {
   DELETE_REACTION_ERROR,
   DELETE_REACTION_SUCCESS,
   GET_REACTIONS_ERROR,
-  GET_REACTIONS_SUCCESS
+  GET_REACTIONS_SUCCESS,
+  NUM_OF_REACTIONS_SUCCESS,
+  NUM_OF_REACTIONS_ERROR,
+  CLEAR_REACTIONS,
 } from "./constants";
 import http from "../services/httpService";
 import { setAlert } from "./alert";
@@ -15,63 +18,84 @@ import { setAlert } from "./alert";
 const apiUrl = "http://localhost:5000";
 const apiEndpoint = apiUrl + "/reactions";
 
-export const setReaction = data => async dispatch => {
+export const setReaction = (data) => async (dispatch) => {
   try {
     const res = await http.post(apiEndpoint + "/setReaction", data);
     dispatch({
       type: SET_REACTION_SUCCESS,
-      data: res.data
+      data: res.data,
     });
   } catch (err) {
     dispatch({
-      type: SET_REACTION_ERROR
+      type: SET_REACTION_ERROR,
     });
   }
 };
-export const getCurrentUserReaction = blogId => async dispatch => {
+export const getCurrentUserReaction = (blogId) => async (dispatch) => {
   dispatch({
-    type: CLEAR_CURRENT_REACTION
+    type: CLEAR_CURRENT_REACTION,
   });
   try {
     const res = await http.get(apiEndpoint + "/currentUserReaction/" + blogId);
     dispatch({
       type: GET_CURRENT_USER_REACTION_SUCCESS,
-      data: res.data
+      data: res.data,
     });
   } catch (err) {
     dispatch({
-      type: GET_CURRENT_USER_REACTION_ERROR
+      type: GET_CURRENT_USER_REACTION_ERROR,
     });
   }
 };
-export const deleteReaction = (blogId, userName) => async dispatch => {
+export const deleteReaction = (blogId, userName) => async (dispatch) => {
   try {
     const res = await http.delete(
       apiEndpoint + "/remove/" + blogId + "/" + userName
     );
     dispatch({
       type: DELETE_REACTION_SUCCESS,
-      data: res.data
+      data: res.data,
     });
   } catch (err) {
     dispatch({
-      type: DELETE_REACTION_ERROR
+      type: DELETE_REACTION_ERROR,
     });
   }
 };
 
-export const getReactions = (blogId, type, page) => async dispatch => {
+export const getReactions = (blogId, type, page, prevType) => async (
+  dispatch
+) => {
+  if (prevType) page = 1;
+  if (type !== "" || prevType)
+    dispatch({
+      type: CLEAR_REACTIONS,
+    });
   try {
     const res = await http.get(
       apiEndpoint + "/getAll/" + page + "/" + blogId + "?type=" + type
     );
     dispatch({
       type: GET_REACTIONS_SUCCESS,
-      data: res.data
+      data: res.data,
     });
   } catch (err) {
     dispatch({
-      type: GET_REACTIONS_ERROR
+      type: GET_REACTIONS_ERROR,
+    });
+  }
+};
+export const numOfReactions = (blogId) => async (dispatch) => {
+  try {
+    const res = await http.get(apiEndpoint + "/numOfReactions/" + blogId);
+
+    dispatch({
+      type: NUM_OF_REACTIONS_SUCCESS,
+      data: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: NUM_OF_REACTIONS_ERROR,
     });
   }
 };

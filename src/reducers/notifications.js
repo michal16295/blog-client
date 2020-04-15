@@ -1,7 +1,7 @@
 import {
   GET_NOTIFY_SUCCESS,
   GET_NOTIFY_ERROR,
-  SET_VIEWED_TRUE
+  SET_VIEWED_TRUE,
 } from "../action/constants";
 const initialState = {
   notification: {},
@@ -9,10 +9,10 @@ const initialState = {
   loading: true,
   notViewed: 0,
   AllCount: 0,
-  itemsPerPage: 0
+  itemsPerPage: 0,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, data } = action;
 
   switch (type) {
@@ -20,7 +20,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         error: data,
-        loading: false
+        loading: false,
       };
     case GET_NOTIFY_SUCCESS:
       return {
@@ -28,13 +28,13 @@ export default function(state = initialState, action) {
         notViewed: data.notViewed,
         notifications: data.data[0].data,
         AllCount: data.data[0].metadata[0].total,
-        loading: false
+        loading: false,
       };
     case SET_VIEWED_TRUE:
       return {
         ...state,
-        notViewed: "",
-        loading: false
+        notViewed: data.notViewed,
+        loading: false,
       };
 
     default:

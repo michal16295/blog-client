@@ -24,6 +24,7 @@ import UserBlogs from "./components/blogs/usersBlogs";
 import BlogProfile from "./components/blogs/blogProfile";
 import NotFound from "./common/notFonud/notFound";
 import Notifications from "./components/notifications/notifications";
+import Chat from "./components/chat/chat";
 import "./App.css";
 
 if (localStorage.token) {
@@ -74,6 +75,7 @@ const App = () => {
                 path="/notifications"
                 component={Notifications}
               ></Route>
+              <Route exact path="/chat" component={Chat}></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </section>

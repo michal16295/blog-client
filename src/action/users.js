@@ -7,19 +7,20 @@ import {
   EDIT_SUCCESS,
   CLEAR_CURRENT_USER,
   DELETE_ACCOUNT_ERROR,
-  DELETE_ACCOUNT_SUCCESS
+  DELETE_ACCOUNT_SUCCESS,
+  GET_AVATAR_ERROR,
+  GET_AVATAR_SUCCESS,
 } from "./constants";
 import http from "../services/httpService";
 import { setAlert } from "./alert";
-
 const apiUrl = "http://localhost:5000";
 const apiEndpoint = apiUrl + "/users";
 const tokenKey = "token";
 
 //GET ALL USERS
-export const getProfiles = (page, search) => async dispatch => {
+export const getProfiles = (page, search) => async (dispatch) => {
   dispatch({
-    type: CLEAR_CURRENT_USER
+    type: CLEAR_CURRENT_USER,
   });
   try {
     let res = await http.get(
@@ -27,39 +28,39 @@ export const getProfiles = (page, search) => async dispatch => {
     );
     dispatch({
       type: ALL_USERS_SUCCESS,
-      data: res.data[0]
+      data: res.data[0],
     });
   } catch (err) {
     dispatch({
-      type: ALL_USERS_ERROR
+      type: ALL_USERS_ERROR,
     });
   }
 };
 //GET USER
-export const getProfile = userName => async dispatch => {
+export const getProfile = (userName) => async (dispatch) => {
   dispatch({
-    type: CLEAR_CURRENT_USER
+    type: CLEAR_CURRENT_USER,
   });
   try {
     let res = await http.get(apiEndpoint + "/" + userName);
     dispatch({
       type: GET_USER,
-      data: res.data
+      data: res.data,
     });
   } catch (err) {
     dispatch({
-      type: GET_USER_ERROR
+      type: GET_USER_ERROR,
     });
     if (err.response.status === 404) window.location = "/notFound";
   }
 };
 //UPDATE USER
-export const editUser = (id, data) => async dispatch => {
+export const editUser = (id, data) => async (dispatch) => {
   try {
     let res = await http.put(apiEndpoint + "/edit/" + id, data);
     dispatch({
       type: EDIT_SUCCESS,
-      data: res.data
+      data: res.data,
     });
     setTimeout(() => {
       window.location = "/currentUser";
@@ -67,28 +68,47 @@ export const editUser = (id, data) => async dispatch => {
   } catch (err) {
     dispatch({
       type: EDIT_ERROR,
-      data: err.response.data
+      data: err.response.data,
+    });
+    dispatch(setAlert(err.response.data, "danger"));
+  }
+};
+export const getUserAvatar = (userName) => async (dispatch) => {
+  try {
+    let res = await http.get(apiEndpoint + "/getAvatar/" + userName);
+    res = {
+      userName,
+      avatar: res.data.avatar,
+    };
+    dispatch({
+      type: GET_AVATAR_SUCCESS,
+      data: res,
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_AVATAR_ERROR,
+      data: err.response.data,
     });
     dispatch(setAlert(err.response.data, "danger"));
   }
 };
 //DELETE ACCOUNT
-export const deleteAccount = () => async dispatch => {
+export const deleteAccount = () => async (dispatch) => {
   try {
     const res = await http.delete(apiEndpoint + "/deleteAccount");
     dispatch({
       type: DELETE_ACCOUNT_SUCCESS,
-      data: res.data
+      data: res.data,
     });
   } catch (err) {
     dispatch({
       type: DELETE_ACCOUNT_ERROR,
-      error: err.response
+      error: err.response,
     });
   }
 };
 //RANDOM AVATAR
-export const getRandomAvatar = () => async dispatch => {
+export const getRandomAvatar = () => async (dispatch) => {
   try {
     const res = await http.get(apiEndpoint + "/avatar/random");
     return res.data;

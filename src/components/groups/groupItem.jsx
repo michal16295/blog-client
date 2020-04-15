@@ -1,56 +1,69 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import { groupDelete, editGroup } from "../../action/groups";
+import { getUserAvatar } from "../../action/users";
 
-const GroupItem = ({ group, auth, groupDelete, buttonActions, editGroup }) => {
-  const deleteItem = e => {
+const GroupItem = ({
+  group,
+  auth,
+  groupDelete,
+  buttonActions,
+  editGroup,
+  getUserAvatar,
+  profile: { loading, avatars },
+}) => {
+  useEffect(() => {
+    getUserAvatar(group.owner);
+  }, []);
+
+  const deleteItem = (e) => {
     groupDelete(e);
   };
   const [formData, setFormData] = useState({
     title: group.title,
     description: group.description,
-    edit: false
+    edit: false,
   });
   const { title, description, edit } = formData;
   const editAction = () => {
     setFormData({
       ...formData,
-      edit: true
+      edit: true,
     });
   };
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     const newGroup = {
       groupId: group._id,
       title,
-      description
+      description,
     };
     editGroup(newGroup);
   };
   const onCancle = () => {
     setFormData({
       ...formData,
-      edit: false
+      edit: false,
     });
   };
   const editForm = (
-    <form className="form" onSubmit={e => onSubmit(e)}>
+    <form className="form" onSubmit={(e) => onSubmit(e)}>
       <div className="form-group">
         <input
           placeholder="Title"
           type="text"
           value={title}
           name="title"
-          onChange={e => onChange(e)}
+          onChange={(e) => onChange(e)}
         />
       </div>
       <div className="form-group">
@@ -58,7 +71,7 @@ const GroupItem = ({ group, auth, groupDelete, buttonActions, editGroup }) => {
           placeholder="Description"
           type="text"
           value={description}
-          onChange={e => onChange(e)}
+          onChange={(e) => onChange(e)}
           name="description"
         />
       </div>
@@ -66,9 +79,9 @@ const GroupItem = ({ group, auth, groupDelete, buttonActions, editGroup }) => {
         type="submit"
         className="btn btn-success"
         value="Submit"
-        onChange={e => onChange(e)}
+        onChange={(e) => onChange(e)}
       />
-      <button onClick={e => onCancle()} className="btn btn-danger">
+      <button onClick={(e) => onCancle()} className="btn btn-danger">
         Cancle
       </button>
     </form>
@@ -76,7 +89,9 @@ const GroupItem = ({ group, auth, groupDelete, buttonActions, editGroup }) => {
   return (
     <div className="post bg-white p-1 m-1">
       <div>
-        <img src={group.ownerAvatar} alt="avatar" className="round-img" />
+        {!loading && (
+          <img src={avatars[group.owner]} alt="avatar" className="round-img" />
+        )}
         <p></p>
         <span>{group.owner}</span>
         <p>
@@ -113,7 +128,7 @@ const GroupItem = ({ group, auth, groupDelete, buttonActions, editGroup }) => {
             !edit && (
               <Fragment>
                 <button
-                  onClick={e => {
+                  onClick={(e) => {
                     if (
                       window.confirm(
                         "Are you sure you wish to delete this item?"
@@ -125,7 +140,10 @@ const GroupItem = ({ group, auth, groupDelete, buttonActions, editGroup }) => {
                 >
                   <i className="fas fa-times" />
                 </button>
-                <button onClick={e => editAction()} className="btn btn-primary">
+                <button
+                  onClick={(e) => editAction()}
+                  className="btn btn-primary"
+                >
                   Edit
                 </button>
               </Fragment>
@@ -140,9 +158,16 @@ GroupItem.propTypes = {
   group: PropTypes.object.isRequired,
   groupDelete: PropTypes.func.isRequired,
   buttonActions: PropTypes.bool,
-  editGroup: PropTypes.func
+  editGroup: PropTypes.func,
+  getUserAvatar: PropTypes.func,
+  profile: PropTypes.object,
 };
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  profile: state.profile,
 });
-export default connect(mapStateToProps, { groupDelete, editGroup })(GroupItem);
+export default connect(mapStateToProps, {
+  groupDelete,
+  editGroup,
+  getUserAvatar,
+})(GroupItem);

@@ -1,19 +1,26 @@
-import React from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import { groupDelete, removeMember } from "../../action/groups";
+import { getUserAvatar } from "../../action/users";
 
 const GroupItem = ({
+  profile: { loading, avatars },
+  getUserAvatar,
   group,
   auth,
   groupDelete,
   userName,
   removeMember,
-  currentUser
+  currentUser,
 }) => {
-  const deleteItem = e => {
+  useEffect(() => {
+    getUserAvatar(group.owner);
+  }, []);
+
+  const deleteItem = (e) => {
     groupDelete(e);
   };
   const handleExit = () => {
@@ -22,7 +29,7 @@ const GroupItem = ({
   return (
     <div className="post bg-white p-1 m-1">
       <div>
-        <img src={group.ownerAvatar} alt="avatar" />
+        {!loading && <img src={avatars[group.owner]} alt="avatar" />}
         <p></p>
         <span>{group.owner}</span>
       </div>
@@ -37,7 +44,7 @@ const GroupItem = ({
           </Link>
           {!auth.loading && group.owner === auth.user.userName && (
             <button
-              onClick={e => {
+              onClick={(e) => {
                 if (
                   window.confirm("Are you sure you wish to delete this item?")
                 )
@@ -49,7 +56,7 @@ const GroupItem = ({
             </button>
           )}
           {!auth.loading && group.owner !== auth.user.userName && currentUser && (
-            <button onClick={e => handleExit()} className="btn btn-danger">
+            <button onClick={(e) => handleExit()} className="btn btn-danger">
               Exit
             </button>
           )}
@@ -69,11 +76,16 @@ GroupItem.propTypes = {
   groupDelete: PropTypes.func.isRequired,
   userName: PropTypes.string,
   removeMember: PropTypes.func.isRequired,
-  currentUser: PropTypes.bool
+  currentUser: PropTypes.bool,
+  getUserAvatar: PropTypes.func,
+  profile: PropTypes.object,
 };
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  profile: state.profile,
 });
-export default connect(mapStateToProps, { groupDelete, removeMember })(
-  GroupItem
-);
+export default connect(mapStateToProps, {
+  groupDelete,
+  removeMember,
+  getUserAvatar,
+})(GroupItem);
