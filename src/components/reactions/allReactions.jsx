@@ -5,6 +5,7 @@ import { getReactions } from "../../action/reactions";
 import Modal from "react-bootstrap/Modal";
 import { Comment } from "semantic-ui-react";
 import ReactionItem from "./reactionItem";
+import InfiniteScroll from 'react-infinite-scroller';
 import "./reactions.scss";
 
 const AllReactions = ({
@@ -86,13 +87,22 @@ const AllReactions = ({
         </Modal.Header>
         <Modal.Body style={{ maxHeight: "400px" }}>
           {type === "" ? <h3>{AllCount}</h3> : <h3>{currentCount}</h3>}
-          <Comment.Group>
+          {/* <Comment.Group> */}
+          <InfiniteScroll
+            pageStart={0}
+            initialLoad={false}
+            loadMore={() => getMore()}
+            hasMore={currentCount >= itemsPerPage}
+            loader={null}
+            useWindow={false}
+          >
             {reactions && reactions.length > 0 ? (
               reactions.map((i) => <ReactionItem data={i} />)
             ) : (
-              <div>No Reactions</div>
-            )}
-          </Comment.Group>
+                <div>No Reactions</div>
+              )}
+          </InfiniteScroll>
+          {/* </Comment.Group> */}
         </Modal.Body>
         <Modal.Footer>
           {currentCount >= itemsPerPage && (
