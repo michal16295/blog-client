@@ -55,7 +55,6 @@ export default function (state = initialState, action) {
         loading: true,
       };
     case GET_REACTIONS_SUCCESS:
-      console.log(data.data[0].data.length);
       return {
         ...state,
         reactions: state.reactions.concat(data.data[0].data),
@@ -76,6 +75,7 @@ export default function (state = initialState, action) {
         ...state,
         AllCount: data.count,
         itemsPerPage: data.ITEMS_PER_PAGE,
+        loading: false,
       };
     case CLEAR_REACTIONS:
       return {

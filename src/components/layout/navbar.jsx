@@ -5,6 +5,9 @@ import PropTypes from "prop-types";
 import { logout } from "../../action/auth";
 import { getNotifications, updateViewed } from "../../action/notifications";
 import { unreadMsg } from "../../action/chat";
+import { Feed, Icon, Comment, Form, Header } from "semantic-ui-react";
+import Moment from "react-moment";
+import "./navbar.css";
 
 const NavBar = ({
   chat,
@@ -21,14 +24,14 @@ const NavBar = ({
   }, []);
 
   const guestLinks = (
-    <ul className="navbar-nav mr-auto">
-      <li className="nav-item active">
+    <ul>
+      <li>
         <Link to="/blogs">Blogs</Link>
       </li>
-      <li className="nav-item active">
+      <li>
         <Link to="/register">Register</Link>
       </li>
-      <li className="nav-item active">
+      <li>
         <Link to="/login">
           <i className="fas fa-sign-in-alt"> </i> Login
         </Link>
@@ -36,55 +39,54 @@ const NavBar = ({
     </ul>
   );
   const dropdown = (
-    <li className="nav-item active dropdown">
-      <a
-        className="nav-link "
-        href="#"
-        id="navbarDropdown"
-        role="button"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
+    <li className="dropdown">
+      <a className="dropbtn">
         {!notViewed ||
           (notViewed !== 0 && (
             <span class="badge badge-danger ml-2">{notViewed}</span>
           ))}
         <i class="fas fa-bell"></i>
+        <div className="dropdown-content">
+          <Fragment>
+            <p>
+              <h6 className="header">
+                Noifications <i class="fas fa-cog settings"></i>
+              </h6>
+            </p>
+
+            <div class="dropdown-divider"></div>
+            {notifications &&
+              !loading &&
+              notifications.length > 0 &&
+              notifications.map((i) => (
+                <Fragment>
+                  <Link
+                    onClick={() => updateViewed(i._id)}
+                    to={`/${i.type}/${i.link}`}
+                    className={`${i.isViewed}`}
+                  >
+                    {i.from + " " + i.content}
+
+                    <Feed.Date>
+                      <Moment fromNow>{i.date}</Moment>
+                    </Feed.Date>
+                  </Link>
+
+                  <div class="dropdown-divider"></div>
+                </Fragment>
+              ))}
+            <Link className="footer" to="/notifications">
+              View All
+            </Link>
+          </Fragment>
+        </div>
       </a>
-      <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-        <h6 class="dropdown-header">Notifications</h6>
-        {notifications &&
-          !loading &&
-          notifications.length > 0 &&
-          notifications.map((i) => (
-            <Fragment>
-              <div class="dropdown-divider"></div>
-              <Link
-                onClick={() => updateViewed(i._id)}
-                style={{ backgroundColor: i.isViewed ? "#C0C0C0" : "gray" }}
-                to={`/${i.type}/${i.link}`}
-                className="dropdown-item"
-              >
-                {i.from + " " + i.content}
-              </Link>
-            </Fragment>
-          ))}
-        <div class="dropdown-divider"></div>
-        <Link
-          to="/notifications"
-          class="dropdown-header"
-          style={{ color: "black" }}
-        >
-          View All
-        </Link>
-      </div>
     </li>
   );
   const authLink = (
-    <ul className="navbar-nav ml-auto dropleft">
+    <ul>
       {dropdown}
-      <li className="nav-item active">
+      <li>
         <Link to="/chat">
           {!chat.notViewed ||
             (chat.notViewed !== 0 && (
@@ -93,19 +95,19 @@ const NavBar = ({
           <i class="fab fa-facebook-messenger"></i>
         </Link>
       </li>
-      <li className="nav-item active">
+      <li>
         <Link to="/currentUser">My Profile</Link>
       </li>
-      <li className="nav-item active">
+      <li>
         <Link to="/profiles">Users</Link>
       </li>
-      <li className="nav-item active">
+      <li>
         <Link to="/groups">Groups</Link>
       </li>
-      <li className="nav-item active">
+      <li>
         <Link to="/blogs">Blogs</Link>
       </li>
-      <li className="nav-item active">
+      <li>
         <a onClick={logout} href="#!">
           <i className="fas fa-sign-out-alt"></i>
           Logout
@@ -114,30 +116,18 @@ const NavBar = ({
     </ul>
   );
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <Link className="navbar-brand" to="/">
+    <nav className="navbar">
+      <Link className="welcome" to="/">
         <i className="fas fa-code"></i> DevConnector{" "}
       </Link>
       {user && (
-        <span>
+        <span className="user">
           <i className="fas fa-user"></i>
           {user.userName}{" "}
         </span>
       )}
 
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+      <div>
         <Fragment>{isAuthenticated ? authLink : guestLinks}</Fragment>
       </div>
     </nav>
