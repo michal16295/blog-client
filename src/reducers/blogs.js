@@ -63,6 +63,7 @@ export default function (state = initialState, action) {
         ...state,
         users: [],
         groups: [],
+        blog: {},
         loading: true,
       };
 

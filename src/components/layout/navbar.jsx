@@ -40,26 +40,26 @@ const NavBar = ({
   );
   const dropdown = (
     <li className="dropdown">
-      <a className="dropbtn">
+      <i className="bell">
         {!notViewed ||
           (notViewed !== 0 && (
-            <span class="badge badge-danger ml-2">{notViewed}</span>
+            <span className="badge badge-danger ml-2">{notViewed}</span>
           ))}
-        <i class="fas fa-bell"></i>
+        <i className="fas fa-bell"></i>
         <div className="dropdown-content">
           <Fragment>
-            <p>
+            <Fragment>
               <h6 className="header">
                 Noifications <i class="fas fa-cog settings"></i>
               </h6>
-            </p>
+            </Fragment>
 
             <div class="dropdown-divider"></div>
             {notifications &&
               !loading &&
               notifications.length > 0 &&
               notifications.map((i) => (
-                <Fragment>
+                <Fragment key={i._id}>
                   <Link
                     onClick={() => updateViewed(i._id)}
                     to={`/${i.type}/${i.link}`}
@@ -80,7 +80,7 @@ const NavBar = ({
             </Link>
           </Fragment>
         </div>
-      </a>
+      </i>
     </li>
   );
   const authLink = (

@@ -160,8 +160,8 @@ img {
   width: 46%;
 }
 .outgoing_msg_img {
-  width: 6%;
   float: right;
+  width: 6%;
 }
 .input_msg_write input {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
@@ -196,4 +196,47 @@ img {
 .msg_history {
   height: 800px;
   overflow-y: auto;
+}
+.settings {
+  float: right;
+}
+.drop {
+  position: relative;
+  border-radius: 50px;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.drop-content {
+  display: none;
+  position: absolute;
+  background-color: white !important;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  top: -10px;
+  left: -200px;
+  overflow: auto;
+  max-height: 200px;
+}
+
+/* Links inside the dropdown */
+.drop-content a {
+  color: red !important;
+  padding: 12px 16px;
+  display: block;
+  max-height: 50px;
+}
+
+/* Change color of dropdown links on hover */
+.drop-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.drop:hover .drop-content {
+  display: block;
+  background-color: gray;
+}
+li {
+  list-style-type: none;
 }

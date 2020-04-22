@@ -41,7 +41,7 @@ const BlogProfile = ({
   useEffect(() => {
     getPost(match.params.id);
     numOfReactions(match.params.id);
-  }, []);
+  }, [match.params.id]);
 
   const authButtons = (
     <Fragment>

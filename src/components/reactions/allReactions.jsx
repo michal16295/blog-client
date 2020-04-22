@@ -22,7 +22,7 @@ const AllReactions = ({
   });
   const { page, type, show } = formData;
   useEffect(() => {
-    getReactions(blogId, type, page);
+    getReactions(blogId, type, page, true);
   }, []);
 
   const handleType = (newType) => {

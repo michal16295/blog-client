@@ -10,6 +10,10 @@ import {
   GET_UNREAD_MSG_SUCCESS,
   GET_UNREAD_MSG_PER_PERSON_ERROR,
   GET_UNREAD_MSG_PER_PERSON_SUCCESS,
+  BLOCK_USER_SUCCESS,
+  BLOCK_USER_ERROR,
+  UNBLOCK_USER_ERROR,
+  UNBLOCK_USER_SUCCESS,
 } from "../action/constants";
 const initialState = {
   message: {},
@@ -31,6 +35,8 @@ export default function (state = initialState, action) {
     case RECENT_CONVERSATION_ERROR:
     case GET_UNREAD_MSG_ERROR:
     case GET_UNREAD_MSG_PER_PERSON_ERROR:
+    case BLOCK_USER_ERROR:
+    case UNBLOCK_USER_ERROR:
       return {
         ...state,
         error: data,
@@ -76,6 +82,13 @@ export default function (state = initialState, action) {
           ...state.notViewedPerUser,
           [data.reciever]: data.notViewed,
         },
+      };
+    case BLOCK_USER_SUCCESS:
+    case UNBLOCK_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        res: data,
       };
     case CLEAR_MESSAGES:
       return {

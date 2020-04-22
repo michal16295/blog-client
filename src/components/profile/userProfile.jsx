@@ -45,7 +45,7 @@ const UserProfile = ({
                 <Link to="/profiles" className="btn btn-dark">
                   Back To Profiles
                 </Link>
-                <button className="btn btn-danger">Block</button>
+
                 {auth.user !== null &&
                   auth.loading === false &&
                   auth.user._id === profile._id && (

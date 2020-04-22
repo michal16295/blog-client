@@ -10,6 +10,10 @@ import {
   GET_UNREAD_MSG_SUCCESS,
   GET_UNREAD_MSG_PER_PERSON_SUCCESS,
   GET_UNREAD_MSG_PER_PERSON_ERROR,
+  BLOCK_USER_ERROR,
+  BLOCK_USER_SUCCESS,
+  UNBLOCK_USER_ERROR,
+  UNBLOCK_USER_SUCCESS,
   CLEAR_UNREAD,
 } from "./constants";
 import http from "../services/httpService";
@@ -95,6 +99,34 @@ export const unreadMsg = () => async (dispatch) => {
     dispatch({
       type: GET_UNREAD_MSG_ERROR,
       error: err.response,
+    });
+  }
+};
+export const blockUser = (userName) => async (dispatch) => {
+  try {
+    const res = await http.put(apiEndpoint + "/block/" + userName);
+    dispatch({
+      type: BLOCK_USER_SUCCESS,
+      data: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: BLOCK_USER_ERROR,
+    });
+  }
+};
+export const unblockUser = (userName) => async (dispatch) => {
+  try {
+    const res = await http.put(apiEndpoint + "/unblock/" + userName);
+    console.log(res);
+    dispatch({
+      type: UNBLOCK_USER_SUCCESS,
+      data: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+    dispatch({
+      type: UNBLOCK_USER_ERROR,
     });
   }
 };

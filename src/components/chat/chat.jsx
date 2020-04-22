@@ -23,17 +23,29 @@ const Chat = ({
     message: "",
     reciever: "",
     loadMore: 1,
+    isBlocked: false,
   });
-  const { currentPage, query, reciever, message, loadMore } = formData;
+  const {
+    currentPage,
+    query,
+    reciever,
+    message,
+    loadMore,
+    isBlocked,
+  } = formData;
   useEffect(() => {
     recentConve();
   }, []);
 
   const setChosenUser = (userName) => {
+    const index = recentConvo.findIndex(
+      (obj) => obj.user1 === userName || obj.user2 === userName
+    );
     setFormData({
       ...formData,
       reciever: userName,
       message: "",
+      isBlocked: recentConvo[index].isBlocked,
     });
     getMsgs(userName, loadMore);
   };
@@ -96,19 +108,18 @@ const Chat = ({
               <div className="chat_ib">
                 {user && i.user1 !== user.userName && (
                   <RecentItem
+                    data={i}
                     user={i.user1}
-                    date={i.date}
                     setChosenUser={(userName) => setChosenUser(userName)}
                   />
                 )}
                 {user && i.user1 === user.userName && (
                   <RecentItem
                     user={i.user2}
-                    date={i.date}
+                    data={i}
                     setChosenUser={(userName) => setChosenUser(userName)}
                   />
                 )}
-                <p>{i.message}</p>
               </div>
             </div>
           </div>
@@ -176,10 +187,13 @@ const Chat = ({
                 <input
                   type="text"
                   className="write_msg"
-                  placeholder="Type a message"
+                  placeholder={
+                    isBlocked ? "THE USER IS BLOCKED" : "Type a message"
+                  }
                   name="message"
                   value={message}
                   onChange={(e) => onChange(e)}
+                  disabled={isBlocked}
                 />
                 <button
                   onClick={(e) => handleSend(e)}
