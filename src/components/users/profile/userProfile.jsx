@@ -2,8 +2,8 @@ import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getProfile } from "../../action/users";
-import Spinner from "../../common/Spinner";
+import { getProfile } from "../../../action/users";
+import Spinner from "../../../common/Spinner";
 import UserGroups from "./userGroups";
 const UserProfile = ({
   getProfile,
@@ -21,7 +21,7 @@ const UserProfile = ({
       {auth.user === null || profile === null || loading ? (
         <Spinner />
       ) : (
-        <Fragment>
+        <section className="container">
           <div className="profile-grid my-1">
             <div className="profile-top bg-primary p-2">
               <img
@@ -57,7 +57,7 @@ const UserProfile = ({
             </div>
           </div>
           <UserGroups userName={match.params.userName} />
-        </Fragment>
+        </section>
       )}
     </Fragment>
   );

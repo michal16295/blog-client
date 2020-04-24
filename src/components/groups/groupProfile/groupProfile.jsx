@@ -2,12 +2,12 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Spinner from "../../common/Spinner";
-import { getGroup, addMember } from "../../action/groups";
-import GroupItem from "../groups/groupItem";
+import Spinner from "../../../common/Spinner";
+import { getGroup, addMember } from "../../../action/groups";
+import GroupItem from "../groupItem";
 import GroupMembers from "./groupsMembers";
 import AsyncSelect from "react-select/async";
-import { getProfiles } from "../../action/users";
+import { getProfiles } from "../../../action/users";
 
 const GroupProfile = ({
   getProfiles,
@@ -16,12 +16,12 @@ const GroupProfile = ({
   group: { group, loading },
   auth,
   match,
-  profile: { profiles }
+  profile: { profiles },
 }) => {
   const [formData, setFormData] = useState({
     query: "",
     member: "",
-    scroll: 1
+    scroll: 1,
   });
   const { query, member, scroll } = formData;
   useEffect(() => {
@@ -29,12 +29,12 @@ const GroupProfile = ({
     getProfiles(scroll, query);
   }, []);
 
-  const getUsers = query => {
+  const getUsers = (query) => {
     getProfiles(scroll, query);
-    const userNames = profiles.map(u => u.userName);
-    const res = userNames.map(p => ({
+    const userNames = profiles.map((u) => u.userName);
+    const res = userNames.map((p) => ({
       value: p,
-      label: p
+      label: p,
     }));
     return res;
   };
@@ -43,12 +43,12 @@ const GroupProfile = ({
       callback(getUsers(inputValue));
     }, 0);
   };
-  const handleInputChange = e => {
+  const handleInputChange = (e) => {
     setFormData({
-      member: e.value
+      member: e.value,
     });
   };
-  const submitMember = e => {
+  const submitMember = (e) => {
     e.preventDefault();
     addMember(member, group._id);
   };
@@ -58,7 +58,7 @@ const GroupProfile = ({
       {auth.user === null || group === null || loading ? (
         <Spinner />
       ) : (
-        <Fragment>
+        <section className="container">
           <Link to="/groups" className="btn">
             Back To Groups
           </Link>
@@ -70,10 +70,10 @@ const GroupProfile = ({
                 cacheOptions
                 defaultOptions
                 loadOptions={loadOptions}
-                onChange={e => handleInputChange(e)}
+                onChange={(e) => handleInputChange(e)}
               />
               <button
-                onClick={e => submitMember(e)}
+                onClick={(e) => submitMember(e)}
                 className="btn btn-success col-3"
               >
                 + Add Member
@@ -81,7 +81,7 @@ const GroupProfile = ({
             </div>
           )}
           <GroupMembers groupId={group._id} owner={group.owner} />
-        </Fragment>
+        </section>
       )}
     </Fragment>
   );
@@ -92,12 +92,12 @@ GroupProfile.propTypes = {
   getProfiles: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  addMember: PropTypes.func.isRequired
+  addMember: PropTypes.func.isRequired,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   group: state.group,
   auth: state.auth,
-  profile: state.profile
+  profile: state.profile,
 });
 export default connect(mapStateToProps, { getGroup, getProfiles, addMember })(
   GroupProfile

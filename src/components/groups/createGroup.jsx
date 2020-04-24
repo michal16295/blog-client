@@ -10,38 +10,38 @@ const CreateGroup = ({
   profile: { profiles, loading, count, itemsPerPage },
   auth,
   getProfiles,
-  createGroup
+  createGroup,
 }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    members: []
+    members: [],
   });
   const { title, description, members } = formData;
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     const groupData = {
       title,
       description,
       members,
       owner: auth.user.userName,
-      ownerAvatar: auth.user.avatar
+      ownerAvatar: auth.user.avatar,
     };
     createGroup(groupData);
   };
-  const getUsers = query => {
+  const getUsers = (query) => {
     getProfiles(SCROLL, query);
-    const userNames = profiles.map(u => u.userName);
-    const res = userNames.map(p => ({
+    const userNames = profiles.map((u) => u.userName);
+    const res = userNames.map((p) => ({
       value: p,
-      label: p
+      label: p,
     }));
     return res;
   };
@@ -51,29 +51,29 @@ const CreateGroup = ({
     }, 0);
   };
 
-  const handleInputChange = e => {
+  const handleInputChange = (e) => {
     if (e === null) return;
-    const u = e.map(u => u.value);
+    const u = e.map((u) => u.value);
     setFormData({
       ...formData,
-      members: u
+      members: u,
     });
   };
 
   return (
-    <Fragment>
+    <section className="container">
       <h1 className="large text-primary">New Group</h1>
       <p className="lead">
         <i className="fas fa-users"></i> Create A Group
       </p>
-      <form className="form" onSubmit={e => onSubmit(e)}>
+      <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
             type="text"
             placeholder="Title"
             name="title"
             value={title}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
             required
           />
         </div>
@@ -82,7 +82,7 @@ const CreateGroup = ({
             placeholder="Description"
             name="description"
             value={description}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <div>
@@ -92,25 +92,25 @@ const CreateGroup = ({
             isMulti
             cacheOptions
             loadOptions={loadOptions}
-            onChange={e => handleInputChange(e)}
+            onChange={(e) => handleInputChange(e)}
           />
         </div>
         <p></p>
         <input type="submit" className="btn btn-primary" value="Create" />
         <p></p>
       </form>
-    </Fragment>
+    </section>
   );
 };
 
 CreateGroup.propTypes = {
   auth: PropTypes.object.isRequired,
   createGroup: PropTypes.func.isRequired,
-  getProfiles: PropTypes.func.isRequired
+  getProfiles: PropTypes.func.isRequired,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  profile: state.profile
+  profile: state.profile,
 });
 export default connect(mapStateToProps, { getProfiles, createGroup })(
   CreateGroup

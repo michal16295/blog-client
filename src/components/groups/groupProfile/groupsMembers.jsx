@@ -1,17 +1,18 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Spinner from "../../common/Spinner";
-import { getUsersGroups } from "../../action/groups";
-import SearchBox from "../../common/searchBox";
-import Pagination from "../../common/pagination";
-import GroupItem from "./groupItem";
+import Spinner from "../../../common/Spinner";
+import { getGroupMembers } from "../../../action/groups";
+import SearchBox from "../../../common/searchBox";
+import Pagination from "../../../common/pagination";
+import ProfileItem from "../../users/profileItem";
 
-const UserGroups = ({
-  getUsersGroups,
-  group: { groups, loading, count, itemsPerPage },
-  userName,
-  currentUser,
+const GroupMembers = ({
+  getGroupMembers,
+  group: { users, loading, count, itemsPerPage },
+  groupId,
+  owner,
+  auth,
 }) => {
   const [formData, setFormData] = useState({
     currentPage: 1,
@@ -19,21 +20,21 @@ const UserGroups = ({
   });
   const { currentPage, query } = formData;
   useEffect(() => {
-    getUsersGroups(currentPage, query, userName);
+    getGroupMembers(currentPage, query, groupId);
   }, []);
 
   const handlePageChange = (page) => {
     setFormData({
       currentPage: page,
     });
-    getUsersGroups(page, query, userName);
+    getGroupMembers(page, query, groupId);
   };
   const handleSearch = (input) => {
     setFormData({
       query: input,
       currentPage: 1,
     });
-    getUsersGroups(currentPage, input, userName);
+    getGroupMembers(currentPage, input, groupId);
   };
 
   return (
@@ -42,20 +43,20 @@ const UserGroups = ({
         <Spinner />
       ) : (
         <Fragment>
-          <p className="lead text-primary">Groups</p>
+          <p className="lead text-primary">Members</p>
           <SearchBox value={query} onChange={(input) => handleSearch(input)} />
-          <div className="posts">
-            {groups && groups.length > 0 ? (
-              groups.map((group) => (
-                <GroupItem
-                  key={group._id}
-                  group={group}
-                  userName={userName}
-                  currentUser={currentUser}
+          <div className="profiles">
+            {users.length > 0 ? (
+              users.map((profile) => (
+                <ProfileItem
+                  key={profile.userName}
+                  profile={profile}
+                  groupId={groupId}
+                  groupMembers={auth.user.userName === owner}
                 />
               ))
             ) : (
-              <h4>No Groups Found...</h4>
+              <h4>No Profiles Found...</h4>
             )}
           </div>
           <Pagination
@@ -70,14 +71,14 @@ const UserGroups = ({
   );
 };
 
-UserGroups.propTypes = {
-  getUsersGroups: PropTypes.func.isRequired,
+GroupMembers.propTypes = {
+  getGroupMembers: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
-  userName: PropTypes.string,
-  currentUser: PropTypes.bool,
+  groupId: PropTypes.string,
+  owner: PropTypes.string,
 };
 const mapStateToProps = (state) => ({
   group: state.group,
   auth: state.auth,
 });
-export default connect(mapStateToProps, { getUsersGroups })(UserGroups);
+export default connect(mapStateToProps, { getGroupMembers })(GroupMembers);

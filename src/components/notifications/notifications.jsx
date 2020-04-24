@@ -16,7 +16,7 @@ const Notifications = ({
   }, []);
 
   return (
-    <Comment.Group>
+    <Comment.Group className="container">
       <Header as="h3" dividing>
         Notifications
       </Header>

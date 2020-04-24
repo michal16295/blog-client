@@ -13,7 +13,7 @@ const Register = ({ setAlert, register, isAuthenticated, googleSignUp }) => {
     email: "",
     password: "",
     password2: "",
-    userName: ""
+    userName: "",
   });
   const {
     firstName,
@@ -21,21 +21,21 @@ const Register = ({ setAlert, register, isAuthenticated, googleSignUp }) => {
     email,
     password,
     password2,
-    userName
+    userName,
   } = formData;
 
   if (isAuthenticated) {
     return <Redirect to="/" />;
   }
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     if (password !== password2) {
       setAlert("Passwords do not match", "danger");
@@ -47,23 +47,23 @@ const Register = ({ setAlert, register, isAuthenticated, googleSignUp }) => {
     googleSignUp();
   };
   return (
-    <Fragment>
+    <section className="container">
       <h1 className="large text-primary">Sign Up</h1>
       <p className="lead">
         <i className="fas fa-user"></i> Create Your Account
       </p>
-      <button onClick={e => onClick()} type="button" class="btn btn-gplus">
+      <button onClick={(e) => onClick()} type="button" class="btn btn-gplus">
         <i class="fab fa-google-plus-g pr-1"></i> Sign Up With Google
       </button>
 
-      <form className="form" onSubmit={e => onSubmit(e)}>
+      <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
             type="text"
             placeholder="First Name"
             name="firstName"
             value={firstName}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
             required
           />
         </div>
@@ -73,7 +73,7 @@ const Register = ({ setAlert, register, isAuthenticated, googleSignUp }) => {
             placeholder="Last Name"
             name="lastName"
             value={lastName}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
             required
           />
         </div>
@@ -83,7 +83,7 @@ const Register = ({ setAlert, register, isAuthenticated, googleSignUp }) => {
             placeholder="Username"
             name="userName"
             value={userName}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
             required
           />
         </div>
@@ -93,7 +93,7 @@ const Register = ({ setAlert, register, isAuthenticated, googleSignUp }) => {
             placeholder="Email Address"
             name="email"
             value={email}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
             required
           />
           <small className="form-text">
@@ -107,7 +107,7 @@ const Register = ({ setAlert, register, isAuthenticated, googleSignUp }) => {
             placeholder="Password"
             name="password"
             value={password}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
             minLength="6"
             required
           />
@@ -118,7 +118,7 @@ const Register = ({ setAlert, register, isAuthenticated, googleSignUp }) => {
             placeholder="Confirm Password"
             name="password2"
             value={password2}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
             minLength="6"
           />
         </div>
@@ -127,7 +127,7 @@ const Register = ({ setAlert, register, isAuthenticated, googleSignUp }) => {
       <p className="my-1">
         Already have an account? <Link to="/login">Sign In</Link>
       </p>
-    </Fragment>
+    </section>
   );
 };
 
@@ -135,10 +135,10 @@ Register.propTypes = {
   isAuthenticated: PropTypes.bool,
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
-  googleSignUp: PropTypes.func.isRequired
+  googleSignUp: PropTypes.func.isRequired,
 };
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
 });
 export default connect(mapStateToProps, { setAlert, register, googleSignUp })(
   Register

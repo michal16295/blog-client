@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Moment from "react-moment";
 import { connect } from "react-redux";
-import { groupDelete, removeMember } from "../../action/groups";
-import { getUserAvatar } from "../../action/users";
+import { groupDelete, removeMember } from "../../../action/groups";
+import { getUserAvatar } from "../../../action/users";
 
 const GroupItem = ({
   profile: { loading, avatars },

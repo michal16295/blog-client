@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
 
-const Pagination = props => {
+const Pagination = (props) => {
   const { onPageChange, currentPage, pageSize, itemsCount } = props;
   const totalPages = Math.ceil(itemsCount / pageSize);
   if (totalPages === 1) return null;
@@ -11,7 +11,7 @@ const Pagination = props => {
   return (
     <center className="text-xs-center">
       <ul className="pagination justify-content-center">
-        {pages.map(page => (
+        {pages.map((page) => (
           <li
             key={page}
             className={page === currentPage ? "page-item active" : "page-item"}
@@ -27,6 +27,6 @@ const Pagination = props => {
 };
 Pagination.propTypes = {
   onPageChange: PropTypes.func.isRequired,
-  currentPage: PropTypes.number.isRequired
+  currentPage: PropTypes.number.isRequired,
 };
 export default Pagination;

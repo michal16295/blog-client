@@ -9,8 +9,7 @@
   width: 100%;
   top: 0;
   border-bottom: solid 1px var(--primary-color);
-  opacity: 0.9;
-  background-color: rgb(77, 75, 75);
+  background-color: #31353d;
 }
 
 .navbar ul {

@@ -102,7 +102,7 @@ const BlogProfile = ({
       {blog == null || loading ? (
         <Spinner />
       ) : (
-        <Fragment>
+        <section className="container">
           <Link to="/blogs" className="btn btn-dark col-2">
             Back To Posts
           </Link>
@@ -183,7 +183,7 @@ const BlogProfile = ({
 
             <AllComments />
           </div>
-        </Fragment>
+        </section>
       )}
     </Fragment>
   );

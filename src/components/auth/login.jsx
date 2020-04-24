@@ -8,21 +8,21 @@ import { googleSignUp } from "../../action/auth";
 const Login = ({ login, isAuthenticated, googleSignUp }) => {
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
   const { email, password } = formData;
 
   if (isAuthenticated) {
     return <Redirect to="/" />;
   }
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     login(formData);
   };
@@ -30,7 +30,7 @@ const Login = ({ login, isAuthenticated, googleSignUp }) => {
     googleSignUp();
   };
   return (
-    <Fragment>
+    <section className="container">
       <h1 className="large text-primary">Sign In</h1>
       <p className="lead">
         <i className="fas fa-user"></i> Sign into Your Account
@@ -38,14 +38,14 @@ const Login = ({ login, isAuthenticated, googleSignUp }) => {
       <button onClick={() => onClick()} type="button" class="btn btn-gplus">
         <i className="fab fa-google-plus-g pr-1"></i> Sign Up With Google
       </button>
-      <form className="form" onSubmit={e => onSubmit(e)}>
+      <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
             type="email"
             placeholder="Email Address"
             name="email"
             value={email}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
             required
           />
         </div>
@@ -55,7 +55,7 @@ const Login = ({ login, isAuthenticated, googleSignUp }) => {
             placeholder="Password"
             name="password"
             value={password}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <input type="submit" className="btn btn-primary" value="Login" />
@@ -63,15 +63,15 @@ const Login = ({ login, isAuthenticated, googleSignUp }) => {
       <p className="my-1">
         Don't have an account? <Link to="/register">Sign Up</Link>
       </p>
-    </Fragment>
+    </section>
   );
 };
 Login.propTypes = {
   isAuthenticated: PropTypes.bool,
   login: PropTypes.func.isRequired,
-  googleSignUp: PropTypes.func.isRequired
+  googleSignUp: PropTypes.func.isRequired,
 };
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
 });
 export default connect(mapStateToProps, { login, googleSignUp })(Login);

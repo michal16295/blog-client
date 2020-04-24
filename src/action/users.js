@@ -93,9 +93,9 @@ export const getUserAvatar = (userName) => async (dispatch) => {
   }
 };
 //DELETE ACCOUNT
-export const deleteAccount = () => async (dispatch) => {
+export const deleteAccount = (data) => async (dispatch) => {
   try {
-    const res = await http.delete(apiEndpoint + "/deleteAccount");
+    const res = await http.post(apiEndpoint + "/deleteAccount", data);
     dispatch({
       type: DELETE_ACCOUNT_SUCCESS,
       data: res.data,
@@ -103,7 +103,7 @@ export const deleteAccount = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: DELETE_ACCOUNT_ERROR,
-      error: err.response,
+      data: err.response,
     });
   }
 };

@@ -1,16 +1,17 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Spinner from "../../common/Spinner";
-import { getGroups } from "../../action/groups";
-import SearchBox from "../../common/searchBox";
-import Pagination from "../../common/pagination";
-import GroupItem from "../groups/groupItem";
+import Spinner from "../../../common/Spinner";
+import { getUsersGroups } from "../../../action/groups";
+import SearchBox from "../../../common/searchBox";
+import Pagination from "../../../common/pagination";
+import GroupItem from "./groupItem";
 
-const Groups = ({
-  getGroups,
+const UserGroups = ({
+  getUsersGroups,
   group: { groups, loading, count, itemsPerPage },
+  userName,
+  currentUser,
 }) => {
   const [formData, setFormData] = useState({
     currentPage: 1,
@@ -18,21 +19,21 @@ const Groups = ({
   });
   const { currentPage, query } = formData;
   useEffect(() => {
-    getGroups();
+    getUsersGroups(currentPage, query, userName);
   }, []);
 
   const handlePageChange = (page) => {
     setFormData({
       currentPage: page,
     });
-    getGroups(page);
+    getUsersGroups(page, query, userName);
   };
   const handleSearch = (input) => {
     setFormData({
       query: input,
       currentPage: 1,
     });
-    getGroups(currentPage, input);
+    getUsersGroups(currentPage, input, userName);
   };
 
   return (
@@ -40,42 +41,44 @@ const Groups = ({
       {loading ? (
         <Spinner />
       ) : (
-        <section className="container">
+        <Fragment>
           <h1 className="large text-primary">Groups</h1>
-          <p className="lead">
-            <i className="fas fa-users"></i> Browse and Create Groups
-          </p>
-          <Link to="createGroup" className="btn btn-dark">
-            Create Group
-          </Link>
           <SearchBox value={query} onChange={(input) => handleSearch(input)} />
           <div className="posts">
-            {groups.length > 0 ? (
+            {groups && groups.length > 0 ? (
               groups.map((group) => (
-                <GroupItem key={group._id} group={group} buttonActions={true} />
+                <GroupItem
+                  key={group._id}
+                  group={group}
+                  userName={userName}
+                  currentUser={currentUser}
+                />
               ))
             ) : (
               <h4>No Groups Found...</h4>
             )}
           </div>
+
           <Pagination
             itemsCount={count}
             currentPage={currentPage}
             onPageChange={(page) => handlePageChange(page)}
             pageSize={itemsPerPage}
           />
-        </section>
+        </Fragment>
       )}
     </Fragment>
   );
 };
 
-Groups.propTypes = {
-  getGroups: PropTypes.func.isRequired,
+UserGroups.propTypes = {
+  getUsersGroups: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
+  userName: PropTypes.string,
+  currentUser: PropTypes.bool,
 };
 const mapStateToProps = (state) => ({
   group: state.group,
   auth: state.auth,
 });
-export default connect(mapStateToProps, { getGroups })(Groups);
+export default connect(mapStateToProps, { getUsersGroups })(UserGroups);

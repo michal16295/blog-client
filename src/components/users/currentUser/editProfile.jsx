@@ -1,8 +1,10 @@
 import React, { useEffect, Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loadUser } from "../../action/auth";
-import { editUser, getRandomAvatar } from "../../action/users";
+import { loadUser } from "../../../action/auth";
+import { editUser, getRandomAvatar } from "../../../action/users";
+import "./profile.css";
+import { Button, Checkbox, Form, Input } from "semantic-ui-react";
 
 const EditUser = ({
   editUser,
@@ -43,9 +45,9 @@ const EditUser = ({
   return loading || user == null ? (
     <div>Loading...</div>
   ) : (
-    <Fragment>
-      <h1 className="large text-primary">Edit User</h1>
-      <form className="form" onSubmit={(e) => onSubmit(e)}>
+    <Form className="container">
+      <h2>Edit Profile</h2>
+      <Form.Field>
         <img
           src={avatar}
           alt="avatar"
@@ -53,38 +55,44 @@ const EditUser = ({
           name="avatar"
           value={avatar}
         />
-        <div className="form-group">
-          <input
-            className="col"
-            type="text"
-            name="firstName"
-            value={firstName}
-            onChange={(e) => onChange(e)}
-          />
-          <input
-            type="text"
-            name="lastName"
-            value={lastName}
-            onChange={(e) => onChange(e)}
-          />
-
-          <input
-            type="text"
-            placeholder={user.email}
-            name="email"
-            value={email}
-            onChange={(e) => onChange(e)}
-          />
-        </div>
-        <button className="btn btn-dark" onClick={(e) => handleAvatar(e)}>
-          Random Avatar
-        </button>
-        <button className="btn btn-danger" onClick={(e) => handleCancle()}>
-          Cancle
-        </button>
-        <input type="submit" className="btn btn-primary" value="Submit" />
-      </form>
-    </Fragment>
+      </Form.Field>
+      <Form.Field>
+        <label>First Name</label>
+        <input
+          className="col"
+          type="text"
+          name="firstName"
+          value={firstName}
+          onChange={(e) => onChange(e)}
+        />
+      </Form.Field>
+      <Form.Field>
+        <label>Last Name</label>
+        <input
+          type="text"
+          name="lastName"
+          value={lastName}
+          onChange={(e) => onChange(e)}
+        />
+      </Form.Field>{" "}
+      <Form.Field>
+        <label>Email</label>
+        <Input
+          type="text"
+          placeholder={user.email}
+          name="email"
+          value={email}
+          onChange={(e) => onChange(e)}
+        />
+      </Form.Field>
+      <Button onClick={(e) => handleAvatar(e)}>Random Avatar</Button>
+      <Button onClick={(e) => onSubmit(e)} type="submit">
+        Submit
+      </Button>
+      <Button color="red" onClick={(e) => handleCancle()}>
+        Cancel
+      </Button>
+    </Form>
   );
 };
 EditUser.propTypes = {

@@ -165,7 +165,7 @@ const CreateBlog = ({
     </Fragment>
   );
   return (
-    <Fragment>
+    <section className="container">
       <h1 className="large text-primary">New Post</h1>
       <p className="lead">
         <i className="fas fa-users"></i> Create A Post
@@ -218,7 +218,7 @@ const CreateBlog = ({
         </div>
         <p></p>
       </form>
-    </Fragment>
+    </section>
   );
 };
 

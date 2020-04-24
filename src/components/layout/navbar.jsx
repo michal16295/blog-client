@@ -120,12 +120,6 @@ const NavBar = ({
       <Link className="welcome" to="/">
         <i className="fas fa-code"></i> DevConnector{" "}
       </Link>
-      {user && (
-        <span className="user">
-          <i className="fas fa-user"></i>
-          {user.userName}{" "}
-        </span>
-      )}
 
       <div>
         <Fragment>{isAuthenticated ? authLink : guestLinks}</Fragment>

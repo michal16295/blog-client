@@ -15,7 +15,7 @@ const Chat = ({
   getProfiles,
   auth: { user },
   profile: { profiles },
-  chat: { messages, recentConvo },
+  chat: { messages, recentConvo, error },
 }) => {
   const [formData, setFormData] = useState({
     currentPage: 1,
@@ -35,7 +35,7 @@ const Chat = ({
   } = formData;
   useEffect(() => {
     recentConve();
-  }, []);
+  }, [reciever]);
 
   const setChosenUser = (userName) => {
     const index = recentConvo.findIndex(
@@ -160,6 +160,7 @@ const Chat = ({
           </div>
           <div className="mesgs">
             <div className="msg_history">
+              <strong style={{ color: "red" }}>{error}</strong>
               {reciever === "" && <p>Choose A User</p>}
               {reciever !== "" &&
                 messages &&

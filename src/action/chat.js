@@ -33,7 +33,7 @@ export const sendMsg = (data) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: SEND_MESSAGE_ERROR,
-      error: err.response,
+      data: err.response.data,
     });
   }
 };

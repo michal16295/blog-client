@@ -11,33 +11,33 @@ const UserBlogs = ({
   getUsersBlogs,
   blog: { blogs, loading, count, itemsPerPage },
   match,
-  myBlogs
+  myBlogs,
 }) => {
   const [formData, setFormData] = useState({
     currentPage: 1,
-    query: ""
+    query: "",
   });
   const { currentPage, query } = formData;
   const { userName, currentUser } = match.params;
 
-  const common = (page, input) => {
-    if (currentUser === "true") myBlogs(page, input);
-    else getUsersBlogs(page, input, userName);
+  const common = () => {
+    if (currentUser === "true") myBlogs(currentPage, query);
+    else getUsersBlogs(currentPage, query, userName);
   };
   useEffect(() => {
     common();
   }, []);
 
-  const handlePageChange = page => {
+  const handlePageChange = (page) => {
     setFormData({
-      currentPage: page
+      currentPage: page,
     });
     common(page, query);
   };
-  const handleSearch = input => {
+  const handleSearch = (input) => {
     setFormData({
       query: input,
-      currentPage: 1
+      currentPage: 1,
     });
     common(currentPage, input);
   };
@@ -47,12 +47,12 @@ const UserBlogs = ({
       {loading ? (
         <Spinner />
       ) : (
-        <Fragment>
+        <section className="container">
           <h3 className="lead text-primary">{userName} Posts</h3>
-          <SearchBox value={query} onChange={input => handleSearch(input)} />
+          <SearchBox value={query} onChange={(input) => handleSearch(input)} />
           <div className="posts">
             {blogs !== undefined && blogs.length > 0 ? (
-              blogs.map(blog => <BlogItem key={blog._id} blog={blog} />)
+              blogs.map((blog) => <BlogItem key={blog._id} blog={blog} />)
             ) : (
               <h4>No Posts Found...</h4>
             )}
@@ -60,10 +60,10 @@ const UserBlogs = ({
           <Pagination
             itemsCount={count}
             currentPage={currentPage}
-            onPageChange={page => handlePageChange(page)}
+            onPageChange={(page) => handlePageChange(page)}
             pageSize={itemsPerPage}
           />
-        </Fragment>
+        </section>
       )}
     </Fragment>
   );
@@ -72,10 +72,10 @@ UserBlogs.propTypes = {
   auth: PropTypes.object.isRequired,
   getUsersBlogs: PropTypes.func.isRequired,
   blog: PropTypes.object.isRequired,
-  myBlogs: PropTypes.func
+  myBlogs: PropTypes.func,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  blog: state.blog
+  blog: state.blog,
 });
 export default connect(mapStateToProps, { getUsersBlogs, myBlogs })(UserBlogs);

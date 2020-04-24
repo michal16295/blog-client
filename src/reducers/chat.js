@@ -24,6 +24,7 @@ const initialState = {
   AllCount: 0,
   itemsPerPage: 0,
   notViewedPerUser: {},
+  error: "",
 };
 
 export default function (state = initialState, action) {
@@ -95,6 +96,7 @@ export default function (state = initialState, action) {
         ...state,
         loading: true,
         messages: [],
+        error: "",
       };
 
     default:

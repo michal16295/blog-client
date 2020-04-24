@@ -15,7 +15,7 @@ import {
   EDIT_GROUP_SUCCESS,
   REMOVE_MEMBER_ERROR,
   REMOVE_MEMBER_SUCCESS,
-  CLEAR_CURRENT_GROUP
+  CLEAR_CURRENT_GROUP,
 } from "../action/constants";
 const initialState = {
   group: null,
@@ -23,16 +23,20 @@ const initialState = {
   users: [],
   owner: null,
   loading: true,
-  error: {}
+  error: {},
 };
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, data } = action;
 
   switch (type) {
     case CLEAR_CURRENT_GROUP:
       return {
         ...state,
-        loading: true
+        groups: [],
+        group: null,
+        loading: true,
+        count: 0,
+        itemsPerPage: 0,
       };
     case GROUP_CREATED_SUCCESS:
     case GROUP_DELETE_SECCESS:
@@ -43,7 +47,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         group: data,
-        loading: false
+        loading: false,
       };
     case REMOVE_MEMBER_ERROR:
     case GET_ALL_GROUPS_ERROR:
@@ -56,7 +60,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         error: data,
-        loading: false
+        loading: false,
       };
 
     case GET_ALL_GROUPS:
@@ -65,7 +69,7 @@ export default function(state = initialState, action) {
         groups: data.data,
         count: data.metadata[0].total,
         itemsPerPage: data.metadata[0].ITEMS_PER_PAGE,
-        loading: false
+        loading: false,
       };
     case GROUPS_MEMBERS_SUCCESS:
       return {
@@ -73,7 +77,7 @@ export default function(state = initialState, action) {
         users: data.data,
         count: data.metadata[0].total,
         itemsPerPage: data.metadata[0].ITEMS_PER_PAGE,
-        loading: false
+        loading: false,
       };
 
     default:

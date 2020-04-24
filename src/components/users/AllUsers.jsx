@@ -9,26 +9,26 @@ import Spinner from "../../common/Spinner";
 
 const Profilies = ({
   getProfiles,
-  profile: { profiles, loading, count, itemsPerPage }
+  profile: { profiles, loading, count, itemsPerPage },
 }) => {
   const [formData, setFormData] = useState({
     currentPage: 1,
-    query: ""
+    query: "",
   });
   const { currentPage, query } = formData;
   useEffect(() => {
     getProfiles();
   }, []);
-  const handlePageChange = page => {
+  const handlePageChange = (page) => {
     setFormData({
-      currentPage: page
+      currentPage: page,
     });
     getProfiles(page);
   };
-  const handleSearch = input => {
+  const handleSearch = (input) => {
     setFormData({
       query: input,
-      currentPage: 1
+      currentPage: 1,
     });
     getProfiles(currentPage, input);
   };
@@ -37,16 +37,16 @@ const Profilies = ({
       {loading ? (
         <Spinner />
       ) : (
-        <Fragment>
+        <section className="container">
           <h1 className="large text-primary">Users</h1>
           <p className="lead">
             <i className="fab fa-connectdevelop"></i> Browse and connect with
             users
           </p>
-          <SearchBox value={query} onChange={input => handleSearch(input)} />
+          <SearchBox value={query} onChange={(input) => handleSearch(input)} />
           <div className="profiles">
             {profiles && profiles.length > 0 ? (
-              profiles.map(profile => (
+              profiles.map((profile) => (
                 <ProfileItem key={profile._id} profile={profile} />
               ))
             ) : (
@@ -56,10 +56,10 @@ const Profilies = ({
           <Pagination
             itemsCount={count}
             currentPage={currentPage}
-            onPageChange={page => handlePageChange(page)}
+            onPageChange={(page) => handlePageChange(page)}
             pageSize={itemsPerPage}
           />
-        </Fragment>
+        </section>
       )}
     </Fragment>
   );
@@ -67,9 +67,9 @@ const Profilies = ({
 
 Profilies.propTypes = {
   getProfiles: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
-  profile: state.profile
+const mapStateToProps = (state) => ({
+  profile: state.profile,
 });
 export default connect(mapStateToProps, { getProfiles })(Profilies);
