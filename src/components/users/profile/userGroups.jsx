@@ -10,14 +10,16 @@ import GroupItem from "./groupItem";
 const UserGroups = ({
   getUsersGroups,
   group: { groups, loading, count, itemsPerPage },
-  userName,
+  user,
   currentUser,
+  match,
 }) => {
   const [formData, setFormData] = useState({
     currentPage: 1,
     query: "",
+    userName: user || match.params.userName,
   });
-  const { currentPage, query } = formData;
+  const { currentPage, query, userName } = formData;
   useEffect(() => {
     getUsersGroups(currentPage, query, userName);
   }, []);
@@ -74,7 +76,7 @@ const UserGroups = ({
 UserGroups.propTypes = {
   getUsersGroups: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
-  userName: PropTypes.string,
+  user: PropTypes.string,
   currentUser: PropTypes.bool,
 };
 const mapStateToProps = (state) => ({

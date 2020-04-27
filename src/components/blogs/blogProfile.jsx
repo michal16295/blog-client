@@ -103,7 +103,7 @@ const BlogProfile = ({
         <Spinner />
       ) : (
         <section className="container">
-          <Link to="/blogs" className="btn btn-dark col-2">
+          <Link to="/blogs" className="btn btn-dark col-2 w3-container">
             Back To Posts
           </Link>
 
@@ -171,8 +171,8 @@ const BlogProfile = ({
                   Comment
                 </Button>
               </Button>
-              <span className="col-6"></span>
-              <span className="w3-right w3-opacity">
+              <span className="col-7"></span>
+              <span style={{ float: "right" }} className="w3-right w3-opacity">
                 {auth.user &&
                   !auth.loading &&
                   auth.user.userName === blog.owner &&

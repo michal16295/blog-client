@@ -1,7 +1,6 @@
 import React, { useEffect, Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-
 import CancelAccount from "./cancelAccount";
 import Spinner from "../../../common/Spinner";
 import "./profile.css";
@@ -78,7 +77,7 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
                     <span>General</span>
                   </li>
                   <li className="sidebar-dropdown">
-                    <Link to="currentUser">
+                    <Link to={`/userGroups/${user.userName}`}>
                       <i className="fas fa-users"></i>
                       <span>Groups</span>
                     </Link>
@@ -90,10 +89,10 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
                     </Link>
                   </li>
                   <li className="sidebar-dropdown">
-                    <a href="#">
+                    <Link to="/blockedUsers">
                       <i className="fas fa-ban"></i>
                       <span>Blocked Users</span>
-                    </a>
+                    </Link>
                   </li>
                   <li className="sidebar-dropdown">
                     <a href="#">
@@ -105,10 +104,10 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
                     <span>Settings</span>
                   </li>
                   <li>
-                    <a href="#">
+                    <Link to="/settings/notifications">
                       <i className="fa fa-bell"></i>
                       <span>Notification Settings</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <a href="#" onClick={() => handleShow()}>
@@ -134,7 +133,7 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
               <Link to="/notifications">
                 <i className="fa fa-bell"></i>
               </Link>
-              <Link to="/notifications">
+              <Link to="/chat">
                 <i className="fa fa-envelope"></i>
               </Link>
               <a href="#">

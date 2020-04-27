@@ -12,7 +12,7 @@ import {
 } from "./constants";
 import http from "../services/httpService";
 import { setAlert } from "./alert";
-import { getNotifications } from "./notifications";
+import { getNotifications, getSettings } from "./notifications";
 import { unreadMsg } from "./chat";
 
 const apiUrl = "http://localhost:5000";
@@ -34,6 +34,7 @@ export const loadUser = () => async (dispatch) => {
       data: res.data,
     });
     dispatch(getNotifications());
+    dispatch(getSettings());
     dispatch(unreadMsg());
   } catch (err) {
     dispatch({

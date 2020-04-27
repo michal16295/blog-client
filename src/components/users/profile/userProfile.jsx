@@ -56,7 +56,7 @@ const UserProfile = ({
               </p>
             </div>
           </div>
-          <UserGroups userName={match.params.userName} />
+          <UserGroups user={match.params.userName} />
         </section>
       )}
     </Fragment>

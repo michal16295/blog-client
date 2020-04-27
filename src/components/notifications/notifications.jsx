@@ -23,7 +23,7 @@ const Notifications = ({
       <Feed>
         {notifications &&
           notifications.length > 0 &&
-          notifications.map((i) => <NotificationItem data={i} />)}
+          notifications.map((i) => <NotificationItem key={i._id} data={i} />)}
       </Feed>
     </Comment.Group>
   );

@@ -4,17 +4,21 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { removeMember } from "../../action/groups";
 import avatar from "../../img/avatar.png";
+import { unblockUser } from "../../action/chat";
 
 const ProfileItem = ({
+  blocked,
   profile,
   groupMembers,
   groupId,
   removeMember,
-  auth: { user, loading }
+  auth: { user, loading },
+  unblockUser,
 }) => {
   const handleRemove = () => {
     removeMember(groupId, profile.userName);
   };
+
   return (
     <div className="profile bg-light">
       <img src={profile.avatar || avatar} alt="avatar" />
@@ -34,7 +38,7 @@ const ProfileItem = ({
           </Link>
           {groupId && !loading && profile.userName === user.userName && (
             <button
-              onClick={e => {
+              onClick={(e) => {
                 if (
                   window.confirm("Are you sure you wish to delete this item?")
                 )
@@ -47,7 +51,7 @@ const ProfileItem = ({
           )}
           {groupMembers && (
             <button
-              onClick={e => {
+              onClick={(e) => {
                 if (
                   window.confirm("Are you sure you wish to delete this User?")
                 )
@@ -56,6 +60,14 @@ const ProfileItem = ({
               className="btn btn-danger"
             >
               Remove
+            </button>
+          )}
+          {blocked && (
+            <button
+              onClick={() => unblockUser(profile.userName)}
+              className="btn btn-danger"
+            >
+              Unblock
             </button>
           )}
         </p>
@@ -68,9 +80,13 @@ ProfileItem.propTypes = {
   groupMembers: PropTypes.bool,
   groupId: PropTypes.string,
   removeMember: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  blocked: PropTypes.bool,
+  unblockUser: PropTypes.func,
 };
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
-export default connect(mapStateToProps, { removeMember })(ProfileItem);
+export default connect(mapStateToProps, { removeMember, unblockUser })(
+  ProfileItem
+);

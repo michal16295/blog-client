@@ -10,7 +10,6 @@ import Alert from "./components/layout/alert";
 import http from "./services/httpService";
 import { loadUser } from "./action/auth";
 import AllUsers from "./components/users/AllUsers";
-import CurrentUser from "./components/users/currentUser/currentUser";
 import EditUser from "./components/users/currentUser/editProfile";
 import ChangePass from "./components/users/currentUser/changePassword";
 import Profilies from "./components/users/AllUsers";
@@ -26,6 +25,9 @@ import NotFound from "./common/notFonud/notFound";
 import Notifications from "./components/notifications/notifications";
 import Chat from "./components/chat/chat";
 import SideBar from "./components/users/currentUser/sideBar";
+import UserGroups from "./components/users/profile/userGroups";
+import BlockedUsers from "./components/users/currentUser/blockedUsers";
+import NotificationsSettings from "./components/notifications/notifSettings";
 import "./App.css";
 
 if (localStorage.token) {
@@ -45,17 +47,29 @@ const App = () => {
               <div className="container-fluid">
                 <Route exact path="/edit" component={EditUser}></Route>
                 <Route exact path="/changePass" component={ChangePass}></Route>
-                <Route
-                  exact
-                  path="/currentUser"
-                  component={CurrentUser}
-                ></Route>
                 <Route exact path="/chat" component={Chat}></Route>
                 <Route
                   exact
                   path="/notifications"
                   component={Notifications}
                 ></Route>
+                <section className="container">
+                  <Route
+                    exact
+                    path="/userGroups/:userName"
+                    component={UserGroups}
+                  ></Route>
+                  <Route
+                    exact
+                    path="/blockedUsers"
+                    component={BlockedUsers}
+                  ></Route>
+                  <Route
+                    exact
+                    path="/settings/notifications"
+                    component={NotificationsSettings}
+                  ></Route>
+                </section>
               </div>
             </main>
           </Switch>

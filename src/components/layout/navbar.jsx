@@ -50,11 +50,15 @@ const NavBar = ({
           <Fragment>
             <Fragment>
               <h6 className="header">
-                Noifications <i class="fas fa-cog settings"></i>
+                Noifications{" "}
+                <Link
+                  className="fas fa-cog settings"
+                  to="/settings/notifications"
+                ></Link>
               </h6>
             </Fragment>
 
-            <div class="dropdown-divider"></div>
+            <div className="dropdown-divider"></div>
             {notifications &&
               !loading &&
               notifications.length > 0 &&
@@ -72,7 +76,7 @@ const NavBar = ({
                     </Feed.Date>
                   </Link>
 
-                  <div class="dropdown-divider"></div>
+                  <div className="dropdown-divider"></div>
                 </Fragment>
               ))}
             <Link className="footer" to="/notifications">
@@ -90,13 +94,13 @@ const NavBar = ({
         <Link to="/chat">
           {!chat.notViewed ||
             (chat.notViewed !== 0 && (
-              <span class="badge badge-danger ml-2">{chat.notViewed}</span>
+              <span className="badge badge-danger ml-2">{chat.notViewed}</span>
             ))}
-          <i class="fab fa-facebook-messenger"></i>
+          <i className="fab fa-facebook-messenger"></i>
         </Link>
       </li>
       <li>
-        <Link to="/currentUser">My Profile</Link>
+        {user && <Link to={`/userGroups/${user.userName}`}>My Profile</Link>}
       </li>
       <li>
         <Link to="/profiles">Users</Link>
@@ -120,7 +124,6 @@ const NavBar = ({
       <Link className="welcome" to="/">
         <i className="fas fa-code"></i> DevConnector{" "}
       </Link>
-
       <div>
         <Fragment>{isAuthenticated ? authLink : guestLinks}</Fragment>
       </div>

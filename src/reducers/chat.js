@@ -14,6 +14,8 @@ import {
   BLOCK_USER_ERROR,
   UNBLOCK_USER_ERROR,
   UNBLOCK_USER_SUCCESS,
+  GET_BLOCKED_USERS_ERROR,
+  GET_BLOCKED_USERS_SUCCESS,
 } from "../action/constants";
 const initialState = {
   message: {},
@@ -25,6 +27,7 @@ const initialState = {
   itemsPerPage: 0,
   notViewedPerUser: {},
   error: "",
+  users: [],
 };
 
 export default function (state = initialState, action) {
@@ -38,6 +41,8 @@ export default function (state = initialState, action) {
     case GET_UNREAD_MSG_PER_PERSON_ERROR:
     case BLOCK_USER_ERROR:
     case UNBLOCK_USER_ERROR:
+    case GET_BLOCKED_USERS_ERROR:
+      console.log(data);
       return {
         ...state,
         error: data,
@@ -86,10 +91,21 @@ export default function (state = initialState, action) {
       };
     case BLOCK_USER_SUCCESS:
     case UNBLOCK_USER_SUCCESS:
+      const index = state.users.findIndex((obj) => obj.userName === data.user);
+      state.users = [
+        ...state.users.slice(0, index),
+        ...state.users.slice(index + 1),
+      ];
       return {
         ...state,
         loading: false,
         res: data,
+      };
+    case GET_BLOCKED_USERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        users: data,
       };
     case CLEAR_MESSAGES:
       return {
@@ -97,6 +113,8 @@ export default function (state = initialState, action) {
         loading: true,
         messages: [],
         error: "",
+        res: "",
+        users: [],
       };
 
     default:

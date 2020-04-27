@@ -19,11 +19,13 @@ const NotificationItem = ({
     <Feed.Event>
       <Feed.Label>{!loading && <img src={avatars[data.from]} />}</Feed.Label>
       <Feed.Content>
+        <Feed.Summary>
+          <Link style={{ color: "blue" }} to={`/profile/${data.from}`}>
+            {data.from}
+          </Link>{" "}
+        </Feed.Summary>
         <Link to={`/${data.type}/${data.link}`}>
           <Feed.Summary>
-            <Link style={{ color: "blue" }} to={`/profile/${data.from}`}>
-              {data.from}
-            </Link>{" "}
             {data.content + " - " + data.title}
             <Feed.Date>
               <Moment fromNow>{data.date}</Moment>

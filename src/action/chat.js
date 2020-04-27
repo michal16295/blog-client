@@ -14,7 +14,8 @@ import {
   BLOCK_USER_SUCCESS,
   UNBLOCK_USER_ERROR,
   UNBLOCK_USER_SUCCESS,
-  CLEAR_UNREAD,
+  GET_BLOCKED_USERS_ERROR,
+  GET_BLOCKED_USERS_SUCCESS,
 } from "./constants";
 import http from "../services/httpService";
 import { setAlert } from "./alert";
@@ -52,7 +53,7 @@ export const getMsgs = (reciever, page) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: GET_MESSAGES_ERROR,
-      error: err.response,
+      data: err.response,
     });
   }
 };
@@ -70,7 +71,7 @@ export const getNumUnreadMsgs = (reciever) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: GET_UNREAD_MSG_PER_PERSON_ERROR,
-      error: err.response,
+      data: err.response,
     });
   }
 };
@@ -84,7 +85,7 @@ export const recentConve = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: RECENT_CONVERSATION_ERROR,
-      error: err.response,
+      data: err.response,
     });
   }
 };
@@ -98,7 +99,7 @@ export const unreadMsg = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: GET_UNREAD_MSG_ERROR,
-      error: err.response,
+      data: err.response,
     });
   }
 };
@@ -118,7 +119,6 @@ export const blockUser = (userName) => async (dispatch) => {
 export const unblockUser = (userName) => async (dispatch) => {
   try {
     const res = await http.put(apiEndpoint + "/unblock/" + userName);
-    console.log(res);
     dispatch({
       type: UNBLOCK_USER_SUCCESS,
       data: res.data,
@@ -127,6 +127,24 @@ export const unblockUser = (userName) => async (dispatch) => {
     console.log(err);
     dispatch({
       type: UNBLOCK_USER_ERROR,
+      data: err.response.data,
+    });
+  }
+};
+export const getBlockedUsers = () => async (dispatch) => {
+  dispatch({
+    type: CLEAR_MESSAGES,
+  });
+  try {
+    const res = await http.get(apiEndpoint + "/blockedList");
+    dispatch({
+      type: GET_BLOCKED_USERS_SUCCESS,
+      data: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_BLOCKED_USERS_ERROR,
+      data: err.response.data,
     });
   }
 };

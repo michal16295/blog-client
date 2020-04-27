@@ -2,6 +2,11 @@ import {
   GET_NOTIFY_SUCCESS,
   GET_NOTIFY_ERROR,
   SET_VIEWED_TRUE,
+  SET_SETTINGS_ERROR,
+  SET_SETTINGS_SUCCESS,
+  GET_SETTINGS_SUCCESS,
+  GET_SETTINGS_ERROR,
+  CLEAR_NOTIFY,
 } from "../action/constants";
 const initialState = {
   notification: {},
@@ -10,13 +15,23 @@ const initialState = {
   notViewed: 0,
   AllCount: 0,
   itemsPerPage: 0,
+  settings: "",
 };
 
 export default function (state = initialState, action) {
   const { type, data } = action;
 
   switch (type) {
+    case CLEAR_NOTIFY:
+      return {
+        ...state,
+        error: "",
+        loading: true,
+        settings: "",
+      };
     case GET_NOTIFY_ERROR:
+    case SET_SETTINGS_ERROR:
+    case GET_SETTINGS_ERROR:
       return {
         ...state,
         error: data,
@@ -36,7 +51,13 @@ export default function (state = initialState, action) {
         notViewed: data.notViewed,
         loading: false,
       };
-
+    case SET_SETTINGS_SUCCESS:
+    case GET_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        settings: data,
+        loading: false,
+      };
     default:
       return state;
   }
