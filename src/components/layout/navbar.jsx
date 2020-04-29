@@ -6,6 +6,7 @@ import { logout } from "../../action/auth";
 import { getNotifications, updateViewed } from "../../action/notifications";
 import { unreadMsg } from "../../action/chat";
 import { Feed, Icon, Comment, Form, Header } from "semantic-ui-react";
+import ChatSocketServer from "../../services/socketService";
 import Moment from "react-moment";
 import "./navbar.css";
 
@@ -19,10 +20,14 @@ const NavBar = ({
   notification: { loading, notViewed, AllCount, notifications },
 }) => {
   useEffect(() => {
+    ChatSocketServer.eventEmitter.on("add-message-response", handleUnreadMsgs);
     getNotifications();
     unreadMsg();
   }, []);
 
+  const handleUnreadMsgs = (data) => {
+    unreadMsg();
+  };
   const guestLinks = (
     <ul>
       <li>

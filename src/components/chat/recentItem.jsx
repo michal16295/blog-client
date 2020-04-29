@@ -28,36 +28,33 @@ const RecentItem = ({
   useEffect(() => {
     getNumUnreadMsgs(user);
     getUserAvatar(user);
-    ChatSocketServer.eventEmitter.on("user-block-response", handleBlock);
+    ChatSocketServer.eventEmitter.on("add-message-response", unreadMsg);
+    ChatSocketServer.eventEmitter.on("user-block-response", handleToggleBlock);
   }, []);
 
-  const handleBlock = ({ error, blocker }) => {
+  const unreadMsg = (data) => {
+    getNumUnreadMsgs(data.from);
+  };
+  const handleToggleBlock = ({ error, blocker, isBlocked }) => {
     if (data.user1 === blocker || data.user2 === blocker) {
       data.blocker = blocker;
       setFormData({
         ...formData,
-        isBlocked: true,
+        isBlocked,
       });
     }
   };
-
-  const block = (user) => {
+  const OnToggleBlock = (user, isBlocked) => {
     setFormData({
       ...formData,
-      isBlocked: !isBlocked,
+      isBlocked,
     });
     const data = {
       blocked: user,
       blocker: auth.user.userName,
+      isBlocked,
     };
-    ChatSocketServer.block(data);
-  };
-  const unblock = (user) => {
-    setFormData({
-      ...formData,
-      isBlocked: !isBlocked,
-    });
-    unblockUser(user);
+    ChatSocketServer.toggleBlock(data);
   };
 
   return (
@@ -89,12 +86,12 @@ const RecentItem = ({
         <div className="drop-content">
           {isBlocked ? (
             data.blocker === auth.user.userName ? (
-              <a onClick={() => unblock(user)}>Unblock User</a>
+              <a onClick={() => OnToggleBlock(user, false)}>Unblock User</a>
             ) : (
               <a style={{ cursor: "auto" }}>You Are Blocked</a>
             )
           ) : (
-            <a onClick={() => block(user)}>Block User</a>
+            <a onClick={() => OnToggleBlock(user, true)}>Block User</a>
           )}
         </div>
       </li>

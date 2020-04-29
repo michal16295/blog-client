@@ -38,9 +38,6 @@ export const getProfiles = (page, search) => async (dispatch) => {
 };
 //GET USER
 export const getProfile = (userName) => async (dispatch) => {
-  dispatch({
-    type: CLEAR_CURRENT_USER,
-  });
   try {
     let res = await http.get(apiEndpoint + "/" + userName);
     dispatch({

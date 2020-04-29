@@ -12,13 +12,13 @@ img {
   overflow: hidden;
   width: 40%;
   border-right: 1px solid #c4c4c4;
-  height: 1000px;
+  height: 1100px;
 }
 .inbox_msg {
   border: 1px solid #c4c4c4;
   clear: both;
   overflow: hidden;
-  height: 1000px;
+  height: 1100px;
 }
 .top_spac {
   margin: 20px 0 0;
@@ -102,7 +102,7 @@ img {
 
 .inbox_chat {
   overflow-y: scroll;
-  height: 950px;
+  height: 1050px;
 }
 
 .active_chat {
@@ -167,15 +167,18 @@ img {
 }
 .input_msg_write input {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-  border: medium none;
+
   color: #4c4c4c;
   font-size: 15px;
   min-height: 48px;
-  width: 100%;
+  max-height: 200px;
+  width: 70%;
 }
 
 .type_msg {
   border-top: 1px solid #c4c4c4;
+  border-bottom: 1px solid #c4c4c4;
+  max-height: 200px;
   position: relative;
 }
 .msg_send_btn {
@@ -191,12 +194,13 @@ img {
   top: 11px;
   width: 33px;
 }
+
 .messaging {
   padding: 0 0 50px 0;
-  height: 1000px;
+  height: 1100px;
 }
 .msg_history {
-  height: 800px;
+  height: 930px;
 }
 .settings {
   float: right;
@@ -258,4 +262,47 @@ li {
 }
 .avatar {
   max-width: 10%;
+}
+.type_msg {
+  border: 0 !important;
+  height: 60px !important;
+  overflow-y: auto;
+}
+.type_msg:focus {
+  box-shadow: none !important;
+  outline: 0px !important;
+}
+.attach_btn {
+  border-radius: 15px 0 0 15px !important;
+  background-color: #05728f;
+  border: 0 !important;
+  color: white !important;
+  cursor: pointer;
+}
+.send_btn {
+  border-radius: 0 15px 15px 0 !important;
+  background-color: #05728f;
+  border: 0 !important;
+  color: white !important;
+  cursor: pointer;
+}
+.dropdown-emoji {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  bottom: 50px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.drop-emoji {
+  position: relative;
+  display: inline-block;
+  display: flex;
+}
+/* Show the dropdown menu on hover */
+.drop-emoji:hover .dropdown-emoji {
+  display: block;
+  background-color: gray;
 }

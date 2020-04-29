@@ -53,7 +53,12 @@ export default function (state = initialState, action) {
         initialState.messages.push(data);
         state.messages = initialState.messages;
       } else {
-        state.messages.push(data);
+        if (
+          data.from === state.messages[0].to ||
+          data.from === state.messages[0].from
+        ) {
+          state.messages.push(data);
+        }
       }
       return {
         ...state,

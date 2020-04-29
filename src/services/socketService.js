@@ -54,9 +54,9 @@ class ChatSocketServer {
     });
   }
 
-  block(data) {
+  toggleBlock(data) {
     console.log(data);
-    this.socket.emit("block", data);
+    this.socket.emit("toggleBlock", data);
     this.socket.on("block-response", (data) => {
       this.eventEmitter.emit("block-response", data);
     });

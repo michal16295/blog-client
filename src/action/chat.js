@@ -10,15 +10,12 @@ import {
   GET_UNREAD_MSG_SUCCESS,
   GET_UNREAD_MSG_PER_PERSON_SUCCESS,
   GET_UNREAD_MSG_PER_PERSON_ERROR,
-  BLOCK_USER_ERROR,
-  BLOCK_USER_SUCCESS,
   UNBLOCK_USER_ERROR,
   UNBLOCK_USER_SUCCESS,
   GET_BLOCKED_USERS_ERROR,
   GET_BLOCKED_USERS_SUCCESS,
 } from "./constants";
 import http from "../services/httpService";
-import ChatSocketServer from "../services/socketService";
 const apiUrl = "http://localhost:5000";
 const apiEndpoint = apiUrl + "/chat";
 
@@ -47,6 +44,8 @@ export const getMsgs = (reciever, page) => async (dispatch) => {
       type: GET_MESSAGES_SUCCESS,
       data: res.data,
     });
+    dispatch(getNumUnreadMsgs(reciever));
+    dispatch(unreadMsg());
   } catch (err) {
     dispatch({
       type: GET_MESSAGES_ERROR,
@@ -61,6 +60,7 @@ export const getNumUnreadMsgs = (reciever) => async (dispatch) => {
       reciever,
       notViewed: res.data.notViewed,
     };
+    dispatch(recentConve());
     dispatch({
       type: GET_UNREAD_MSG_PER_PERSON_SUCCESS,
       data: res,

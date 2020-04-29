@@ -28,7 +28,6 @@ const AllReactions = ({
   const handleType = (newType) => {
     let prevType = false;
     if (newType !== type) prevType = true;
-    console.log(prevType);
     setFormData({
       ...formData,
       type: newType,

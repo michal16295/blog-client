@@ -7,6 +7,8 @@ import SentMessage from "./sentMessage";
 import IncomingMessage from "./incomingMessage";
 import ChatSocketServer from "../../services/socketService";
 import ScrollToBottom from "react-scroll-to-bottom";
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
 import "./chat.scss";
 
 const Conversation = ({
@@ -28,12 +30,13 @@ const Conversation = ({
     );
     ChatSocketServer.eventEmitter.on("user-login-response", userLogoutInEvent);
   }, []);
+
   useEffect(() => {
     getProfile(reciever);
   }, [reciever]);
 
   const userLogoutInEvent = ({ error, userName }) => {
-    getProfile(userName);
+    if (userName === reciever) getProfile(userName);
   };
   const onChange = (e) => {
     setMessage(e.target.value);
@@ -83,24 +86,40 @@ const Conversation = ({
             </Fragment>
           ))}
       </ScrollToBottom>
-      <div className="type_msg">
-        <div className="input_msg_write">
-          <input
-            type="text"
-            className="write_msg"
-            placeholder={isBlocked ? "THE USER IS BLOCKED" : "Type a message"}
-            name="message"
-            value={message}
+
+      <div className="card-footer">
+        <div className="input-group">
+          <div className="input-group-append">
+            <div className="drop-emoji">
+              <span className="input-group-text attach_btn">
+                <i className="far fa-smile-beam"></i>
+              </span>
+              <div className="dropdown-emoji">
+                <Picker
+                  set="apple"
+                  onSelect={(e) => {
+                    setMessage(message + e.native);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <textarea
             onChange={(e) => onChange(e)}
             disabled={isBlocked}
-          />
-          <button
-            onClick={(e) => handleSend(e)}
-            className="msg_send_btn"
-            type="button"
-          >
-            <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
-          </button>
+            value={message}
+            name="message"
+            className="form-control type_msg"
+            placeholder={isBlocked ? "THE USER IS BLOCKED" : "Type a message"}
+          ></textarea>
+          <div className="input-group-append">
+            <button
+              onClick={(e) => handleSend(e)}
+              className="input-group-text send_btn"
+            >
+              <i className="fas fa-location-arrow"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
