@@ -35,7 +35,7 @@ const Login = ({ login, isAuthenticated, googleSignUp }) => {
       <p className="lead">
         <i className="fas fa-user"></i> Sign into Your Account
       </p>
-      <button onClick={() => onClick()} type="button" class="btn btn-gplus">
+      <button onClick={() => onClick()} type="button" className="btn btn-gplus">
         <i className="fab fa-google-plus-g pr-1"></i> Sign Up With Google
       </button>
       <form className="form" onSubmit={(e) => onSubmit(e)}>

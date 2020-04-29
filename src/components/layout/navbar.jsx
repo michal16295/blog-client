@@ -112,7 +112,7 @@ const NavBar = ({
         <Link to="/blogs">Blogs</Link>
       </li>
       <li>
-        <a onClick={logout} href="#!">
+        <a onClick={() => logout(user.userName)} href="#!">
           <i className="fas fa-sign-out-alt"></i>
           Logout
         </a>

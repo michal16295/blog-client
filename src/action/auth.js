@@ -14,6 +14,7 @@ import http from "../services/httpService";
 import { setAlert } from "./alert";
 import { getNotifications, getSettings } from "./notifications";
 import { unreadMsg } from "./chat";
+import ChatSocketServer from "../services/socketService";
 
 const apiUrl = "http://localhost:5000";
 const apiEndpoint = apiUrl + "/users";
@@ -33,6 +34,9 @@ export const loadUser = () => async (dispatch) => {
       type: USER_LOADED,
       data: res.data,
     });
+    ChatSocketServer.establishSocketConnection(res.data._id);
+    ChatSocketServer.listenToSocket();
+    ChatSocketServer.login(res.data.userName);
     dispatch(getNotifications());
     dispatch(getSettings());
     dispatch(unreadMsg());
@@ -87,10 +91,12 @@ export const login = (user) => async (dispatch) => {
   }
 };
 //LOGOUT
-export const logout = () => async (dispatch) => {
-  const res = await http.get(apiEndpoint + "/api/logout", {
+export const logout = (userName) => async (dispatch) => {
+  console.log("action");
+  /**  const res = await http.get(apiEndpoint + "/logout", {
     withCredentials: true,
-  });
+  });*/
+  ChatSocketServer.logout(userName);
   window.location = "/";
   dispatch({
     type: LOGOUT_SUCCESS,

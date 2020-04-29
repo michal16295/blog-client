@@ -91,11 +91,6 @@ export default function (state = initialState, action) {
       };
     case BLOCK_USER_SUCCESS:
     case UNBLOCK_USER_SUCCESS:
-      const index = state.users.findIndex((obj) => obj.userName === data.user);
-      state.users = [
-        ...state.users.slice(0, index),
-        ...state.users.slice(index + 1),
-      ];
       return {
         ...state,
         loading: false,

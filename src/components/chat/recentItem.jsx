@@ -1,9 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import ChatSocketServer from "../../services/socketService";
 import Moment from "react-moment";
 import { getUserAvatar } from "../../action/users";
-import { getNumUnreadMsgs, blockUser, unblockUser } from "../../action/chat";
+import { getNumUnreadMsgs, unblockUser } from "../../action/chat";
+
 import "./chat.scss";
 import blocked from "../../img/blocked.png";
 
@@ -16,7 +18,6 @@ const RecentItem = ({
   getUserAvatar,
   chat,
   data,
-  blockUser,
   auth,
 }) => {
   const [formData, setFormData] = useState({
@@ -27,14 +28,29 @@ const RecentItem = ({
   useEffect(() => {
     getNumUnreadMsgs(user);
     getUserAvatar(user);
+    ChatSocketServer.eventEmitter.on("user-block-response", handleBlock);
   }, []);
+
+  const handleBlock = ({ error, blocker }) => {
+    if (data.user1 === blocker || data.user2 === blocker) {
+      data.blocker = blocker;
+      setFormData({
+        ...formData,
+        isBlocked: true,
+      });
+    }
+  };
 
   const block = (user) => {
     setFormData({
       ...formData,
       isBlocked: !isBlocked,
     });
-    blockUser(user);
+    const data = {
+      blocked: user,
+      blocker: auth.user.userName,
+    };
+    ChatSocketServer.block(data);
   };
   const unblock = (user) => {
     setFormData({
@@ -45,7 +61,7 @@ const RecentItem = ({
   };
 
   return (
-    <Fragment>
+    <div>
       <div className="chat_img">
         {" "}
         {!loading && !isBlocked && <img src={avatars[user]} alt="sunil" />}{" "}
@@ -63,7 +79,7 @@ const RecentItem = ({
       </h5>
 
       {chat && chat.notViewedPerUser[user] > 0 && (
-        <span class="badge badge-danger ml-2 unread">
+        <span className="badge badge-danger ml-2 unread">
           {chat.notViewedPerUser[user]}
         </span>
       )}
@@ -82,7 +98,8 @@ const RecentItem = ({
           )}
         </div>
       </li>
-    </Fragment>
+      <li className={`status  + ${data.online}`}>{data.online}</li>
+    </div>
   );
 };
 RecentItem.propTypes = {
@@ -93,7 +110,6 @@ RecentItem.propTypes = {
   getNumUnreadMsgs: PropTypes.func,
   profile: PropTypes.object,
   chat: PropTypes.object,
-  blockUser: PropTypes.func,
   unblockUser: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
@@ -104,6 +120,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getUserAvatar,
   getNumUnreadMsgs,
-  blockUser,
   unblockUser,
 })(RecentItem);

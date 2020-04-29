@@ -95,9 +95,11 @@ img {
   margin: 0;
   padding: 18px 16px 10px;
 }
-.chat_list :target {
-  background: #ebebeb;
+
+.chosenItem {
+  background: #666262 !important;
 }
+
 .inbox_chat {
   overflow-y: scroll;
   height: 950px;
@@ -195,7 +197,6 @@ img {
 }
 .msg_history {
   height: 800px;
-  overflow-y: auto;
 }
 .settings {
   float: right;
@@ -239,4 +240,22 @@ img {
 }
 li {
   list-style-type: none;
+}
+.status {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.N {
+  background-color: red;
+}
+.Y {
+  background-color: green;
+}
+.bar {
+  border-bottom: 2px solid #c4c4c4;
+}
+.avatar {
+  max-width: 10%;
 }

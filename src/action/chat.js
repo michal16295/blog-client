@@ -18,23 +18,20 @@ import {
   GET_BLOCKED_USERS_SUCCESS,
 } from "./constants";
 import http from "../services/httpService";
-import { setAlert } from "./alert";
-
+import ChatSocketServer from "../services/socketService";
 const apiUrl = "http://localhost:5000";
 const apiEndpoint = apiUrl + "/chat";
 
-export const sendMsg = (data) => async (dispatch) => {
+export const sendMsg = (data) => (dispatch) => {
   try {
-    const res = await http.post(apiEndpoint + "/send", data);
     dispatch({
       type: SEND_MESSAGE_SUCCESS,
-      data: res.data,
+      data: data,
     });
     dispatch(recentConve());
   } catch (err) {
     dispatch({
       type: SEND_MESSAGE_ERROR,
-      data: err.response.data,
     });
   }
 };
@@ -103,19 +100,7 @@ export const unreadMsg = () => async (dispatch) => {
     });
   }
 };
-export const blockUser = (userName) => async (dispatch) => {
-  try {
-    const res = await http.put(apiEndpoint + "/block/" + userName);
-    dispatch({
-      type: BLOCK_USER_SUCCESS,
-      data: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: BLOCK_USER_ERROR,
-    });
-  }
-};
+
 export const unblockUser = (userName) => async (dispatch) => {
   try {
     const res = await http.put(apiEndpoint + "/unblock/" + userName);
