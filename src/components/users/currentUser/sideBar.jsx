@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, useState } from "react";
+import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import CancelAccount from "./cancelAccount";
@@ -36,9 +36,7 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
       ) : (
         <Fragment>
           {show && <CancelAccount handleModal={handleModal} show={true} />}
-          <a id="show-sidebar" className="btn btn-sm btn-dark" href="#">
-            <i className="fas fa-bars"></i>
-          </a>
+
           <nav id="sidebar" className="sidebar-wrapper">
             <div className="sidebar-content">
               <div className="sidebar-header">
@@ -46,7 +44,7 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
                   <img
                     className="img-responsive img-rounded"
                     src={user.avatar}
-                    alt="User picture"
+                    alt=""
                   />
                 </div>
                 <div className="user-info">
@@ -95,10 +93,10 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
                     </Link>
                   </li>
                   <li className="sidebar-dropdown">
-                    <a href="#">
+                    <Link to="/notFound">
                       <i className="fas fa-newspaper"></i>
                       <span>Subscriptions</span>
-                    </a>
+                    </Link>
                   </li>
                   <li className="header-menu">
                     <span>Settings</span>
@@ -110,7 +108,7 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
                     </Link>
                   </li>
                   <li>
-                    <a href="#" onClick={() => handleShow()}>
+                    <a href="#!" onClick={() => handleShow()}>
                       <i className="fas fa-user-alt-slash"></i>
                       <span>Cancel Account</span>
                     </a>
@@ -136,10 +134,10 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
               <Link to="/chat">
                 <i className="fa fa-envelope"></i>
               </Link>
-              <a href="#">
+              <Link to="/notFound">
                 <i className="fa fa-cog"></i>
                 <span className="badge-sonar"></span>
-              </a>
+              </Link>
             </div>
           </nav>
         </Fragment>

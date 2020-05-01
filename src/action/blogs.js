@@ -12,8 +12,7 @@ import {
   EDIT_BLOG_SUCCESS,
 } from "./constants";
 import http from "../services/httpService";
-import { setAlert } from "./alert";
-
+import { toast } from "react-toastify";
 const apiUrl = "http://localhost:5000";
 const apiEndpoint = apiUrl + "/blogs";
 
@@ -28,7 +27,7 @@ export const createBlog = (blogData) => async (dispatch) => {
       type: CREATE_BLOG_SUCCESS,
       data: res.data,
     });
-    dispatch(setAlert("Post Added Successfully", "success"));
+    toast.success("Post Added Successfully");
     setTimeout(() => {
       window.location = "/blogs";
     }, 2000);
@@ -36,6 +35,7 @@ export const createBlog = (blogData) => async (dispatch) => {
     dispatch({
       type: CREATE_BLOG_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 //GET USERS BLOGS
@@ -57,6 +57,7 @@ export const getUsersBlogs = (page, search, userName) => async (dispatch) => {
       type: GET_USERS_BLOGS_ERROR,
       data: err.response.data,
     });
+    toast.error(err.response.data);
   }
 };
 //MY BLOGS
@@ -73,6 +74,7 @@ export const myBlogs = (page, search) => async (dispatch) => {
       type: GET_USERS_BLOGS_ERROR,
       data: err.response.data,
     });
+    toast.error(err.response.data);
   }
 };
 //ALL BLOGS
@@ -93,6 +95,7 @@ export const allBlogs = (page, search) => async (dispatch) => {
       type: GET_USERS_BLOGS_ERROR,
       data: err.response.data,
     });
+    toast.error(err.response.data);
   }
 };
 //DELETE POST
@@ -103,7 +106,7 @@ export const deletePost = (blogId) => async (dispatch) => {
       type: DELETE_POST_SUCCESS,
       data: res.data,
     });
-    dispatch(setAlert(res.data, "success"));
+    toast.success(res.data);
     setTimeout(() => {
       window.location = "/blogs";
     }, 2000);
@@ -111,6 +114,7 @@ export const deletePost = (blogId) => async (dispatch) => {
     dispatch({
       type: DELETE_POST_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 //GET POST BY ID
@@ -141,7 +145,7 @@ export const editBlog = (blogData) => async (dispatch) => {
       type: EDIT_BLOG_SUCCESS,
       data: res.data,
     });
-    dispatch(setAlert(res.data, "success"));
+    toast.success(res.data);
     setTimeout(() => {
       window.location = `/blog/${blogData.id}`;
     }, 2000);
@@ -149,6 +153,7 @@ export const editBlog = (blogData) => async (dispatch) => {
     dispatch({
       type: EDIT_BLOG_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 

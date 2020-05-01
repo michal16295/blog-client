@@ -12,10 +12,9 @@ import {
   GET_AVATAR_SUCCESS,
 } from "./constants";
 import http from "../services/httpService";
-import { setAlert } from "./alert";
+import { toast } from "react-toastify";
 const apiUrl = "http://localhost:5000";
 const apiEndpoint = apiUrl + "/users";
-const tokenKey = "token";
 
 //GET ALL USERS
 export const getProfiles = (page, search) => async (dispatch) => {
@@ -34,6 +33,7 @@ export const getProfiles = (page, search) => async (dispatch) => {
     dispatch({
       type: ALL_USERS_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 //GET USER
@@ -67,7 +67,7 @@ export const editUser = (id, data) => async (dispatch) => {
       type: EDIT_ERROR,
       data: err.response.data,
     });
-    dispatch(setAlert(err.response.data, "danger"));
+    toast.error(err.response.data);
   }
 };
 export const getUserAvatar = (userName) => async (dispatch) => {
@@ -86,7 +86,7 @@ export const getUserAvatar = (userName) => async (dispatch) => {
       type: GET_AVATAR_ERROR,
       data: err.response.data,
     });
-    dispatch(setAlert(err.response.data, "danger"));
+    toast.error(err.response.data);
   }
 };
 //DELETE ACCOUNT
@@ -102,6 +102,7 @@ export const deleteAccount = (data) => async (dispatch) => {
       type: DELETE_ACCOUNT_ERROR,
       data: err.response,
     });
+    toast.error(err.response.data);
   }
 };
 //RANDOM AVATAR

@@ -15,32 +15,31 @@ import {
   EDIT_GROUP_ERROR,
   REMOVE_MEMBER_ERROR,
   REMOVE_MEMBER_SUCCESS,
-  CLEAR_CURRENT_GROUP
+  CLEAR_CURRENT_GROUP,
 } from "./constants";
 import http from "../services/httpService";
-import { setAlert } from "./alert";
-
+import { toast } from "react-toastify";
 const apiUrl = "http://localhost:5000";
 const apiEndpoint = apiUrl + "/groups";
 
 //CREATE GROUP
-export const createGroup = groupData => async dispatch => {
+export const createGroup = (groupData) => async (dispatch) => {
   try {
     const res = await http.post(apiEndpoint + "/create", groupData);
     dispatch({
       type: GROUP_CREATED_SUCCESS,
-      data: res.data
+      data: res.data,
     });
     window.location = "/groups";
   } catch (err) {
-    dispatch(setAlert(err.response.data, "danger"));
     dispatch({
-      type: GROUP_CREATED_ERROR
+      type: GROUP_CREATED_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 //GET ALL GROUPS
-export const getGroups = (page, search) => async dispatch => {
+export const getGroups = (page, search) => async (dispatch) => {
   if (search === "") dispatch(clearCurrent());
   try {
     let res = await http.get(
@@ -48,32 +47,33 @@ export const getGroups = (page, search) => async dispatch => {
     );
     dispatch({
       type: GET_ALL_GROUPS,
-      data: res.data[0]
+      data: res.data[0],
     });
   } catch (err) {
     dispatch({
-      type: GET_ALL_GROUPS_ERROR
+      type: GET_ALL_GROUPS_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 //DELETE GROUP
-export const groupDelete = groupId => async dispatch => {
+export const groupDelete = (groupId) => async (dispatch) => {
   try {
     const res = await http.delete(apiEndpoint + "/delete/" + groupId);
     dispatch({
       type: GROUP_DELETE_SECCESS,
-      data: res.data
+      data: res.data,
     });
     window.location = "/groups";
   } catch (err) {
-    dispatch(setAlert(err.response.data, "danger"));
     dispatch({
-      type: GROUP_DELETE_ERROR
+      type: GROUP_DELETE_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 //USERS GROUPS
-export const getUsersGroups = (page, search, userName) => async dispatch => {
+export const getUsersGroups = (page, search, userName) => async (dispatch) => {
   if (search === "") dispatch(clearCurrent());
   try {
     let res = await http.get(
@@ -81,113 +81,115 @@ export const getUsersGroups = (page, search, userName) => async dispatch => {
     );
     dispatch({
       type: GET_ALL_GROUPS,
-      data: res.data[0]
+      data: res.data[0],
     });
   } catch (err) {
     dispatch({
-      type: GET_ALL_GROUPS_ERROR
+      type: GET_ALL_GROUPS_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 //GET SINGLE GROUP
-export const getGroup = id => async dispatch => {
+export const getGroup = (id) => async (dispatch) => {
   dispatch(clearCurrent());
   try {
     const res = await http.get(apiEndpoint + "/" + id);
     dispatch({
       type: GROUP_PROFILE_SUCCESS,
-      data: res.data
+      data: res.data,
     });
   } catch (err) {
     dispatch({
       type: GROUP_PROFILE_ERROR,
-      data: err
+      data: err,
     });
     if (err.response.status === 404) window.location = "/notFound";
   }
 };
 //GET GROUPS MEMBERS
-export const getGroupMembers = (page, search, groupId) => async dispatch => {
+export const getGroupMembers = (page, search, groupId) => async (dispatch) => {
   try {
     let res = await http.get(
       apiEndpoint + "/members/" + page + "/" + groupId + "?search=" + search
     );
     dispatch({
       type: GROUPS_MEMBERS_SUCCESS,
-      data: res.data[0]
+      data: res.data[0],
     });
   } catch (err) {
     dispatch({
-      type: GROUPS_MEMBERS_ERROR
+      type: GROUPS_MEMBERS_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 //ADD MEMBER
-export const addMember = (member, groupId) => async dispatch => {
+export const addMember = (member, groupId) => async (dispatch) => {
   try {
     const res = await http.post(
       apiEndpoint + "/addMember/" + groupId + "/" + member
     );
     dispatch({
       type: ADD_MEMBER_SUCCESS,
-      data: res.data
+      data: res.data,
     });
-    dispatch(setAlert(res.data, "success"));
+    toast.success(res.data);
     setTimeout(() => {
       window.location.reload();
     }, 2000);
   } catch (err) {
     dispatch({
       type: ADD_MEMBER_ERROR,
-      data: err.response
+      data: err.response,
     });
-    dispatch(setAlert(err.response.data, "danger"));
+    toast.error(err.response.data);
   }
 };
 //EDIT GROUP
-export const editGroup = group => async dispatch => {
+export const editGroup = (group) => async (dispatch) => {
   try {
     const res = await http.put(apiEndpoint + "/edit", group);
     dispatch({
       type: EDIT_GROUP_SUCCESS,
-      data: res.data
+      data: res.data,
     });
-    dispatch(setAlert(res.data, "success"));
+    toast.success(res.data);
     setTimeout(() => {
       window.location.reload();
     }, 2000);
   } catch (err) {
     dispatch({
       type: EDIT_GROUP_ERROR,
-      data: err.response
+      data: err.response,
     });
-    dispatch(setAlert(err.response.data, "danger"));
+    toast.error(err.response.data);
   }
 };
 //REMOVE MEMBER
-export const removeMember = (groupId, member) => async dispatch => {
+export const removeMember = (groupId, member) => async (dispatch) => {
   try {
     const res = await http.delete(
       apiEndpoint + "/removeMember/" + groupId + "/" + member
     );
     dispatch({
       type: REMOVE_MEMBER_SUCCESS,
-      data: res.data
+      data: res.data,
     });
-    dispatch(setAlert(res.data, "success"));
+    toast.success(res.data);
     setTimeout(() => {
       window.location.reload();
     }, 2000);
   } catch (err) {
     dispatch({
       type: REMOVE_MEMBER_ERROR,
-      data: err.response
+      data: err.response,
     });
-    dispatch(setAlert(err.response.data, "danger"));
+    toast.error(err.response.data);
   }
 };
 export const clearCurrent = () => {
   return {
-    type: CLEAR_CURRENT_GROUP
+    type: CLEAR_CURRENT_GROUP,
   };
 };

@@ -9,7 +9,6 @@ import {
   GET_REACTIONS_ERROR,
   GET_REACTIONS_SUCCESS,
   NUM_OF_REACTIONS_SUCCESS,
-  NUM_OF_REACTIONS_ERROR,
   CLEAR_REACTIONS,
 } from "../action/constants";
 const initialState = {

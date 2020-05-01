@@ -1,31 +1,43 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useEffect, Fragment, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Feed, Icon, Comment, Form, Header } from "semantic-ui-react";
+import { Feed, Comment, Header } from "semantic-ui-react";
 import { getNotifications } from "../../action/notifications";
-import Moment from "react-moment";
-import { Link } from "react-router-dom";
+import Pagination from "../../common/pagination";
 import NotificationItem from "./notificationItem";
 
 const Notifications = ({
   getNotifications,
-  notification: { notifications, AllCount },
+  notification: { notifications, AllCount, itemsPerPage },
 }) => {
   useEffect(() => {
     getNotifications();
   }, []);
 
+  const [currentPage, setPage] = useState(1);
+  const handlePageChange = (page) => {
+    setPage(page);
+    getNotifications(page);
+  };
   return (
-    <Comment.Group className="container">
-      <Header as="h3" dividing>
-        Notifications
-      </Header>
-      <Feed>
-        {notifications &&
-          notifications.length > 0 &&
-          notifications.map((i) => <NotificationItem key={i._id} data={i} />)}
-      </Feed>
-    </Comment.Group>
+    <Fragment>
+      <Comment.Group className="container">
+        <Header as="h3" dividing>
+          Notifications
+        </Header>
+        <Feed>
+          {notifications &&
+            notifications.length > 0 &&
+            notifications.map((i) => <NotificationItem key={i._id} data={i} />)}
+        </Feed>
+      </Comment.Group>
+      <Pagination
+        itemsCount={AllCount}
+        currentPage={currentPage}
+        onPageChange={(page) => handlePageChange(page)}
+        pageSize={itemsPerPage}
+      />
+    </Fragment>
   );
 };
 Notifications.propTypes = {

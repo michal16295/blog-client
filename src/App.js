@@ -6,7 +6,6 @@ import Landing from "./components/layout/landing";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
-import Alert from "./components/layout/alert";
 import http from "./services/httpService";
 import { loadUser } from "./action/auth";
 import AllUsers from "./components/users/AllUsers";
@@ -28,6 +27,9 @@ import SideBar from "./components/users/currentUser/sideBar";
 import UserGroups from "./components/users/profile/userGroups";
 import BlockedUsers from "./components/users/currentUser/blockedUsers";
 import NotificationsSettings from "./components/notifications/notifSettings";
+import ChatSocketServer from "./services/socketService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 if (localStorage.token) {
@@ -35,8 +37,16 @@ if (localStorage.token) {
 }
 const App = () => {
   useEffect(() => {
+    ChatSocketServer.eventEmitter.on(
+      "user-notification-response",
+      handleNotifications
+    );
     store.dispatch(loadUser());
   }, []);
+
+  const handleNotifications = (data) => {
+    toast(data.from + " " + data.content);
+  };
   const sideBarPages = () => {
     return (
       <Fragment>
@@ -82,7 +92,6 @@ const App = () => {
       <Router>
         <Fragment>
           <NavBar />
-          <Alert />
 
           <Switch>
             <Route exact path="/" component={Landing}></Route>
@@ -116,6 +125,7 @@ const App = () => {
           </Switch>
         </Fragment>
       </Router>
+      <ToastContainer />
     </Provider>
   );
 };

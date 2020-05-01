@@ -13,8 +13,7 @@ import {
   CLEAR_REACTIONS,
 } from "./constants";
 import http from "../services/httpService";
-import { setAlert } from "./alert";
-
+import { toast } from "react-toastify";
 const apiUrl = "http://localhost:5000";
 const apiEndpoint = apiUrl + "/reactions";
 
@@ -29,6 +28,7 @@ export const setReaction = (data) => async (dispatch) => {
     dispatch({
       type: SET_REACTION_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 export const getCurrentUserReaction = (blogId) => async (dispatch) => {
@@ -60,6 +60,7 @@ export const deleteReaction = (blogId, userName) => async (dispatch) => {
     dispatch({
       type: DELETE_REACTION_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 

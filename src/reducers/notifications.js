@@ -38,11 +38,13 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case GET_NOTIFY_SUCCESS:
+      console.log(data);
       return {
         ...state,
         notViewed: data.notViewed,
         notifications: data.data[0].data,
         AllCount: data.data[0].metadata[0].total,
+        itemsPerPage: data.data[0].metadata[0].ITEMS_PER_PAGE,
         loading: false,
       };
     case SET_VIEWED_TRUE:

@@ -3,10 +3,15 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../action/auth";
-import { getNotifications, updateViewed } from "../../action/notifications";
+import {
+  getNotifications,
+  updateViewed,
+  setViewedAll,
+} from "../../action/notifications";
 import { unreadMsg } from "../../action/chat";
-import { Feed, Icon, Comment, Form, Header } from "semantic-ui-react";
+import { Feed } from "semantic-ui-react";
 import ChatSocketServer from "../../services/socketService";
+import { Checkbox } from "semantic-ui-react";
 import Moment from "react-moment";
 import "./navbar.css";
 
@@ -18,15 +23,28 @@ const NavBar = ({
   logout,
   getNotifications,
   notification: { loading, notViewed, AllCount, notifications },
+  setViewedAll,
 }) => {
   useEffect(() => {
     ChatSocketServer.eventEmitter.on("add-message-response", handleUnreadMsgs);
+    ChatSocketServer.eventEmitter.on(
+      "user-notification-response",
+      handleNotifications
+    );
     getNotifications();
     unreadMsg();
   }, []);
+  const [markAll, setMarkAll] = useState(false);
 
   const handleUnreadMsgs = (data) => {
     unreadMsg();
+  };
+  const handleNotifications = (data) => {
+    getNotifications();
+  };
+  const handleCheckAll = (e, data) => {
+    setMarkAll(data.checked);
+    setViewedAll();
   };
   const guestLinks = (
     <ul>
@@ -60,6 +78,11 @@ const NavBar = ({
                   className="fas fa-cog settings"
                   to="/settings/notifications"
                 ></Link>
+                <Checkbox
+                  name="markAll"
+                  onChange={(e, data) => handleCheckAll(e, data)}
+                  slider
+                />
               </h6>
             </Fragment>
 
@@ -143,6 +166,7 @@ NavBar.propTypes = {
   updateViewed: PropTypes.func,
   unreadMsg: PropTypes.func,
   chat: PropTypes.object.isRequired,
+  setViewedAll: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -154,4 +178,5 @@ export default connect(mapStateToProps, {
   getNotifications,
   updateViewed,
   unreadMsg,
+  setViewedAll,
 })(NavBar);

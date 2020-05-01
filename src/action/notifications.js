@@ -6,10 +6,9 @@ import {
   SET_SETTINGS_SUCCESS,
   GET_SETTINGS_SUCCESS,
   GET_SETTINGS_ERROR,
-  CLEAR_NOTIFY,
 } from "./constants";
 import http from "../services/httpService";
-import { setAlert } from "./alert";
+import { toast } from "react-toastify";
 
 const apiUrl = "http://localhost:5000";
 const apiEndpoint = apiUrl + "/notifications";
@@ -25,6 +24,7 @@ export const getNotifications = (page) => async (dispatch) => {
     dispatch({
       type: GET_NOTIFY_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 
@@ -36,27 +36,24 @@ export const updateViewed = (id) => async (dispatch) => {
       data: res.data,
     });
   } catch (err) {
-    dispatch(setAlert(err.response.message, "danger"));
+    toast.error(err.response.data);
   }
 };
 
 export const setNotifySettings = (data) => async (dispatch) => {
-  console.log(data);
   try {
     const res = await http.post(apiEndpoint + "/settings", data);
-    console.log(res);
     dispatch({
       type: SET_SETTINGS_SUCCESS,
       data: res.data,
     });
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
+    toast.success("Settings Changed");
   } catch (err) {
     dispatch({
       type: SET_SETTINGS_ERROR,
       data: err.response.data,
     });
+    toast.error(err.response.data);
   }
 };
 
@@ -72,5 +69,19 @@ export const getSettings = () => async (dispatch) => {
       type: GET_SETTINGS_ERROR,
       data: err.response.data,
     });
+    toast.error(err.response.data);
+  }
+};
+
+export const setViewedAll = () => async (dispatch) => {
+  try {
+    const res = await http.put(apiEndpoint + "/checkAll");
+    dispatch({
+      type: SET_VIEWED_TRUE,
+      data: res.data,
+    });
+    dispatch(getNotifications());
+  } catch (err) {
+    toast.error(err.response.data);
   }
 };

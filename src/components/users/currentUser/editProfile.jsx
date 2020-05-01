@@ -1,10 +1,10 @@
-import React, { useEffect, Fragment, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loadUser } from "../../../action/auth";
 import { editUser, getRandomAvatar } from "../../../action/users";
 import "./profile.css";
-import { Button, Checkbox, Form, Input } from "semantic-ui-react";
+import { Button, Form, Input } from "semantic-ui-react";
 
 const EditUser = ({
   editUser,

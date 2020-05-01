@@ -26,7 +26,7 @@ const UserBlogs = ({
   };
   useEffect(() => {
     common();
-  }, []);
+  }, [currentUser]);
 
   const handlePageChange = (page) => {
     setFormData({

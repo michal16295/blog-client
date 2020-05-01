@@ -20,11 +20,9 @@ const Reactions = ({
 }) => {
   const [formData, setFormData] = useState({
     name: "",
-    type: "",
-    page: 1,
     showModal: false,
   });
-  const { name, type, page, showModal } = formData;
+  const { name, showModal } = formData;
   useEffect(() => {
     getCurrentUserReaction(blog._id);
     setFormData({
@@ -65,7 +63,7 @@ const Reactions = ({
           blogId={blog._id}
         />
       )}
-      <div className="box col-2">
+      <span className="box">
         {reaction !== "" && reaction !== undefined && !reaction.loading ? (
           name !== "" ? (
             <Button as="div" labelPosition="right">
@@ -132,7 +130,7 @@ const Reactions = ({
         >
           <span className="legend-reaction">Angry</span>
         </button>
-      </div>
+      </span>
     </Fragment>
   );
 };

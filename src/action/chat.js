@@ -16,6 +16,7 @@ import {
   GET_BLOCKED_USERS_SUCCESS,
 } from "./constants";
 import http from "../services/httpService";
+import { toast } from "react-toastify";
 const apiUrl = "http://localhost:5000";
 const apiEndpoint = apiUrl + "/chat";
 
@@ -30,12 +31,14 @@ export const sendMsg = (data) => (dispatch) => {
     dispatch({
       type: SEND_MESSAGE_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 export const getMsgs = (reciever, page) => async (dispatch) => {
-  dispatch({
-    type: CLEAR_MESSAGES,
-  });
+  if (page === 1)
+    dispatch({
+      type: CLEAR_MESSAGES,
+    });
   try {
     const res = await http.get(
       apiEndpoint + "/getMessages/" + reciever + "/" + page
@@ -51,6 +54,7 @@ export const getMsgs = (reciever, page) => async (dispatch) => {
       type: GET_MESSAGES_ERROR,
       data: err.response,
     });
+    toast.error(err.response.data);
   }
 };
 export const getNumUnreadMsgs = (reciever) => async (dispatch) => {
@@ -70,6 +74,7 @@ export const getNumUnreadMsgs = (reciever) => async (dispatch) => {
       type: GET_UNREAD_MSG_PER_PERSON_ERROR,
       data: err.response,
     });
+    toast.error(err.response.data);
   }
 };
 export const recentConve = () => async (dispatch) => {
@@ -84,6 +89,7 @@ export const recentConve = () => async (dispatch) => {
       type: RECENT_CONVERSATION_ERROR,
       data: err.response,
     });
+    toast.error(err.response.data);
   }
 };
 export const unreadMsg = () => async (dispatch) => {
@@ -98,22 +104,22 @@ export const unreadMsg = () => async (dispatch) => {
       type: GET_UNREAD_MSG_ERROR,
       data: err.response,
     });
+    toast.error(err.response.data);
   }
 };
 
-export const unblockUser = (userName) => async (dispatch) => {
+export const unblockUser = (user) => async (dispatch) => {
   try {
-    const res = await http.put(apiEndpoint + "/unblock/" + userName);
     dispatch({
       type: UNBLOCK_USER_SUCCESS,
-      data: res.data,
+      data: user,
     });
   } catch (err) {
-    console.log(err);
     dispatch({
       type: UNBLOCK_USER_ERROR,
       data: err.response.data,
     });
+    toast.error(err.response.data);
   }
 };
 export const getBlockedUsers = () => async (dispatch) => {
@@ -131,5 +137,6 @@ export const getBlockedUsers = () => async (dispatch) => {
       type: GET_BLOCKED_USERS_ERROR,
       data: err.response.data,
     });
+    toast.error(err.response.data);
   }
 };

@@ -28,6 +28,7 @@ const initialState = {
   notViewedPerUser: {},
   error: "",
   users: [],
+  currentCount: 0,
 };
 
 export default function (state = initialState, action) {
@@ -68,9 +69,11 @@ export default function (state = initialState, action) {
     case GET_MESSAGES_SUCCESS:
       return {
         ...state,
-        messages: data[0].data,
+        messages: data[0].data.concat(state.messages),
         AllCount: data[0].metadata[0].total,
+        itemsPerPage: data[0].metadata[0].ITEMS_PER_PAGE,
         loading: false,
+        currentCount: data[0].data.length,
       };
     case RECENT_CONVERSATION_SUCCESS:
       return {
@@ -96,6 +99,13 @@ export default function (state = initialState, action) {
       };
     case BLOCK_USER_SUCCESS:
     case UNBLOCK_USER_SUCCESS:
+      const index = state.users.findIndex(
+        (obj) => obj.userName === data.userName
+      );
+      state.users = [
+        ...state.users.slice(0, index),
+        ...state.users.slice(index + 1),
+      ];
       return {
         ...state,
         loading: false,
@@ -115,6 +125,8 @@ export default function (state = initialState, action) {
         error: "",
         res: "",
         users: [],
+        currentCount: 0,
+        itemsPerPage: 0,
       };
 
     default:

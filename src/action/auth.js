@@ -11,11 +11,10 @@ import {
   CLEAR_CURRENT_USER,
 } from "./constants";
 import http from "../services/httpService";
-import { setAlert } from "./alert";
 import { getNotifications, getSettings } from "./notifications";
 import { unreadMsg } from "./chat";
 import ChatSocketServer from "../services/socketService";
-
+import { toast } from "react-toastify";
 const apiUrl = "http://localhost:5000";
 const apiEndpoint = apiUrl + "/users";
 const tokenKey = "token";
@@ -44,6 +43,7 @@ export const loadUser = () => async (dispatch) => {
     dispatch({
       type: AUTH_ERROR,
     });
+    toast.error(err.response.data);
   }
 };
 //GET CURRENT TOKEN
@@ -61,13 +61,10 @@ export const register = (user) => async (dispatch) => {
     });
     localStorage.setItem("token", res.headers["x-auth-token"]);
   } catch (err) {
-    const errors = err.response.data;
-    if (errors) {
-      dispatch(setAlert(errors, "danger"));
-    }
     dispatch({
       type: REGISTER_FAIL,
     });
+    toast.error(err.response.data);
   }
 };
 //LOGIN USER
@@ -81,21 +78,14 @@ export const login = (user) => async (dispatch) => {
     localStorage.setItem("token", res.headers["x-auth-token"]);
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data;
-    if (errors) {
-      dispatch(setAlert(errors, "danger"));
-    }
     dispatch({
       type: LOGIN_FAIL,
     });
+    toast.error(err.response.data);
   }
 };
 //LOGOUT
 export const logout = (userName) => async (dispatch) => {
-  console.log("action");
-  /**  const res = await http.get(apiEndpoint + "/logout", {
-    withCredentials: true,
-  });*/
   ChatSocketServer.logout(userName);
   window.location = "/";
   dispatch({
@@ -114,17 +104,14 @@ export const changePass = (id, newPassword) => async (dispatch) => {
       type: CHANGE_PASS_SUCCESS,
       data: res.data,
     });
-    dispatch(setAlert("Password Changed", "success"));
+    toast.success("Password Changed");
     setTimeout(() => {
       window.location = "/";
     }, 1000);
   } catch (err) {
-    const errors = err.response.data;
-    if (errors) {
-      dispatch(setAlert(errors, "danger"));
-    }
     dispatch({
       type: CHANGE_PASS_ERROR,
     });
+    toast.error(err.response.data);
   }
 };

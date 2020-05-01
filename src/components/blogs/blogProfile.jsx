@@ -5,12 +5,10 @@ import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";
 import { getPost } from "../../action/blogs";
 import Moment from "react-moment";
-import avatar from "../../img/avatar.png";
 import { deletePost } from "../../action/blogs";
-import { MDBBadge, MDBContainer } from "mdbreact";
-import { getReactions, numOfReactions } from "../../action/reactions";
+import { MDBBadge } from "mdbreact";
+import { numOfReactions } from "../../action/reactions";
 import Reactions from "../reactions/reactions";
-import AllReactions from "../reactions/allReactions";
 import { createComment } from "../../action/comment";
 import AllComments from "../comments/allComments";
 import { Button, Icon, Label } from "semantic-ui-react";
@@ -18,7 +16,6 @@ import { Button, Icon, Label } from "semantic-ui-react";
 const BlogProfile = ({
   profile: { avatars },
   numOfReactions,
-  getReactions,
   createComment,
   auth,
   getPost,
@@ -31,12 +28,10 @@ const BlogProfile = ({
     deletePost(e);
   };
   const [formData, setFormData] = useState({
-    page: 1,
-    type: "",
     comment: false,
     commentData: "",
   });
-  const { page, type, comment, commentData } = formData;
+  const { comment, commentData } = formData;
 
   useEffect(() => {
     getPost(match.params.id);
@@ -138,15 +133,12 @@ const BlogProfile = ({
                     {user}
                   </MDBBadge>
                 ))}
-              {groups.length > 0 ? (
+              {groups.length > 0 &&
                 groups.map((group) => (
                   <MDBBadge key={group._id} color="default">
                     {group}
                   </MDBBadge>
-                ))
-              ) : (
-                <MDBBadge color="default">Public</MDBBadge>
-              )}
+                ))}
             </span>
             <br />
 
@@ -154,33 +146,27 @@ const BlogProfile = ({
             <p>{blog.description}</p>
 
             <hr className="solid" />
-            <div className="row">
-              <Reactions />
+            <Reactions />
 
-              <Button as="div" labelPosition="left">
-                <Label as="a" basic pointing="right">
-                  {AllCount}
-                </Label>
-                <Button
-                  onClick={() =>
-                    setFormData({ ...formData, comment: !comment })
-                  }
-                  icon
-                >
-                  <Icon name="comment" />
-                  Comment
-                </Button>
+            <Button as="div" labelPosition="left">
+              <Label as="a" basic pointing="right">
+                {AllCount}
+              </Label>
+              <Button
+                onClick={() => setFormData({ ...formData, comment: !comment })}
+                icon
+              >
+                <Icon name="comment" />
+                Comment
               </Button>
-              <span className="col-7"></span>
-              <span style={{ float: "right" }} className="w3-right w3-opacity">
-                {auth.user &&
-                  !auth.loading &&
-                  auth.user.userName === blog.owner &&
-                  authButtons}
-              </span>
-            </div>
+            </Button>
+            <span style={{ float: "right" }} className="w3-right w3-opacity">
+              {auth.user &&
+                !auth.loading &&
+                auth.user.userName === blog.owner &&
+                authButtons}
+            </span>
             {comment && commentInput}
-
             <AllComments />
           </div>
         </section>
@@ -193,7 +179,6 @@ BlogProfile.propTypes = {
   getPost: PropTypes.func.isRequired,
   blog: PropTypes.object.isRequired,
   deletePost: PropTypes.func,
-  getReactions: PropTypes.func,
   createComment: PropTypes.func,
   comment: PropTypes.object,
   numOfReactions: PropTypes.func,
@@ -208,7 +193,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getPost,
   deletePost,
-  getReactions,
   createComment,
   numOfReactions,
 })(BlogProfile);

@@ -79,7 +79,7 @@ const Chat = ({
         recentConvo.map((i) => (
           <div key={i._id} className="chat_list">
             <div className="chat_people">
-              <div className="chat_ib">
+              <div className="chat_ib ">
                 {user && i.user1 !== user.userName && (
                   <RecentItem
                     data={i}

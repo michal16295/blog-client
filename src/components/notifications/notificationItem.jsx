@@ -1,7 +1,7 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Feed, Icon, Comment, Form, Header } from "semantic-ui-react";
+import { Feed } from "semantic-ui-react";
 import { getUserAvatar } from "../../action/users";
 import Moment from "react-moment";
 import { Link } from "react-router-dom";

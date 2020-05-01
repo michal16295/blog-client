@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getProfiles } from "../../action/users";
@@ -87,7 +87,8 @@ const CreateGroup = ({
         </div>
         <div>
           <AsyncSelect
-            placeholder="select members"
+            style={{ overflow: "scroll" }}
+            placeholder="Members - Start Typing .."
             defaultOptions
             isMulti
             cacheOptions
@@ -97,6 +98,7 @@ const CreateGroup = ({
         </div>
         <p></p>
         <input type="submit" className="btn btn-primary" value="Create" />
+        <p></p>
         <p></p>
       </form>
     </section>

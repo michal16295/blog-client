@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Button, Checkbox, Icon, Table } from "semantic-ui-react";
+import { Button, Checkbox, Table } from "semantic-ui-react";
 import { setNotifySettings, getSettings } from "../../action/notifications";
 
 const NotificationsSettings = ({

@@ -34,6 +34,11 @@ class ChatSocketServer {
       console.log("user-login-response", data);
       this.eventEmitter.emit("user-login-response", data);
     });
+
+    this.socket.on("user-notification-response", (data) => {
+      console.log("user-notification-response", data);
+      this.eventEmitter.emit("user-notification-response", data);
+    });
   }
 
   sendMessage(data) {

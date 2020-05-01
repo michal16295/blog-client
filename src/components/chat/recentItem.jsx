@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ChatSocketServer from "../../services/socketService";
@@ -86,12 +86,14 @@ const RecentItem = ({
         <div className="drop-content">
           {isBlocked ? (
             data.blocker === auth.user.userName ? (
-              <a onClick={() => OnToggleBlock(user, false)}>Unblock User</a>
+              <span onClick={() => OnToggleBlock(user, false)}>
+                Unblock User
+              </span>
             ) : (
-              <a style={{ cursor: "auto" }}>You Are Blocked</a>
+              <span style={{ cursor: "auto" }}>You Are Blocked</span>
             )
           ) : (
-            <a onClick={() => OnToggleBlock(user, true)}>Block User</a>
+            <span onClick={() => OnToggleBlock(user, true)}>Block User</span>
           )}
         </div>
       </li>

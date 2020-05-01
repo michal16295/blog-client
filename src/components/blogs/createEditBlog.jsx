@@ -53,7 +53,7 @@ const CreateBlog = ({
         tags: blog.blog.tags,
       });
     }
-  }, []);
+  }, [blog.blog.title]);
   const onChange = (e) => {
     setFormData({
       ...formData,

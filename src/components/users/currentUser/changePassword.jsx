@@ -1,8 +1,8 @@
-import React, { useEffect, Fragment, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { changePass } from "../../../action/auth";
-import { Button, Checkbox, Form, Input } from "semantic-ui-react";
+import { Button, Form, Input } from "semantic-ui-react";
 
 const ChangePass = ({ changePass, auth: { user, loading } }) => {
   const [formData, setFormData] = useState({

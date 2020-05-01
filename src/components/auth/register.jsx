@@ -1,12 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { setAlert } from "../../action/alert";
 import { register } from "../../action/auth";
 import PropTypes from "prop-types";
 import { googleSignUp } from "../../action/auth";
-
-const Register = ({ setAlert, register, isAuthenticated, googleSignUp }) => {
+import { ToastContainer, toast } from "react-toastify";
+const Register = ({ register, isAuthenticated, googleSignUp }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -38,7 +37,7 @@ const Register = ({ setAlert, register, isAuthenticated, googleSignUp }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (password !== password2) {
-      setAlert("Passwords do not match", "danger");
+      toast.error("Passwords do not match");
     } else {
       register(formData);
     }
@@ -127,19 +126,17 @@ const Register = ({ setAlert, register, isAuthenticated, googleSignUp }) => {
       <p className="my-1">
         Already have an account? <Link to="/login">Sign In</Link>
       </p>
+      <ToastContainer />
     </section>
   );
 };
 
 Register.propTypes = {
   isAuthenticated: PropTypes.bool,
-  setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
   googleSignUp: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
-export default connect(mapStateToProps, { setAlert, register, googleSignUp })(
-  Register
-);
+export default connect(mapStateToProps, { register, googleSignUp })(Register);

@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { removeMember } from "../../action/groups";
 import avatar from "../../img/avatar.png";
 import { unblockUser } from "../../action/chat";
+import ChatSocketServer from "../../services/socketService";
 
 const ProfileItem = ({
   blocked,
@@ -18,7 +19,14 @@ const ProfileItem = ({
   const handleRemove = () => {
     removeMember(groupId, profile.userName);
   };
-
+  const OnToggleBlock = (userName) => {
+    const data = {
+      blocked: userName,
+      blocker: user.userName,
+      isBlocked: false,
+    };
+    ChatSocketServer.toggleBlock(data);
+  };
   return (
     <div className="profile bg-light">
       <img src={profile.avatar || avatar} alt="avatar" />
@@ -64,7 +72,7 @@ const ProfileItem = ({
           )}
           {blocked && (
             <button
-              onClick={() => unblockUser(profile.userName)}
+              onClick={() => OnToggleBlock(profile.userName)}
               className="btn btn-danger"
             >
               Unblock

@@ -1,24 +1,25 @@
-import React, { useEffect, Fragment, useState } from "react";
+import React, { useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getBlockedUsers } from "../../../action/chat";
+import { getBlockedUsers, unblockUser } from "../../../action/chat";
 import "./profile.css";
-import { Button, Checkbox, Form, Input } from "semantic-ui-react";
 import ProfileItem from "./../profileItem";
 import Spinner from "../../../common/Spinner";
+import ChatSocketServer from "./../../../services/socketService";
 
 const BlockedUsers = ({
   chat: { error, users, loading },
   getBlockedUsers,
   auth,
+  unblockUser,
 }) => {
-  const [formData, setFormData] = useState({});
-  const {} = formData;
-
   useEffect(() => {
+    ChatSocketServer.eventEmitter.on("user-block-response", handleToggleBlock);
     getBlockedUsers();
   }, []);
-
+  const handleToggleBlock = (data) => {
+    unblockUser(data);
+  };
   return (
     <Fragment>
       <h2>Blocked Users</h2>
@@ -38,6 +39,7 @@ BlockedUsers.propTypes = {
   auth: PropTypes.object.isRequired,
   getBlockedUsers: PropTypes.func.isRequired,
   chat: PropTypes.object.isRequired,
+  unblockUser: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -45,4 +47,5 @@ const mapStateToProps = (state) => ({
 });
 export default connect(mapStateToProps, {
   getBlockedUsers,
+  unblockUser,
 })(BlockedUsers);
