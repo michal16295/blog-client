@@ -66,8 +66,8 @@ const Reactions = ({
       <span className="box">
         {reaction !== "" && reaction !== undefined && !reaction.loading ? (
           name !== "" ? (
-            <Button as="div" labelPosition="right">
-              <Button icon onClick={() => handleUnlike()}>
+            <Button compact as="div" labelPosition="right">
+              <Button compact icon onClick={() => handleUnlike()}>
                 <Image className={"label-reactions " + name} avatar />
                 {name}
               </Button>
@@ -77,7 +77,7 @@ const Reactions = ({
             </Button>
           ) : (
             <Button as="div" labelPosition="right">
-              <Button icon onClick={() => handleUnlike()}>
+              <Button compact icon onClick={() => handleUnlike()}>
                 <Image className={"label-reactions " + reaction} avatar />
                 {reaction}
               </Button>

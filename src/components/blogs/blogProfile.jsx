@@ -68,7 +68,6 @@ const BlogProfile = ({
           placeholder="Write A Comment"
           onChange={(e) => onChange(e)}
         />
-        <button type="submit"></button>
       </form>
     </Fragment>
   );

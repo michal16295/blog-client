@@ -71,7 +71,7 @@ const NavBar = ({
         <i className="fas fa-bell"></i>
         <div className="dropdown-content">
           <Fragment>
-            <Fragment>
+            <div>
               <h6 className="header">
                 Noifications{" "}
                 <Link
@@ -84,32 +84,34 @@ const NavBar = ({
                   slider
                 />
               </h6>
-            </Fragment>
+            </div>
 
             <div className="dropdown-divider"></div>
-            {notifications &&
-              !loading &&
-              notifications.length > 0 &&
-              notifications.map((i) => (
-                <Fragment key={i._id}>
-                  <Link
-                    onClick={() => updateViewed(i._id)}
-                    to={`/${i.type}/${i.link}`}
-                    className={`${i.isViewed}`}
-                  >
-                    {i.from + " " + i.content}
+            <div className="items">
+              {notifications &&
+                !loading &&
+                notifications.length > 0 &&
+                notifications.map((i) => (
+                  <Fragment key={i._id}>
+                    <Link
+                      onClick={() => updateViewed(i._id)}
+                      to={`/${i.type}/${i.link}`}
+                      className={`${i.isViewed}`}
+                    >
+                      {i.from + " " + i.content}
 
-                    <Feed.Date>
-                      <Moment fromNow>{i.date}</Moment>
-                    </Feed.Date>
-                  </Link>
+                      <Feed.Date>
+                        <Moment fromNow>{i.date}</Moment>
+                      </Feed.Date>
+                    </Link>
 
-                  <div className="dropdown-divider"></div>
-                </Fragment>
-              ))}
-            <Link className="footer" to="/notifications">
-              View All
-            </Link>
+                    <div className="dropdown-divider"></div>
+                  </Fragment>
+                ))}
+            </div>
+            <div className="footer">
+              <Link to="/notifications">View All</Link>
+            </div>
           </Fragment>
         </div>
       </i>
@@ -150,7 +152,7 @@ const NavBar = ({
   return (
     <nav className="navbar">
       <Link className="welcome" to="/">
-        <i className="fas fa-code"></i> DevConnector{" "}
+        <i className="fas fa-code"></i> Bloger{" "}
       </Link>
       <div>
         <Fragment>{isAuthenticated ? authLink : guestLinks}</Fragment>

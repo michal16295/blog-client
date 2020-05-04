@@ -18,9 +18,10 @@ const apiEndpoint = apiUrl + "/users";
 
 //GET ALL USERS
 export const getProfiles = (page, search) => async (dispatch) => {
-  dispatch({
-    type: CLEAR_CURRENT_USER,
-  });
+  if (search === "")
+    dispatch({
+      type: CLEAR_CURRENT_USER,
+    });
   try {
     let res = await http.get(
       apiEndpoint + "/all/" + page + "?search=" + search

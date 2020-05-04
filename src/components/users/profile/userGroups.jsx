@@ -26,12 +26,15 @@ const UserGroups = ({
 
   const handlePageChange = (page) => {
     setFormData({
+      ...formData,
+      query: "",
       currentPage: page,
     });
-    getUsersGroups(page, query, userName);
+    getUsersGroups(page, "", userName);
   };
   const handleSearch = (input) => {
     setFormData({
+      ...formData,
       query: input,
       currentPage: 1,
     });
@@ -44,7 +47,6 @@ const UserGroups = ({
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className="large text-primary">Groups</h1>
           <SearchBox value={query} onChange={(input) => handleSearch(input)} />
           <div className="posts">
             {groups && groups.length > 0 ? (

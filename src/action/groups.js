@@ -53,7 +53,6 @@ export const getGroups = (page, search) => async (dispatch) => {
     dispatch({
       type: GET_ALL_GROUPS_ERROR,
     });
-    toast.error(err.response.data);
   }
 };
 //DELETE GROUP
@@ -87,7 +86,6 @@ export const getUsersGroups = (page, search, userName) => async (dispatch) => {
     dispatch({
       type: GET_ALL_GROUPS_ERROR,
     });
-    toast.error(err.response.data);
   }
 };
 //GET SINGLE GROUP

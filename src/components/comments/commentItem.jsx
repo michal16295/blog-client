@@ -77,7 +77,10 @@ const CommentItem = ({
                 >
                   Edit
                 </Comment.Action>
-                <Comment.Action onClick={() => deleteComment(data._id)}>
+                <Comment.Action
+                  style={{ color: "red" }}
+                  onClick={() => deleteComment(data._id)}
+                >
                   Delete
                 </Comment.Action>
               </Comment.Actions>

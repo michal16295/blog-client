@@ -61,6 +61,7 @@ const Conversation = ({
   };
 
   const userLogoutInEvent = ({ error, userName }) => {
+    console.log(userName);
     if (userName === reciever) getProfile(userName);
   };
   const onChange = (e) => {

@@ -12,30 +12,45 @@ const UserBlogs = ({
   blog: { blogs, loading, count, itemsPerPage },
   match,
   myBlogs,
+  user,
 }) => {
   const [formData, setFormData] = useState({
     currentPage: 1,
     query: "",
+    userBlogs: user,
+    currentUser: false,
   });
-  const { currentPage, query } = formData;
-  const { userName, currentUser } = match.params;
+  const { currentPage, query, userBlogs, currentUser } = formData;
 
   const common = () => {
+    console.log(user);
     if (currentUser === "true") myBlogs(currentPage, query);
-    else getUsersBlogs(currentPage, query, userName);
+    else {
+      if (user !== undefined) getUsersBlogs(currentPage, query, user);
+      else {
+        setFormData({
+          ...formData,
+          userBlogs: match.params.userName,
+          currentUser: match.params.currentUser,
+        });
+        getUsersBlogs(currentPage, query, match.params.userName);
+      }
+    }
   };
   useEffect(() => {
     common();
-  }, [currentUser]);
+  }, []);
 
   const handlePageChange = (page) => {
     setFormData({
+      ...formData,
       currentPage: page,
     });
     common(page, query);
   };
   const handleSearch = (input) => {
     setFormData({
+      ...formData,
       query: input,
       currentPage: 1,
     });
@@ -48,7 +63,7 @@ const UserBlogs = ({
         <Spinner />
       ) : (
         <section className="container">
-          <h3 className="lead text-primary">{userName} Posts</h3>
+          <h3 className="lead text-primary">{userBlogs} Posts</h3>
           <SearchBox value={query} onChange={(input) => handleSearch(input)} />
           <div className="posts">
             {blogs !== undefined && blogs.length > 0 ? (
@@ -73,6 +88,7 @@ UserBlogs.propTypes = {
   getUsersBlogs: PropTypes.func.isRequired,
   blog: PropTypes.object.isRequired,
   myBlogs: PropTypes.func,
+  user: PropTypes.string,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
