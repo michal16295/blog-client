@@ -107,7 +107,7 @@ body {
   height: 96%;
   max-height: 100%;
   position: fixed;
-  top: 60px;
+  top: 55px;
   left: -300px;
   z-index: 999;
 }
@@ -173,6 +173,7 @@ body {
   object-fit: cover;
   height: 100%;
   width: 100%;
+  border-radius: 50%;
 }
 
 .sidebar-wrapper .sidebar-header .user-info {
@@ -481,4 +482,8 @@ body {
 
 .chiller-theme .sidebar-footer > a:last-child {
   border-right: none;
+}
+.avatar {
+  max-width: 50%;
+  border-radius: 50%;
 }

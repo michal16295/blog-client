@@ -61,7 +61,6 @@ const Conversation = ({
   };
 
   const userLogoutInEvent = ({ error, userName }) => {
-    console.log(userName);
     if (userName === reciever) getProfile(userName);
   };
   const onChange = (e) => {
@@ -94,7 +93,7 @@ const Conversation = ({
       {profile && (
         <div className="bar">
           <h3>
-            <img src={profile.avatar} alt="sunil" className="avatar" />
+            <img src={profile.avatar} alt="sunil" className="profile-avatar" />
             {reciever} <i className={`status  + ${profile.online}`}></i>
           </h3>
         </div>

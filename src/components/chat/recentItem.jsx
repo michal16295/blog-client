@@ -61,8 +61,12 @@ const RecentItem = ({
     <div>
       <div className="chat_img">
         {" "}
-        {!loading && !isBlocked && <img src={avatars[user]} alt="sunil" />}{" "}
-        {!loading && isBlocked && <img src={blocked} alt="sunil" />}{" "}
+        {!loading && !isBlocked && (
+          <img src={avatars[user]} alt="sunil" className="avatar" />
+        )}{" "}
+        {!loading && isBlocked && (
+          <img src={blocked} alt="sunil" className="avatar" />
+        )}{" "}
       </div>
 
       <h5

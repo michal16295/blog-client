@@ -28,9 +28,6 @@ const CancelAccount = ({
   const onSubmit = (e) => {
     e.preventDefault();
     deleteAccount(formData);
-    setFormData({
-      ...formData,
-    });
   };
 
   return (

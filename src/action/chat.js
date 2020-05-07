@@ -17,7 +17,7 @@ import {
 } from "./constants";
 import http from "../services/httpService";
 import { toast } from "react-toastify";
-const apiUrl = "http://localhost:5000";
+const apiUrl = "http://localhost:5100";
 const apiEndpoint = apiUrl + "/chat";
 
 export const sendMsg = (data) => (dispatch) => {
@@ -54,7 +54,6 @@ export const getMsgs = (reciever, page) => async (dispatch) => {
       type: GET_MESSAGES_ERROR,
       data: err.response,
     });
-    toast.error(err.response.data);
   }
 };
 export const getNumUnreadMsgs = (reciever) => async (dispatch) => {
@@ -74,7 +73,6 @@ export const getNumUnreadMsgs = (reciever) => async (dispatch) => {
       type: GET_UNREAD_MSG_PER_PERSON_ERROR,
       data: err.response,
     });
-    toast.error(err.response.data);
   }
 };
 export const recentConve = () => async (dispatch) => {
@@ -104,7 +102,6 @@ export const unreadMsg = () => async (dispatch) => {
       type: GET_UNREAD_MSG_ERROR,
       data: err.response,
     });
-    toast.error(err.response.data);
   }
 };
 

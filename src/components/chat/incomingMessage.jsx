@@ -21,7 +21,9 @@ const IncomingMessage = ({
     <div className="incoming_msg">
       <div className="incoming_msg_img">
         {" "}
-        {!loading && <img src={avatars[userName]} alt="sunil" />}{" "}
+        {!loading && (
+          <img src={avatars[userName]} alt="sunil" className="incomeAvatar" />
+        )}{" "}
       </div>
       <div className="received_msg">
         <div className="received_withd_msg">

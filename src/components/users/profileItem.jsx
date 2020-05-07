@@ -29,7 +29,7 @@ const ProfileItem = ({
   };
   return (
     <div className="profile bg-light">
-      <img src={profile.avatar || avatar} alt="avatar" />
+      <img src={profile.avatar || avatar} alt="avatar" className="avatar" />
       <div>
         <h2>{profile.firstName + " " + profile.lastName}</h2>
         <h2>{profile.userName}</h2>

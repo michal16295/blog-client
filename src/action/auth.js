@@ -15,7 +15,7 @@ import { getNotifications, getSettings } from "./notifications";
 import { unreadMsg } from "./chat";
 import ChatSocketServer from "../services/socketService";
 import { toast } from "react-toastify";
-const apiUrl = "http://localhost:5000";
+const apiUrl = "http://localhost:5100";
 const apiEndpoint = apiUrl + "/users";
 const tokenKey = "token";
 
@@ -43,7 +43,6 @@ export const loadUser = () => async (dispatch) => {
     dispatch({
       type: AUTH_ERROR,
     });
-    toast.error(err.response.data);
   }
 };
 //GET CURRENT TOKEN
@@ -54,6 +53,7 @@ export function getJwt() {
 //REGISTER USER
 export const register = (user) => async (dispatch) => {
   try {
+    console.log(user);
     const res = await http.post(apiEndpoint + "/register", user);
     dispatch({
       type: REGISTER_SUCCESS,

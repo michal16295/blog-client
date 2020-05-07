@@ -214,7 +214,8 @@ ul {
 
 .round-img {
   border-radius: 50%;
-  width: 100px;
+  width: 150px !important;
+  height: 170px;
 }
 
 .line {
@@ -549,7 +550,7 @@ button {
   }
   .avatar {
     vertical-align: middle;
-    width: 50px !important;
+    width: 200px !important;
     height: 50px !important;
     border-radius: 50% !important;
   }

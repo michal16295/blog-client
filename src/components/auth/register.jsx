@@ -45,6 +45,7 @@ const Register = ({ register, isAuthenticated, googleSignUp }) => {
   const onClick = () => {
     googleSignUp();
   };
+
   return (
     <section className="container">
       <h1 className="large text-primary">Sign Up</h1>
@@ -121,6 +122,7 @@ const Register = ({ register, isAuthenticated, googleSignUp }) => {
             minLength="6"
           />
         </div>
+
         <input type="submit" className="btn btn-primary" value="Register" />
       </form>
       <p className="my-1">

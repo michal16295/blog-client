@@ -22,7 +22,9 @@ const SentMessage = ({
       {" "}
       <div className="outgoing_msg_img">
         {" "}
-        {!loading && <img src={avatars[userName]} alt="sunil" />}{" "}
+        {!loading && (
+          <img src={avatars[userName]} alt="sunil" className="avatar" />
+        )}{" "}
       </div>
       <div className="sent_msg">
         <p>{message}</p>

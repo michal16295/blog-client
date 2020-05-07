@@ -3,9 +3,6 @@
   margin: auto;
 }
 
-img {
-  max-width: 100%;
-}
 .inbox_people {
   background: #f8f8f8 none repeat scroll 0 0;
   float: left;
@@ -78,7 +75,10 @@ img {
 }
 .chat_img {
   float: left;
-  width: 30%;
+  vertical-align: middle;
+  width: 120px !important;
+  height: 120px !important;
+  border-radius: 50% !important;
 }
 .chat_ib {
   float: left;
@@ -111,11 +111,15 @@ img {
 
 .incoming_msg_img {
   display: inline-block;
-  width: 6%;
+  width: 8%;
+}
+.incomeAvatar {
+  border-radius: 50%;
+  width: 90%;
 }
 .received_msg {
   display: inline-block;
-  padding: 0 0 0 10px;
+  padding: 0 2px 0 0;
   vertical-align: top;
   width: 92%;
 }
@@ -140,7 +144,7 @@ img {
 }
 .mesgs {
   float: left;
-  padding: 30px 15px 0 25px;
+  padding: 30px 15px 0 2px;
   width: 60%;
 }
 
@@ -155,7 +159,7 @@ img {
 }
 .outgoing_msg {
   overflow: hidden;
-  margin: 26px 0 26px;
+  margin: 26px 0 26px 10px;
 }
 .sent_msg {
   float: right;
@@ -163,7 +167,7 @@ img {
 }
 .outgoing_msg_img {
   float: right;
-  width: 6%;
+  width: 10%;
 }
 .input_msg_write input {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
@@ -262,7 +266,7 @@ li {
   border-bottom: 2px solid #c4c4c4;
 }
 .avatar {
-  max-width: 10%;
+  max-width: 70%;
 }
 .type_msg {
   border: 0 !important;
@@ -306,4 +310,9 @@ li {
 .drop-emoji:hover .dropdown-emoji {
   display: block;
   background-color: gray;
+}
+.profile-avatar {
+  border-radius: 50%;
+  height: 70px;
+  width: 70px;
 }

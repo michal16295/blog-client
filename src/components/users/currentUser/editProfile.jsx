@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loadUser } from "../../../action/auth";
-import { editUser, getRandomAvatar } from "../../../action/users";
+import { editUser } from "../../../action/users";
 import "./profile.css";
 import { Button, Form, Input } from "semantic-ui-react";
 
 const EditUser = ({
   editUser,
-  getRandomAvatar,
+
   loadUser,
   auth: { user, loading },
 }) => {
@@ -30,15 +30,7 @@ const EditUser = ({
     e.preventDefault();
     editUser(user._id, formData);
   };
-  const handleAvatar = async (e) => {
-    e.preventDefault();
-    const newAvatar = await getRandomAvatar();
-    setFormData({
-      ...formData,
-      avatar: newAvatar,
-    });
-    console.log(avatar);
-  };
+
   const handleCancle = () => {
     window.location = "/currentUser";
   };
@@ -47,15 +39,6 @@ const EditUser = ({
   ) : (
     <Form className="container">
       <h2>Edit Profile</h2>
-      <Form.Field>
-        <img
-          src={avatar}
-          alt="avatar"
-          className="avatar"
-          name="avatar"
-          value={avatar}
-        />
-      </Form.Field>
       <Form.Field>
         <label>First Name</label>
         <input
@@ -85,7 +68,6 @@ const EditUser = ({
           onChange={(e) => onChange(e)}
         />
       </Form.Field>
-      <Button onClick={(e) => handleAvatar(e)}>Random Avatar</Button>
       <Button onClick={(e) => onSubmit(e)} type="submit">
         Submit
       </Button>
@@ -99,7 +81,6 @@ EditUser.propTypes = {
   loadUser: PropTypes.func.isRequired,
   editUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  getRandomAvatar: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -107,5 +88,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   loadUser,
   editUser,
-  getRandomAvatar,
 })(EditUser);

@@ -28,6 +28,7 @@ import UserGroups from "./components/users/profile/userGroups";
 import BlockedUsers from "./components/users/currentUser/blockedUsers";
 import NotificationsSettings from "./components/notifications/notifSettings";
 import ChatSocketServer from "./services/socketService";
+import UploadFile from "./common/uploadFile";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -56,6 +57,7 @@ const App = () => {
             <main className="page-content">
               <div className="container-fluid">
                 <Route exact path="/edit" component={EditUser}></Route>
+                <Route exact path="/upload" component={UploadFile}></Route>
                 <Route exact path="/changePass" component={ChangePass}></Route>
                 <Route exact path="/chat" component={Chat}></Route>
                 <Route
@@ -95,6 +97,7 @@ const App = () => {
 
           <Switch>
             <Route exact path="/" component={Landing}></Route>
+
             <Route exact path="/login" component={Login}></Route>
             <Route exact path="/register" component={Register}></Route>
             <Route exact path="/profiles" component={Profilies}></Route>

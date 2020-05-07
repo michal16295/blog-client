@@ -152,7 +152,7 @@ const NavBar = ({
   return (
     <nav className="navbar">
       <Link className="welcome" to="/">
-        <i className="fas fa-code"></i> Bloger{" "}
+        <i className="fas fa-code"></i> Peoplejet{" "}
       </Link>
       <div>
         <Fragment>{isAuthenticated ? authLink : guestLinks}</Fragment>

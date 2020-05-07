@@ -11,7 +11,7 @@ import {
 } from "./constants";
 import http from "../services/httpService";
 import { toast } from "react-toastify";
-const apiUrl = "http://localhost:5000";
+const apiUrl = "http://localhost:5100";
 const apiEndpoint = apiUrl + "/comments";
 
 export const createComment = (data) => async (dispatch) => {

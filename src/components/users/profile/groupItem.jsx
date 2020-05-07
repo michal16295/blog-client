@@ -29,7 +29,9 @@ const GroupItem = ({
   return (
     <div className="post bg-white p-1 m-1">
       <div>
-        {!loading && <img src={avatars[group.owner]} alt="avatar" />}
+        {!loading && (
+          <img src={avatars[group.owner]} alt="avatar" className="round-img" />
+        )}
         <p></p>
         <span>{group.owner}</span>
       </div>

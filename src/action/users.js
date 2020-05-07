@@ -13,7 +13,7 @@ import {
 } from "./constants";
 import http from "../services/httpService";
 import { toast } from "react-toastify";
-const apiUrl = "http://localhost:5000";
+const apiUrl = "http://localhost:5100";
 const apiEndpoint = apiUrl + "/users";
 
 //GET ALL USERS
@@ -105,11 +105,4 @@ export const deleteAccount = (data) => async (dispatch) => {
     });
     toast.error(err.response.data);
   }
-};
-//RANDOM AVATAR
-export const getRandomAvatar = () => async (dispatch) => {
-  try {
-    const res = await http.get(apiEndpoint + "/avatar/random");
-    return res.data;
-  } catch (err) {}
 };

@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import CancelAccount from "./cancelAccount";
+import UploadFile from "../../../common/uploadFile";
 import Spinner from "../../../common/Spinner";
 import "./profile.css";
 import { Link } from "react-router-dom";
@@ -11,8 +12,9 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
     password: "",
     userName: "",
     show: false,
+    upload: false,
   });
-  const { show } = formData;
+  const { show, upload } = formData;
 
   const handleModal = () => {
     setFormData({
@@ -28,6 +30,12 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
       show: true,
     });
   };
+  const uploadPhoto = () => {
+    setFormData({
+      ...formData,
+      upload: !upload,
+    });
+  };
 
   return (
     <Fragment>
@@ -36,7 +44,7 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
       ) : (
         <Fragment>
           {show && <CancelAccount handleModal={handleModal} show={true} />}
-
+          {upload && <UploadFile uploadPhoto={uploadPhoto} show={true} />}
           <nav id="sidebar" className="sidebar-wrapper">
             <div className="sidebar-content">
               <div className="sidebar-header">
@@ -45,7 +53,7 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
                     className="img-responsive img-rounded"
                     src={user.avatar}
                     alt=""
-                  />
+                  ></img>
                 </div>
                 <div className="user-info">
                   <span className="user-name">
@@ -75,8 +83,14 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
                     <span>General</span>
                   </li>
                   <li className="sidebar-dropdown">
+                    <Link to="/blockedUsers">
+                      <i class="fas fa-user-friends"></i>
+                      <span>Freinds</span>
+                    </Link>
+                  </li>
+                  <li className="sidebar-dropdown">
                     <Link to={`/userGroups/${user.userName}`}>
-                      <i className="fas fa-users"></i>
+                      <i class="fab fa-teamspeak"></i>
                       <span>Groups</span>
                     </Link>
                   </li>
@@ -123,6 +137,12 @@ const SideBar = ({ loadUser, auth: { user, loading, error } }) => {
                     <Link to="/edit">
                       <i className="fas fa-user-circle" /> Edit Profile
                     </Link>
+                  </li>
+                  <li>
+                    <a href="#!" onClick={() => uploadPhoto()}>
+                      <i class="fas fa-camera-retro"></i>
+                      <span>Upload Photo</span>
+                    </a>
                   </li>
                 </ul>
               </div>

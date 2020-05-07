@@ -10,7 +10,7 @@ import {
 import http from "../services/httpService";
 import { toast } from "react-toastify";
 
-const apiUrl = "http://localhost:5000";
+const apiUrl = "http://localhost:5100";
 const apiEndpoint = apiUrl + "/notifications";
 
 export const getNotifications = (page) => async (dispatch) => {
@@ -24,7 +24,6 @@ export const getNotifications = (page) => async (dispatch) => {
     dispatch({
       type: GET_NOTIFY_ERROR,
     });
-    toast.error(err.response.data);
   }
 };
 
@@ -69,7 +68,6 @@ export const getSettings = () => async (dispatch) => {
       type: GET_SETTINGS_ERROR,
       data: err.response.data,
     });
-    toast.error(err.response.data);
   }
 };
 

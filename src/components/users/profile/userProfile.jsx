@@ -32,7 +32,12 @@ const UserProfile = ({
                 <div class="w3-container">
                   <h4 class="w3-center">{profile.userName} Profile</h4>
                   <p class="w3-center">
-                    <img src={profile.avatar} class="w3-circle" alt="Avatar" />
+                    <img
+                      src={profile.avatar}
+                      class="w3-circle"
+                      alt="Avatar"
+                      className="avatar"
+                    />
                   </p>
                   <hr />
                   <p>
